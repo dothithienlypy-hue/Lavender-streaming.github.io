@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap');
         
         :root {
             --bg-color: #020617;
@@ -26,21 +26,29 @@
             --input-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
             --glass-highlight: rgba(255, 255, 255, 0.25);
-            --glass-shadow: rgba(0, 0, 0, 0.5);
+            --glass-shadow: rgba(0, 0, 0, 0.6);
+            --glass-deep-bg: rgba(10, 15, 30, 0.75);
+            
+            --accent-primary: #818cf8;
+            --accent-secondary: #f472b6; 
+            --state-success: #34d399;
+            --state-error: #f87171;
+            --state-warning: #fbbf24;
         }
 
         .light-mode {
             --bg-color: #f8fafc;
             --text-color: #0f172a;
-            --glass-bg: rgba(255, 255, 255, 0.5);
-            --input-bg: rgba(0, 0, 0, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --input-bg: rgba(0, 0, 0, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.6);
             --glass-highlight: rgba(255, 255, 255, 0.9);
             --glass-shadow: rgba(0, 0, 0, 0.1);
+            --glass-deep-bg: rgba(255, 255, 255, 0.85);
         }
 
         body { 
-            font-family: 'SF Pro Display', -apple-system, sans-serif; 
+            font-family: 'Be Vietnam Pro', -apple-system, sans-serif; 
             margin: 0; 
             background-color: var(--bg-color); 
             color: var(--text-color);
@@ -49,14 +57,13 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Thêm hiệu ứng Ambient Liquid Animation cho nền */
         body::before {
             content: '';
             position: fixed;
             top: -50%; left: -50%; width: 200%; height: 200%;
             background: 
-                radial-gradient(circle at 40% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 70% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 35%);
+                radial-gradient(circle at 40% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 70% 30%, rgba(244, 114, 182, 0.05) 0%, transparent 35%);
             z-index: -1;
             pointer-events: none;
             animation: liquid-bg 25s infinite linear alternate;
@@ -67,69 +74,100 @@
             100% { transform: rotate(20deg) scale(1.15); }
         }
 
-        /* Nâng cấp iOS 26 Liquid Glass */
+        h1, h2, h3, h4, h5, h6 {
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+        
+        p, span, div {
+            line-height: 1.5;
+        }
+
         .iphone-glass {
             background: var(--glass-bg);
-            backdrop-filter: blur(50px) saturate(220%);
-            -webkit-backdrop-filter: blur(50px) saturate(220%);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
             border: 1px solid var(--glass-border);
-            border-top: 1px solid var(--glass-highlight); /* Highlight hắt sáng viền trên */
+            border-top: 1px solid var(--glass-highlight);
             border-left: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 
                 0 25px 50px -12px var(--glass-shadow), 
                 inset 0 1px 1px rgba(255, 255, 255, 0.3),
-                inset 0 -1px 2px rgba(255, 255, 255, 0.05); /* Hiệu ứng phồng 3D Liquid */
-            transform: translateZ(0); /* Tăng tốc phần cứng */
+                inset 0 -1px 2px rgba(255, 255, 255, 0.05);
         }
 
-        .search-results-glass {
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(60px) saturate(250%);
-            -webkit-backdrop-filter: blur(60px) saturate(250%);
+        .glass-deep {
+            background: var(--glass-deep-bg);
+            backdrop-filter: blur(70px) saturate(250%);
+            -webkit-backdrop-filter: blur(70px) saturate(250%);
             border: 1px solid var(--glass-border);
             border-top: 1px solid var(--glass-highlight);
             box-shadow: 
-                0 30px 60px -15px var(--glass-shadow), 
-                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+                0 40px 80px -20px var(--glass-shadow), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-press {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center;
+        }
+        .btn-press:hover {
+            transform: scale(1.02) translateY(-2px);
+        }
+        .btn-press:active {
+            transform: scale(0.96) !important;
+            transition: all 0.1s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.5), inset 0 1px 1px rgba(255,255,255,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 800;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 15px 35px -5px rgba(168, 85, 247, 0.7), inset 0 1px 1px rgba(255,255,255,0.5);
+            filter: brightness(1.1);
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-150%) skewX(-15deg); }
+            100% { transform: translateX(150%) skewX(-15deg); }
+        }
+        .skeleton {
+            background-color: rgba(255, 255, 255, 0.04);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+        }
+        .skeleton::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            animation: shimmer 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
 
         .lavender-text {
-            background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
         }
 
         .lavender-gradient {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
             box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4);
-        }
-
-        .apple-btn {
-            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
-            backdrop-filter: blur(30px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-top: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.3);
-            transition: all 0.4s cubic-bezier(0.3, 0.8, 0.1, 1.05); /* Spring animation */
-        }
-        
-        .apple-btn:hover {
-            background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.1) 100%);
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.5);
-        }
-
-        .memoji-avatar {
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
         }
 
         input {
             background-color: var(--input-bg) !important;
             color: var(--text-color) !important;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .scroll-container {
@@ -153,138 +191,118 @@
         .scroll-item { scroll-snap-align: start; flex-shrink: 0; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
 
-        @keyframes shimmer {
-            100% { transform: translateX(100%); }
-        }
-
-        .skeleton {
-            background-color: rgba(255, 255, 255, 0.05);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .skeleton::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            transform: translateX(-100%);
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-            animation: shimmer 1.5s infinite;
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .movie-card {
-            transition: all 0.5s cubic-bezier(0.3, 0.8, 0.1, 1.05);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); 
             transform-origin: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.25); /* Viền thủy tinh */
-            border-radius: 32px; /* Chuẩn squircle iOS */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 24px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .movie-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, transparent, rgba(168, 85, 247, 0.5), rgba(244, 114, 182, 0.5), transparent);
+            background-size: 200% 200%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .movie-card:active {
+            transform: scale(0.95);
         }
 
         @media (min-width: 768px) {
+            .movie-card { border-radius: 32px; }
             .movie-card:hover {
-                transform: scale(1.15) translateY(-5px);
+                transform: scale(1.08) translateY(-8px);
                 z-index: 50;
-                box-shadow: 0 30px 50px -10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.2);
-                border-color: rgba(255, 255, 255, 0.3);
+                box-shadow: 0 40px 60px -15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(168, 85, 247, 0.2);
+                border-color: rgba(255, 255, 255, 0.5);
             }
+            .movie-card:hover::before {
+                opacity: 1;
+                animation: borderGlow 3s ease infinite;
+            }
+        }
+
+        @keyframes heartPop {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.6) rotate(-15deg); filter: drop-shadow(0 0 15px rgba(239, 68, 68, 1)); }
+            60% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(1) rotate(0); filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.8)); }
+        }
+        .heart-active { 
+            animation: heartPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; 
+            color: var(--state-error) !important;
         }
 
         .info-overlay {
             opacity: 0;
             transition: opacity 0.4s ease;
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
             z-index: 20;
         }
 
-        .movie-card:hover .info-overlay {
-            opacity: 1;
-        }
+        .movie-card:hover .info-overlay { opacity: 1; }
 
         .fav-btn {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            z-index: 60;
-            opacity: 0;
+            top: 12px; right: 12px;
+            z-index: 60; opacity: 0;
             transition: all 0.3s ease;
         }
 
-        .movie-card:hover .fav-btn {
-            opacity: 1;
-        }
+        .movie-card:hover .fav-btn { opacity: 1; }
 
         .modal-overlay {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(25px) saturate(150%);
-            -webkit-backdrop-filter: blur(25px) saturate(150%);
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(30px) saturate(150%);
+            -webkit-backdrop-filter: blur(30px) saturate(150%);
             z-index: 200;
         }
-        
-        .preview-video {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            object-fit: cover;
-            pointer-events: none;
-            z-index: 10;
-        }
 
-        .movie-card:hover .preview-video {
-            opacity: 1;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #6366f1, #a855f7);
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
-            transition: width 0.4s ease;
-        }
-
-        .filter-btn.active {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            color: white;
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4), inset 0 1px 1px rgba(255,255,255,0.3);
-        }
-
-        @media (max-width: 640px) {
-            .nav-container { top: 12px !important; width: 94% !important; padding: 10px 18px !important; border-radius: 36px !important; }
-            .hero-title { font-size: 2.5rem !important; }
-            .hero-section { height: 65vh !important; padding-bottom: 80px !important; padding-left: 24px !important; }
-            .row-title { padding-left: 24px !important; font-size: 1.1rem !important; }
-        }
-
-        @keyframes cloudSync {
-            0% { transform: translateY(0px); opacity: 0.8; }
-            50% { transform: translateY(-3px); opacity: 1; }
-            100% { transform: translateY(0px); opacity: 0.8; }
-        }
-        .syncing-icon {
-            animation: cloudSync 1s ease-in-out infinite;
-        }
-
-        @keyframes floatLogin {
-            0% { transform: translateY(0px) scale(1); filter: blur(100px); }
-            50% { transform: translateY(-30px) scale(1.1); filter: blur(120px); }
-            100% { transform: translateY(0px) scale(1); filter: blur(100px); }
-        }
-        .animate-float {
-            animation: floatLogin 8s ease-in-out infinite;
-        }
         @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
-        .login-card-animate {
-            animation: fadeInSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .slide-fade-stagger {
+            opacity: 0;
+            animation: fadeInSlideUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-        .toast-animate {
-            animation: fadeInSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        
+        @keyframes modalSpring {
+            0% { transform: scale(0.85) translateY(50px); opacity: 0; }
+            60% { transform: scale(1.02) translateY(-5px); opacity: 1; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
         }
+        .modal-spring {
+            animation: modalSpring 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .modal-backdrop-blur {
+            position: absolute; inset: 0; z-index: 0;
+            background-size: cover; background-position: center;
+            filter: blur(80px) brightness(0.2);
+            transform: scale(1.1);
+        }
+        
+        .search-bar-focus {
+            box-shadow: 0 0 0 2px var(--accent-primary), 0 10px 30px -10px rgba(129, 140, 248, 0.5);
+        }
+
     </style>
 </head>
 <body>
@@ -297,6 +315,8 @@
         const BASE_URL = "https://api.themoviedb.org/3";
         const IMG_PATH = "https://image.tmdb.org/t/p/original";
         const USER_AVATAR = "https://cdn2.fptshop.com.vn/unsafe/800x0/avatar_anime_nam_cute_14_60037b48e5.jpg";
+
+        const GENRES = { 28: "Hành động", 12: "Phiêu lưu", 16: "Hoạt hình", 35: "Hài kịch", 80: "Tội phạm", 99: "Tài liệu", 18: "Chính kịch", 10751: "Gia đình", 14: "Kỳ ảo", 36: "Lịch sử", 27: "Kinh dị", 10402: "Âm nhạc", 9648: "Bí ẩn", 10749: "Lãng mạn", 878: "Viễn tưởng", 10770: "Truyền hình", 53: "Giật gân", 10752: "Chiến tranh", 37: "Miền Tây", 10759: "Action & Adventure", 10762: "Kids", 10765: "Sci-Fi & Fantasy", 10768: "War & Politics" };
 
         const createGlobalStore = (initialState) => {
             let state = initialState;
@@ -320,8 +340,53 @@
         const globalStore = createGlobalStore({
             isDarkMode: JSON.parse(localStorage.getItem('lavender_theme') ?? 'true'),
             favorites: JSON.parse(localStorage.getItem('lavender_favorites') || '[]'),
-            isSyncing: false
+            isSyncing: false,
+            currentUser: JSON.parse(localStorage.getItem('lavender_active_user') || 'null'),
+            globalLoading: false,
+            globalError: null
         });
+
+        const GlobalLoader = () => {
+            const { globalLoading } = globalStore.useStore();
+            if (!globalLoading) return null;
+            return (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-xl transition-opacity">
+                    <div className="iphone-glass p-8 rounded-[32px] flex flex-col items-center gap-5 shadow-[0_30px_60px_rgba(0,0,0,0.8)] border border-white/20 modal-spring">
+                        <i className="fas fa-circle-notch animate-spin text-5xl text-indigo-400 drop-shadow-[0_0_15px_rgba(99,102,241,0.6)]"></i>
+                        <span className="text-white font-black tracking-widest uppercase text-xs drop-shadow-md">Đang tải...</span>
+                    </div>
+                </div>
+            );
+        };
+
+        const GlobalErrorUI = () => {
+            const { globalError } = globalStore.useStore();
+            if (!globalError) return null;
+            
+            useEffect(() => {
+                if (globalError) {
+                    const timer = setTimeout(() => {
+                        globalStore.set({ globalError: null });
+                    }, 6000);
+                    return () => clearTimeout(timer);
+                }
+            }, [globalError]);
+
+            return (
+                <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[9999] slide-fade-stagger w-[92%] max-w-md">
+                    <div className="iphone-glass px-6 py-4 rounded-[28px] border-l-4 border-l-red-500 border-y border-r border-white/20 flex items-center gap-4 shadow-[0_20px_40px_rgba(239,68,68,0.4)] bg-red-500/10 backdrop-blur-xl">
+                        <i className="fas fa-exclamation-triangle text-red-500 text-3xl drop-shadow-[0_0_15px_rgba(239,68,68,0.8)] shrink-0"></i>
+                        <div className="flex-1">
+                            <h4 className="text-white font-bold text-base tracking-wide">{globalError.title || 'Đã có lỗi xảy ra!'}</h4>
+                            <p className="text-white/70 text-xs mt-1 leading-relaxed">{globalError.message}</p>
+                        </div>
+                        <button onClick={() => globalStore.set({ globalError: null })} className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors shrink-0 border border-white/10 btn-press">
+                            <i className="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            );
+        };
 
         const useInfiniteScroll = (callback, isFetching) => {
             const observer = useRef();
@@ -353,8 +418,11 @@
             return isIntersecting;
         };
 
-        const MovieSkeleton = () => (
-            <div className="scroll-item w-[150px] md:w-[220px] h-[220px] md:h-[320px] rounded-[24px] md:rounded-[32px] skeleton"></div>
+        const MovieSkeleton = ({ index = 0 }) => (
+            <div 
+                className="scroll-item w-[150px] md:w-[220px] h-[220px] md:h-[320px] skeleton slide-fade-stagger"
+                style={{ animationDelay: `${index * 0.08}s` }}
+            ></div>
         );
 
         const getRealProgress = (movieId) => {
@@ -367,7 +435,7 @@
             return 0;
         };
 
-        const MovieCard = ({ m, onSelect, onOpenModal }) => {
+        const MovieCard = ({ m, onSelect, onOpenModal, index = 0 }) => {
             const { favorites } = globalStore.useStore();
             const cardRef = useRef(null);
             const isVisible = useIntersectionObserver(cardRef, { rootMargin: '200px' });
@@ -384,43 +452,44 @@
                 }
                 globalStore.set({ favorites: newFavs });
                 localStorage.setItem('lavender_favorites', JSON.stringify(newFavs));
-                setTimeout(() => globalStore.set({ isSyncing: false }), 800);
+                setTimeout(() => globalStore.set({ isSyncing: false }), 600);
             };
 
+            const isFav = favorites.some(f => f.id === m.id);
+
             return (
-                <div ref={cardRef} onClick={() => onOpenModal ? onOpenModal(m) : onSelect(m)} className="movie-card scroll-item w-[150px] md:w-[220px] h-[220px] md:h-[320px] overflow-hidden cursor-pointer active:scale-95 relative group bg-slate-900">
+                <div 
+                    ref={cardRef} 
+                    onClick={() => onOpenModal ? onOpenModal(m) : onSelect(m)} 
+                    className="movie-card w-[150px] md:w-[220px] h-[220px] md:h-[320px] overflow-hidden bg-slate-900 slide-fade-stagger flex-shrink-0"
+                    style={{ animationDelay: `${index * 0.06}s` }}
+                >
                     {isVisible ? (
                         <>
-                            <img src={m.poster_path ? IMG_PATH + m.poster_path : 'https://via.placeholder.com/200x300'} className="w-full h-full object-cover transition-transform duration-500 group-hover:brightness-50" loading="lazy" />
+                            <img src={m.poster_path ? (m.poster_path.startsWith('http') ? m.poster_path : IMG_PATH + m.poster_path) : 'https://via.placeholder.com/200x300'} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105 brightness-90 hover:brightness-50" loading="lazy" />
                             
                             <button 
                                 onClick={(e) => toggleFavorite(e, m)}
-                                className="fav-btn w-8 h-8 rounded-full iphone-glass flex items-center justify-center text-xs"
+                                className="fav-btn w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-sm hover:bg-white/20 btn-press border border-white/10"
                             >
-                                <i className={`fa-heart ${favorites.some(f => f.id === m.id) ? 'fas text-red-500 shadow-[0_0_10px_#ef4444]' : 'far text-white'}`}></i>
+                                <i className={`fa-heart ${isFav ? 'fas heart-active' : 'far text-white transition-all'}`}></i>
                             </button>
 
-                            <div className="preview-video bg-slate-900 flex items-center justify-center overflow-hidden">
-                                <img src={m.backdrop_path ? IMG_PATH + m.backdrop_path : 'https://via.placeholder.com/300x200'} className="absolute inset-0 w-full h-full object-cover opacity-60" />
-                                <i className="fas fa-play text-white text-3xl drop-shadow-lg animate-pulse"></i>
-                            </div>
-
-                            <div className="info-overlay absolute inset-0 flex flex-col justify-end p-4 md:p-6">
-                                <p className="text-white text-[10px] md:text-xs font-black mb-2 truncate uppercase tracking-wider relative z-30">{m.title || m.name}</p>
-                                <div className="flex items-center gap-3 text-[9px] md:text-[11px] font-bold relative z-30">
-                                    <span className="flex items-center gap-1 text-yellow-400">
+                            <div className="info-overlay absolute inset-0 flex flex-col justify-end p-4 md:p-5">
+                                <p className="text-white text-sm md:text-base font-black mb-1.5 truncate tracking-tight relative z-30 drop-shadow-lg">{m.title || m.name}</p>
+                                <div className="flex items-center gap-2.5 text-[10px] md:text-xs font-bold relative z-30 opacity-80">
+                                    <span className="flex items-center gap-1 text-yellow-400 bg-black/40 px-1.5 py-0.5 rounded backdrop-blur-sm">
                                         <i className="fas fa-star"></i> {m.vote_average ? m.vote_average.toFixed(1) : "7.5"}
                                     </span>
                                     <span className="text-white/70">
                                         {m.release_date ? m.release_date.split('-')[0] : (m.first_air_date ? m.first_air_date.split('-')[0] : "2026")}
                                     </span>
-                                    <span className="px-1.5 py-0.5 rounded border border-green-500 text-green-500 text-[8px]">4K</span>
                                 </div>
                             </div>
 
                             {getRealProgress(m.id) > 0 && (
-                                <div className="absolute bottom-0 left-0 w-full h-1.5 bg-white/10 z-40 backdrop-blur-md">
-                                    <div className="progress-bar-fill" style={{ width: `${getRealProgress(m.id)}%` }}></div>
+                                <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-40">
+                                    <div className="h-full lavender-gradient" style={{ width: `${getRealProgress(m.id)}%` }}></div>
                                 </div>
                             )}
                         </>
@@ -436,41 +505,51 @@
 
             return (
                 <div className="px-6 md:px-12 mt-10">
-                    <h3 className="text-lg md:text-xl font-bold mb-6 flex items-center gap-2">
-                        <span className="w-1.5 h-5 bg-purple-500 rounded-full shadow-[0_0_10px_#a855f7]"></span> {title}
+                    <h3 className="text-xl md:text-2xl font-black mb-6 flex items-center gap-3 tracking-tighter">
+                        <span className="w-2 h-8 bg-purple-500 rounded-full shadow-[0_0_12px_#a855f7]"></span> {title}
                     </h3>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 md:gap-7 relative z-10">
                         {data.map((m, index) => {
                             if (index === data.length - 1) {
-                                return <div ref={lastItemRef} key={m.id}><MovieCard m={m} onSelect={onSelect} onOpenModal={onOpenModal} /></div>;
+                                return <div ref={lastItemRef} key={`${m.id}-${index}`} className="flex justify-center"><MovieCard m={m} onSelect={onSelect} onOpenModal={onOpenModal} index={index % 20} /></div>;
                             }
-                            return <div key={m.id}><MovieCard m={m} onSelect={onSelect} onOpenModal={onOpenModal} /></div>;
+                            return <div key={`${m.id}-${index}`} className="flex justify-center"><MovieCard m={m} onSelect={onSelect} onOpenModal={onOpenModal} index={index % 20} /></div>;
                         })}
                     </div>
                     {isFetching && (
-                        <div className="flex justify-center mt-8">
-                            <i className="fas fa-circle-notch animate-spin text-2xl text-indigo-500"></i>
+                        <div className="flex justify-center mt-10 pb-6 slide-fade-stagger">
+                            <div className="bg-white/10 p-3 rounded-full backdrop-blur-md border border-white/20">
+                                <i className="fas fa-circle-notch animate-spin text-3xl text-indigo-400 drop-shadow-[0_0_10px_rgba(129,140,248,0.5)]"></i>
+                            </div>
                         </div>
                     )}
                 </div>
             );
         };
 
-        const Row = ({ title, data, onSelect, onOpenModal, isLoading }) => {
+        const Row = ({ title, data, onSelect, onOpenModal, isLoading, isEmptyState, emptyMsg }) => {
             const rowRef = useRef(null);
             const isRowVisible = useIntersectionObserver(rowRef, { rootMargin: '300px' });
 
             return (
                 <div ref={rowRef} className="row-container min-h-[250px] md:min-h-[350px]">
-                    <h3 className="row-title px-6 md:px-12 text-lg md:text-xl font-bold mb-2 flex items-center gap-2">
-                        <span className="w-1.5 h-5 bg-purple-500 rounded-full shadow-[0_0_10px_#a855f7]"></span> {title}
+                    <h3 className="row-title px-6 md:px-12 text-xl md:text-2xl font-black mb-5 flex items-center gap-3 tracking-tighter">
+                        <span className="w-2 h-8 bg-purple-500 rounded-full shadow-[0_0_12px_#a855f7]"></span> {title}
                     </h3>
-                    <div className="scroll-container gap-4 md:gap-8 !overflow-visible"> 
-                        {isLoading || !isRowVisible ? (
-                            [...Array(6)].map((_, i) => <MovieSkeleton key={i} />)
+                    <div className="scroll-container gap-5 md:gap-7 !overflow-visible"> 
+                        {isEmptyState ? (
+                            <div className="flex flex-col items-center justify-center w-[90%] max-w-md py-12 glass-deep rounded-[36px] mx-auto slide-fade-stagger mt-2 border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+                                <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-5 border border-white/10 shadow-inner">
+                                    <i className="fas fa-heart-broken text-3xl text-white/20"></i>
+                                </div>
+                                <h4 className="text-white font-black text-lg mb-2">Chưa có mục yêu thích 💜</h4>
+                                <p className="text-white/50 text-sm font-medium text-center px-6 leading-relaxed">Hãy bấm thả tim những bộ phim bạn thích để xem lại sau nhé.</p>
+                            </div>
+                        ) : isLoading || !isRowVisible ? (
+                            [...Array(6)].map((_, i) => <MovieSkeleton key={i} index={i} />)
                         ) : (
-                            data && data.map(m => (
-                                <MovieCard key={m.id} m={m} onSelect={onSelect} onOpenModal={onOpenModal} />
+                            data && data.map((m, index) => (
+                                <div key={m.id} className="scroll-item"><MovieCard m={m} onSelect={onSelect} onOpenModal={onOpenModal} index={index} /></div>
                             ))
                         )}
                     </div>
@@ -478,7 +557,77 @@
             );
         };
 
+        const MovieFeedback = ({ movieId }) => {
+            const { currentUser } = globalStore.useStore();
+            const [reviews, setReviews] = useState([]);
+            const [comment, setComment] = useState('');
+            const [rating, setRating] = useState(0);
+            const [hoveredRating, setHoveredRating] = useState(0);
+            const [isSubmitting, setIsSubmitting] = useState(false);
+
+            useEffect(() => {
+                const allReviews = JSON.parse(localStorage.getItem('lavender_movie_reviews') || '{}');
+                setReviews(allReviews[movieId] || []);
+            }, [movieId]);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (rating === 0 || !comment.trim()) return;
+                setIsSubmitting(true);
+                setTimeout(() => {
+                    const allReviews = JSON.parse(localStorage.getItem('lavender_movie_reviews') || '{}');
+                    const movieReviews = allReviews[movieId] || [];
+                    const newReview = { id: Date.now(), user: currentUser ? currentUser.name : "Người dùng ẩn danh", avatar: currentUser ? currentUser.avatar : USER_AVATAR, rating, comment, date: new Date().toLocaleDateString('vi-VN') };
+                    const updatedReviews = [newReview, ...movieReviews];
+                    allReviews[movieId] = updatedReviews;
+                    localStorage.setItem('lavender_movie_reviews', JSON.stringify(allReviews));
+                    setReviews(updatedReviews); setComment(''); setRating(0); setIsSubmitting(false);
+                }, 600);
+            };
+
+            return (
+                <div className="iphone-glass p-6 md:p-8 rounded-[36px] md:rounded-[48px] flex flex-col gap-6 w-full max-w-4xl mx-auto mt-6">
+                    <h3 className="font-black text-lg md:text-xl text-white tracking-tight flex items-center gap-3"><i className="fas fa-comments text-indigo-400"></i> Đánh giá phim</h3>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <div className="flex items-center gap-2">
+                            {[1, 2, 3, 4, 5].map(star => (
+                                <i key={star} className={`fas fa-star text-3xl cursor-pointer transition-transform btn-press ${star <= (hoveredRating || rating) ? 'text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,0.8)]' : 'text-white/20'}`} onMouseEnter={() => setHoveredRating(star)} onMouseLeave={() => setHoveredRating(0)} onClick={() => setRating(star)}></i>
+                            ))}
+                        </div>
+                        <textarea placeholder="Chia sẻ cảm nghĩ của bạn về bộ phim này..." value={comment} onChange={(e) => setComment(e.target.value)} className="w-full bg-black/20 border border-white/10 rounded-[24px] p-5 text-sm text-white placeholder:text-white/40 outline-none focus:border-indigo-500/50 focus:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all resize-none h-28 backdrop-blur-xl"></textarea>
+                        <button type="submit" disabled={rating === 0 || !comment.trim() || isSubmitting} className="self-end px-8 py-3.5 rounded-[20px] btn-primary disabled:opacity-50 btn-press flex items-center gap-2 text-sm tracking-wide">
+                            {isSubmitting ? <><i className="fas fa-circle-notch animate-spin"></i> Đang gửi</> : 'Gửi Đánh Giá'}
+                        </button>
+                    </form>
+
+                    <div className="flex flex-col gap-4 mt-4 max-h-[300px] overflow-y-auto scrollbar-hide pr-2">
+                        {reviews.length > 0 ? reviews.map((rev, i) => (
+                            <div key={rev.id} className="bg-black/20 p-5 rounded-[28px] border border-white/10 flex gap-4 backdrop-blur-md slide-fade-stagger" style={{animationDelay: `${i*0.05}s`}}>
+                                <img src={rev.avatar} alt="avatar" className="w-12 h-12 rounded-full border-2 border-indigo-400/50 object-cover shrink-0" />
+                                <div className="flex flex-col w-full">
+                                    <div className="flex justify-between items-start mb-1">
+                                        <span className="text-white font-bold text-sm tracking-tight">{rev.user}</span>
+                                        <span className="text-white/40 text-[11px] font-medium">{rev.date}</span>
+                                    </div>
+                                    <div className="flex gap-1 mb-2">
+                                        {[1, 2, 3, 4, 5].map(star => <i key={star} className={`fas fa-star text-[11px] ${star <= rev.rating ? 'text-yellow-400' : 'text-white/20'}`}></i>)}
+                                    </div>
+                                    <p className="text-white/70 text-sm leading-relaxed">{rev.comment}</p>
+                                </div>
+                            </div>
+                        )) : (
+                            <div className="text-center flex flex-col items-center justify-center py-10 text-white/40 slide-fade-stagger border border-dashed border-white/10 rounded-[28px]">
+                                <i className="far fa-comment-dots text-4xl mb-4 opacity-50"></i>
+                                <span className="text-sm font-medium">Chưa có đánh giá nào. Hãy là người đầu tiên!</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
         const FeedbackWidget = () => {
+            const { currentUser } = globalStore.useStore();
             const [isOpen, setIsOpen] = useState(false);
             const [rating, setRating] = useState(0);
             const [hoveredRating, setHoveredRating] = useState(0);
@@ -487,29 +636,17 @@
             const [isSubmitting, setIsSubmitting] = useState(false);
             const [toastMessage, setToastMessage] = useState(null);
 
+            useEffect(() => { if (isOpen && currentUser) setEmail(currentUser.email); }, [isOpen, currentUser]);
+
             const handleSubmit = (e) => {
                 e.preventDefault();
                 if (rating === 0) return;
-                
                 setIsSubmitting(true);
-                
                 setTimeout(() => {
                     const existingFeedback = JSON.parse(localStorage.getItem('lavender_feedbacks') || '[]');
-                    const newFeedback = {
-                        id: Date.now(),
-                        rating,
-                        comment,
-                        email,
-                        date: new Date().toISOString()
-                    };
+                    const newFeedback = { id: Date.now(), rating, comment, email, date: new Date().toISOString() };
                     localStorage.setItem('lavender_feedbacks', JSON.stringify([newFeedback, ...existingFeedback]));
-                    
-                    setIsSubmitting(false);
-                    setIsOpen(false);
-                    setRating(0);
-                    setComment('');
-                    setEmail('');
-                    
+                    setIsSubmitting(false); setIsOpen(false); setRating(0); setComment('');
                     setToastMessage("Cảm ơn bạn đã feedback! 💜");
                     setTimeout(() => setToastMessage(null), 3500);
                 }, 800);
@@ -518,82 +655,32 @@
             return (
                 <>
                     {!isOpen && (
-                        <button 
-                            onClick={() => setIsOpen(true)}
-                            className="fixed bottom-6 right-6 z-[150] w-12 h-12 md:w-14 md:h-14 rounded-full lavender-gradient text-white shadow-[0_10px_25px_rgba(168,85,247,0.5)] flex items-center justify-center hover:scale-110 transition-transform active:scale-95 border border-white/20"
-                            title="Gửi phản hồi cho chúng tôi"
-                        >
+                        <button onClick={() => setIsOpen(true)} className="fixed bottom-6 right-6 z-[150] w-14 h-14 rounded-full btn-primary shadow-[0_10px_30px_rgba(168,85,247,0.5)] flex items-center justify-center btn-press">
                             <i className="fas fa-comment-dots text-xl"></i>
                         </button>
                     )}
-
                     {isOpen && (
-                        <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
-                            <div className="iphone-glass w-full max-w-sm p-6 rounded-[40px] border border-white/20 relative login-card-animate">
-                                <button 
-                                    onClick={() => setIsOpen(false)}
-                                    className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/20 transition-colors border border-white/10"
-                                >
-                                    <i className="fas fa-times"></i>
-                                </button>
-                                
-                                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                                    <i className="fas fa-heart text-purple-400"></i> Góc Góp Ý
-                                </h3>
-                                
-                                <form onSubmit={handleSubmit} className="space-y-4">
-                                    <div className="flex flex-col items-center justify-center gap-2 mb-4">
-                                        <p className="text-sm text-white/70">Trải nghiệm của bạn thế nào?</p>
+                        <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 bg-black/70 backdrop-blur-2xl">
+                            <div className="glass-deep w-full max-w-sm p-8 rounded-[48px] border border-white/20 relative modal-spring shadow-[0_40px_80px_rgba(0,0,0,0.8)]">
+                                <button onClick={() => setIsOpen(false)} className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/20 transition-all btn-press border border-white/10"><i className="fas fa-times"></i></button>
+                                <h3 className="text-2xl font-black text-white mb-6 flex items-center gap-3 tracking-tighter"><i className="fas fa-heart text-pink-400"></i> Góc Góp Ý</h3>
+                                <form onSubmit={handleSubmit} className="space-y-5">
+                                    <div className="flex flex-col items-center gap-3 mb-2">
+                                        <p className="text-sm text-white/60 font-bold">Trải nghiệm của bạn thế nào?</p>
                                         <div className="flex gap-2">
-                                            {[1, 2, 3, 4, 5].map(star => (
-                                                <i 
-                                                    key={star}
-                                                    className={`fas fa-star text-3xl cursor-pointer transition-colors ${
-                                                        star <= (hoveredRating || rating) ? 'text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,0.6)]' : 'text-white/20'
-                                                    }`}
-                                                    onMouseEnter={() => setHoveredRating(star)}
-                                                    onMouseLeave={() => setHoveredRating(0)}
-                                                    onClick={() => setRating(star)}
-                                                ></i>
-                                            ))}
+                                            {[1, 2, 3, 4, 5].map(star => <i key={star} className={`fas fa-star text-4xl cursor-pointer btn-press ${star <= (hoveredRating || rating) ? 'text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]' : 'text-white/20'}`} onMouseEnter={() => setHoveredRating(star)} onMouseLeave={() => setHoveredRating(0)} onClick={() => setRating(star)}></i>)}
                                         </div>
                                     </div>
-                                    
-                                    <textarea 
-                                        placeholder="Bạn nghĩ gì về Lavender? (Tùy chọn)"
-                                        value={comment}
-                                        onChange={(e) => setComment(e.target.value)}
-                                        className="w-full bg-black/20 border border-white/10 rounded-[20px] p-4 text-sm text-white placeholder:text-white/30 outline-none focus:border-indigo-500/50 focus:bg-black/30 transition-all resize-none h-24 backdrop-blur-xl shadow-inner"
-                                    ></textarea>
-                                    
-                                    <div className="relative group">
-                                        <i className="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-indigo-400 transition-colors text-sm"></i>
-                                        <input 
-                                            type="email" 
-                                            placeholder="Email của bạn (Tùy chọn)"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-3.5 rounded-[20px] outline-none border border-white/10 bg-black/20 text-sm focus:border-indigo-500/50 focus:bg-black/30 transition-all placeholder:text-white/30 text-white backdrop-blur-xl shadow-inner"
-                                        />
-                                    </div>
-                                    
-                                    <button 
-                                        type="submit"
-                                        disabled={rating === 0 || isSubmitting}
-                                        className="w-full py-4 mt-2 rounded-[20px] lavender-gradient text-white font-bold text-sm shadow-[0_8px_20px_rgba(168,85,247,0.4)] disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_12px_25px_rgba(168,85,247,0.6)] transition-all flex justify-center items-center gap-2 active:scale-95 border border-white/20"
-                                    >
-                                        {isSubmitting ? (
-                                            <><i className="fas fa-circle-notch animate-spin"></i> Đang gửi...</>
-                                        ) : 'Gửi Đánh Giá'}
-                                    </button>
+                                    <textarea placeholder="Bạn nghĩ gì về Lavender? (Tùy chọn)" value={comment} onChange={(e) => setComment(e.target.value)} className="w-full bg-black/20 border border-white/10 rounded-[24px] p-5 text-sm text-white placeholder:text-white/40 outline-none h-28 focus:border-indigo-400/50 transition-all"></textarea>
+                                    <div className="relative group"><i className="fas fa-envelope absolute left-5 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i><input type="email" placeholder="Email của bạn" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full pl-12 pr-5 py-4 rounded-[20px] outline-none border border-white/10 bg-black/20 text-sm text-white placeholder:text-white/40 focus:border-indigo-400/50 transition-all" /></div>
+                                    <button type="submit" disabled={rating === 0 || isSubmitting} className="w-full py-4 mt-2 rounded-[20px] btn-primary disabled:opacity-50 btn-press flex justify-center items-center gap-2 text-sm tracking-wide">{isSubmitting ? <><i className="fas fa-circle-notch animate-spin"></i> Đang gửi...</> : 'Gửi Đánh Giá'}</button>
                                 </form>
                             </div>
                         </div>
                     )}
-
                     {toastMessage && (
-                        <div className="fixed top-8 right-1/2 translate-x-1/2 md:translate-x-0 md:right-8 z-[300] iphone-glass px-6 py-3.5 rounded-3xl border-t border-white/30 border-b-0 border-x-0 flex items-center gap-3 shadow-[0_15px_30px_rgba(34,197,94,0.3)] toast-animate">
-                            <i className="fas fa-check-circle text-green-400 text-lg drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]"></i>
+                        <div className="fixed top-8 right-1/2 translate-x-1/2 md:translate-x-0 md:right-8 z-[300] iphone-glass px-6 py-4 rounded-3xl border-l-4 border-l-green-400 border-y border-r border-white/20 flex items-center gap-3 shadow-[0_20px_40px_rgba(52,211,153,0.4)] slide-fade-stagger bg-green-500/10">
+                            <i className="fas fa-check-circle text-green-400 text-xl drop-shadow-[0_0_12px_rgba(52,211,153,0.8)]"></i>
                             <span className="text-white text-sm font-bold tracking-wide">{toastMessage}</span>
                         </div>
                     )}
@@ -602,43 +689,57 @@
         };
 
         const App = () => {
-            const { isDarkMode, favorites, isSyncing } = globalStore.useStore();
-			
-            const [page, setPage] = useState('login'); 
+            const { isDarkMode, favorites, isSyncing, currentUser } = globalStore.useStore();
+            const [page, setPage] = useState(currentUser ? 'home' : 'login'); 
             const [activeId, setActiveId] = useState(null);
             const [isTV, setIsTV] = useState(false);
             const [season, setSeason] = useState(1);
             const [episode, setEpisode] = useState(1);
             const [server, setServer] = useState('to'); 
-            
-            // Search States
             const [searchQuery, setSearchQuery] = useState("");
             const [debouncedSearch, setDebouncedSearch] = useState("");
             const [searchResults, setSearchResults] = useState([]);
             const [isSearching, setIsSearching] = useState(false);
             const [showSearchDropdown, setShowSearchDropdown] = useState(false);
             const searchRef = useRef(null);
-            
+            const [isSearchFocused, setIsSearchFocused] = useState(false);
             const [isSignUp, setIsSignUp] = useState(false);
-            const [isAuthenticating, setIsAuthenticating] = useState(false);
+            const [authError, setAuthError] = useState('');
+            const [loginName, setLoginName] = useState('');
+            const [loginEmail, setLoginEmail] = useState('');
+            const [loginPassword, setLoginPassword] = useState('');
             const [isLoading, setIsLoading] = useState(true);
             const [continueWatching, setContinueWatching] = useState([]);
             const [aiRecs, setAiRecs] = useState([]);
-            
             const [selectedMovie, setSelectedMovie] = useState(null);
             const [filterGenre, setFilterGenre] = useState(null);
-            
             const [showProfile, setShowProfile] = useState(false);
-
             const [discoverMovies, setDiscoverMovies] = useState([]);
             const [discoverPage, setDiscoverPage] = useState(1);
+            const [totalPages, setTotalPages] = useState(500);
             const [isFetchingMore, setIsFetchingMore] = useState(false);
+            const [movies, setMovies] = useState({ trending: [], tvTrending: [], anime: [] });
+            
+            // Edit Profile states
+            const [editName, setEditName] = useState('');
+            const [editAvatar, setEditAvatar] = useState('');
+            const [editPassword, setEditPassword] = useState('');
+            const [settingsSuccess, setSettingsSuccess] = useState(false);
+
+            useEffect(() => {
+                if (currentUser) {
+                    setEditName(currentUser.name || '');
+                    setEditAvatar(currentUser.avatar || '');
+                }
+            }, [currentUser]);
 
             useEffect(() => {
                 const handleClickOutside = (event) => {
                     if (searchRef.current && !searchRef.current.contains(event.target)) {
                         setShowSearchDropdown(false);
+                        setIsSearchFocused(false);
                     }
+                    if (!event.target.closest('.profile-container') && !event.target.closest('.theme-toggle-btn')) setShowProfile(false);
                 };
                 document.addEventListener("mousedown", handleClickOutside);
                 return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -646,11 +747,7 @@
 
             useEffect(() => {
                 const handleKeyDown = (e) => {
-                    if (e.key === 'Escape') {
-                        setSelectedMovie(null);
-                        setShowSearchDropdown(false);
-                        setShowProfile(false);
-                    }
+                    if (e.key === 'Escape') { setSelectedMovie(null); setShowSearchDropdown(false); setShowProfile(false); setIsSearchFocused(false); }
                 };
                 window.addEventListener('keydown', handleKeyDown);
                 return () => window.removeEventListener('keydown', handleKeyDown);
@@ -678,71 +775,65 @@
             }, [page, activeId]);
 
             const goToHome = () => {
-                setPage('home');
-                setActiveId(null);
-                setIsTV(false);
-                setSearchQuery("");
-                setSearchResults([]);
-                setShowSearchDropdown(false);
+                setPage('home'); setActiveId(null); setIsTV(false); setSearchQuery(""); setSearchResults([]); setShowSearchDropdown(false); setIsSearchFocused(false);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
 
+            const handleLogout = () => {
+                localStorage.removeItem('lavender_active_user'); globalStore.set({ currentUser: null });
+                setPage('login'); setShowProfile(false); setLoginPassword(''); 
+            };
+
             useEffect(() => {
-                if (!isDarkMode) {
-                    document.body.classList.add('light-mode');
-                } else {
-                    document.body.classList.remove('light-mode');
-                }
+                if (!isDarkMode) document.body.classList.add('light-mode');
+                else document.body.classList.remove('light-mode');
                 localStorage.setItem('lavender_theme', JSON.stringify(isDarkMode));
             }, [isDarkMode]);
 
-            const fetchDiscoverData = async (pageNum) => {
-                setIsFetchingMore(true);
+            const fetchDiscoverData = async (pageNum, isManual = false) => {
+                if (isManual) globalStore.set({ globalLoading: true });
+                else setIsFetchingMore(true);
                 try {
                     const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=vi-VN&page=${pageNum}&sort_by=popularity.desc`);
+                    if (!res.ok) throw new Error(`Status: ${res.status}`);
                     const data = await res.json();
-                    setDiscoverMovies(prev => [...prev, ...data.results]);
-                } catch(e) {}
-                setIsFetchingMore(false);
+                    if (isManual) { setDiscoverMovies(data.results); window.scrollTo({ top: document.body.scrollHeight / 1.5, behavior: 'smooth' }); } 
+                    else setDiscoverMovies(prev => [...prev, ...data.results]);
+                    setTotalPages(Math.min(data.total_pages, 500));
+                } catch(e) { globalStore.set({ globalError: { title: "API Mất Kết Nối", message: "Vui lòng kiểm tra lại mạng hoặc thử lại sau." } }); } 
+                finally { setIsFetchingMore(false); if (isManual) globalStore.set({ globalLoading: false }); }
             };
 
             useEffect(() => {
-                const history = JSON.parse(localStorage.getItem('lavender_history') || '[]');
-                setContinueWatching(history);
-
-                const fetchMovies = async () => {
-                    setIsLoading(true);
-                    const urls = {
-                        trending: `${BASE_URL}/trending/movie/week?api_key=${API_KEY}&language=vi-VN`,
-                        tvTrending: `${BASE_URL}/trending/tv/week?api_key=${API_KEY}&language=vi-VN`,
-                        anime: `${BASE_URL}/discover/tv?api_key=${API_KEY}&with_genres=16&with_original_language=ja&language=vi-VN`
-                    };
-                    
-                    const fetchedData = {};
-                    for (const [key, url] of Object.entries(urls)) {
+                if (page !== 'login') {
+                    const history = JSON.parse(localStorage.getItem('lavender_history') || '[]');
+                    setContinueWatching(history);
+                    const fetchMovies = async () => {
+                        setIsLoading(true);
+                        const urls = { trending: `${BASE_URL}/trending/movie/week?api_key=${API_KEY}&language=vi-VN`, tvTrending: `${BASE_URL}/trending/tv/week?api_key=${API_KEY}&language=vi-VN`, anime: `${BASE_URL}/discover/tv?api_key=${API_KEY}&with_genres=16&with_original_language=ja&language=vi-VN` };
+                        const fetchedData = {};
                         try {
-                            const res = await fetch(url);
-                            const json = await res.json();
-                            fetchedData[key] = json.results || [];
-                        } catch (e) { fetchedData[key] = []; }
-                    }
-                    setMovies(prev => ({ ...prev, ...fetchedData }));
-                    await fetchDiscoverData(1);
-                    setTimeout(() => setIsLoading(false), 800);
-                };
-                fetchMovies();
-            }, []);
+                            for (const [key, url] of Object.entries(urls)) {
+                                const res = await fetch(url);
+                                if(!res.ok) throw new Error();
+                                fetchedData[key] = (await res.json()).results || [];
+                            }
+                            setMovies(prev => ({ ...prev, ...fetchedData }));
+                            await fetchDiscoverData(1);
+                        } catch (e) { globalStore.set({ globalError: { title: "Không thể tải phim", message: "Có lỗi khi kết nối tới máy chủ TheMovieDB." } }); } 
+                        finally { setTimeout(() => setIsLoading(false), 800); }
+                    };
+                    fetchMovies();
+                }
+            }, [page]);
+
+            const handleLoadMore = useCallback(() => {
+                if (isFetchingMore || discoverPage >= totalPages) return;
+                const nextPage = discoverPage + 1; setDiscoverPage(nextPage); fetchDiscoverData(nextPage, false);
+            }, [discoverPage, isFetchingMore, totalPages]);
 
             useEffect(() => {
-                if (discoverPage > 1) fetchDiscoverData(discoverPage);
-            }, [discoverPage]);
-
-            const handleLoadMore = () => {
-                setDiscoverPage(prev => prev + 1);
-            };
-
-            useEffect(() => {
-                if (continueWatching.length > 0) {
+                if (continueWatching.length > 0 && page !== 'login') {
                     const fetchMultiRecs = async () => {
                         const top3History = continueWatching.slice(0, 3);
                         let aggregatedRecs = [];
@@ -750,311 +841,245 @@
                             try {
                                 const type = item.isTV ? 'tv' : 'movie';
                                 const res = await fetch(`${BASE_URL}/${type}/${item.id}/recommendations?api_key=${API_KEY}&language=vi-VN`);
-                                const data = await res.json();
-                                aggregatedRecs = [...aggregatedRecs, ...(data.results || [])];
-                            } catch (e) {}
+                                aggregatedRecs = [...aggregatedRecs, ...((await res.json()).results || [])];
+                            } catch (e) {} 
                         }
                         const uniqueMap = new Map(aggregatedRecs.map(m => [m.id, m]));
-                        const uniqueRecs = Array.from(uniqueMap.values());
-                        const shuffled = uniqueRecs.sort(() => 0.5 - Math.random());
-                        setAiRecs(shuffled.slice(0, 15));
+                        setAiRecs(Array.from(uniqueMap.values()).sort(() => 0.5 - Math.random()).slice(0, 15));
                     };
                     fetchMultiRecs();
                 }
-            }, [continueWatching]);
+            }, [continueWatching, page]);
 
             useEffect(() => {
-                const timer = setTimeout(() => {
-                    setDebouncedSearch(searchQuery);
-                }, 500);
+                const timer = setTimeout(() => setDebouncedSearch(searchQuery), 500);
                 return () => clearTimeout(timer);
             }, [searchQuery]);
 
             useEffect(() => {
                 if (debouncedSearch.length > 1) {
-                    setIsSearching(true);
-                    setShowSearchDropdown(true);
+                    setIsSearching(true); setShowSearchDropdown(true);
                     fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${debouncedSearch}&language=vi-VN`)
-                        .then(res => res.json())
-                        .then(data => {
-                            setSearchResults(data.results || []);
-                            setIsSearching(false);
-                        })
-                        .catch(err => {
-                            setIsSearching(false);
-                        });
-                } else {
-                    setSearchResults([]);
-                    setIsSearching(false);
-                    setShowSearchDropdown(false);
-                }
+                        .then(res => { if(!res.ok) throw new Error(); return res.json(); })
+                        .then(data => { setSearchResults(data.results || []); setIsSearching(false); })
+                        .catch(err => { setIsSearching(false); globalStore.set({ globalError: { title: "Lỗi Tìm Kiếm", message: "Đã xảy ra lỗi mạng." } }); });
+                } else { setSearchResults([]); setIsSearching(false); setShowSearchDropdown(false); }
             }, [debouncedSearch]);
 
-            const [movies, setMovies] = useState({ trending: [], tvTrending: [], anime: [] });
-
-            const handleOpenModal = (m) => {
-                setSelectedMovie(m);
-            };
+            const handleOpenModal = (m) => setSelectedMovie(m);
 
             const handleSelectMedia = (item, tvStatus) => {
                 const savedProgress = continueWatching.find(m => m.id === item.id);
-                const historyItem = {
-                    id: item.id,
-                    title: item.title || item.name,
-                    poster: item.poster_path,
-                    backdrop: item.backdrop_path,
-                    isTV: tvStatus,
-                    lastSeason: savedProgress?.lastSeason || 1,
-                    lastEpisode: savedProgress?.lastEpisode || 1,
-                    watchedTime: savedProgress?.watchedTime || 0, 
-                    totalTime: savedProgress?.totalTime || (tvStatus ? 2700 : 7200)
-                };
-
+                const historyItem = { id: item.id, title: item.title || item.name, poster: item.poster_path, backdrop: item.backdrop_path, isTV: tvStatus, lastSeason: savedProgress?.lastSeason || 1, lastEpisode: savedProgress?.lastEpisode || 1, watchedTime: savedProgress?.watchedTime || 0, totalTime: savedProgress?.totalTime || (tvStatus ? 2700 : 7200) };
                 const filtered = continueWatching.filter(m => m.id !== item.id);
                 const newHistory = [historyItem, ...filtered].slice(0, 10);
-                setContinueWatching(newHistory);
-                localStorage.setItem('lavender_history', JSON.stringify(newHistory));
-
-                setActiveId(item.id);
-                setIsTV(tvStatus);
-                setSeason(historyItem.lastSeason);
-                setEpisode(historyItem.lastEpisode);
-                setServer('to');
-                setPage('watch');
-                setSelectedMovie(null);
-                setSearchQuery("");
-                setShowSearchDropdown(false);
-                setSearchResults([]);
+                setContinueWatching(newHistory); localStorage.setItem('lavender_history', JSON.stringify(newHistory));
+                setActiveId(item.id); setIsTV(tvStatus); setSeason(historyItem.lastSeason); setEpisode(historyItem.lastEpisode); setServer('to'); setPage('watch'); setSelectedMovie(null); setSearchQuery(""); setShowSearchDropdown(false); setSearchResults([]);
                 window.scrollTo(0,0);
             };
 
-            const filterData = (dataArray) => {
-                if (!filterGenre || !dataArray) return dataArray;
-                return dataArray.filter(m => m.genre_ids && m.genre_ids.includes(filterGenre));
-            };
+            const filterData = (dataArray) => (!filterGenre || !dataArray) ? dataArray : dataArray.filter(m => m.genre_ids && m.genre_ids.includes(filterGenre));
 
             if (page === 'login') {
-                const handleLogin = () => {
-                    setIsAuthenticating(true);
+                const handleAuth = (e) => {
+                    e.preventDefault(); setAuthError('');
+                    if (!loginEmail || !loginPassword || (isSignUp && !loginName)) { setAuthError('Vui lòng điền đầy đủ thông tin!'); return; }
+                    globalStore.set({ globalLoading: true });
                     setTimeout(() => {
-                        setIsAuthenticating(false);
+                        const users = JSON.parse(localStorage.getItem('lavender_users') || '[]');
+                        if (isSignUp) {
+                            if (users.find(u => u.email === loginEmail)) { setAuthError('Email này đã được sử dụng!'); globalStore.set({ globalLoading: false }); return; }
+                            const newUser = { name: loginName, email: loginEmail, password: loginPassword, avatar: USER_AVATAR };
+                            users.push(newUser); localStorage.setItem('lavender_users', JSON.stringify(users)); localStorage.setItem('lavender_active_user', JSON.stringify(newUser));
+                            globalStore.set({ currentUser: newUser }); setPage('home');
+                        } else {
+                            const user = users.find(u => u.email === loginEmail && u.password === loginPassword);
+                            if (!user) { setAuthError('Email hoặc mật khẩu không chính xác!'); globalStore.set({ globalLoading: false }); return; }
+                            localStorage.setItem('lavender_active_user', JSON.stringify(user)); globalStore.set({ currentUser: user }); setPage('home');
+                        }
+                        globalStore.set({ globalLoading: false });
+                    }, 1200); 
+                };
+
+                const handleSocialLogin = (provider) => {
+                    globalStore.set({ globalLoading: true });
+                    setTimeout(() => {
+                        const socialUser = { 
+                            name: `Người dùng ${provider}`, 
+                            email: `user@${provider.toLowerCase()}.com`, 
+                            avatar: USER_AVATAR 
+                        };
+                        localStorage.setItem('lavender_active_user', JSON.stringify(socialUser));
+                        globalStore.set({ currentUser: socialUser });
                         setPage('home');
-                    }, 1500); 
+                        globalStore.set({ globalLoading: false });
+                    }, 1200);
                 };
 
                 return (
                     <div className="h-screen w-full flex items-center justify-center relative overflow-hidden bg-transparent px-4">
-                        <div className="absolute top-[10%] left-[5%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] bg-purple-600/30 rounded-full animate-float mix-blend-screen"></div>
-                        <div className="absolute bottom-[10%] right-[5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-indigo-600/20 rounded-full animate-float mix-blend-screen" style={{animationDelay: '2s'}}></div>
-                        
-                        <div className="iphone-glass w-full max-w-[420px] p-8 md:p-12 rounded-[48px] text-center z-10 transition-all login-card-animate">
-                            <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-6 memoji-avatar bg-indigo-500/20 p-1">
-                                <img src={USER_AVATAR} alt="Avatar Anime" className="w-full h-full object-cover rounded-full" />
-                            </div>
+                        <GlobalLoader /> <GlobalErrorUI />
+                        <div className="iphone-glass w-full max-w-[420px] p-8 md:p-12 rounded-[48px] text-center z-10 transition-all slide-fade-stagger border-t border-l border-white/20 shadow-[0_40px_80px_rgba(0,0,0,0.8)]">
+                            <div className="w-24 h-24 mx-auto mb-6 bg-indigo-500/20 p-1.5 rounded-full border border-indigo-400/30"><img src={USER_AVATAR} className="w-full h-full object-cover rounded-full" /></div>
+                            <h2 className="text-3xl font-black mb-2 text-white tracking-tighter">{isSignUp ? "Tạo tài khoản" : "Chào mừng trở lại"}</h2>
+                            <p className="opacity-60 text-sm mb-8 font-medium">Trải nghiệm điện ảnh đỉnh cao</p>
+                            <form onSubmit={handleAuth} className="space-y-4">
+                                {authError && <div className="text-red-400 text-sm font-bold bg-red-500/10 py-3 rounded-[16px] border border-red-500/20"><i className="fas fa-exclamation-circle mr-2"></i> {authError}</div>}
+                                {isSignUp && <div className="relative group"><i className="fas fa-user absolute left-5 top-1/2 -translate-y-1/2 text-white/40"></i><input type="text" value={loginName} onChange={(e) => setLoginName(e.target.value)} placeholder="Họ và tên" className="w-full pl-12 pr-5 py-4 rounded-[20px] outline-none border border-white/10 text-sm bg-black/20 placeholder:text-white/40 focus:border-indigo-400/50 transition-colors" /></div>}
+                                <div className="relative group"><i className="fas fa-envelope absolute left-5 top-1/2 -translate-y-1/2 text-white/40"></i><input type="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} placeholder="Email" className="w-full pl-12 pr-5 py-4 rounded-[20px] outline-none border border-white/10 text-sm bg-black/20 placeholder:text-white/40 focus:border-indigo-400/50 transition-colors" /></div>
+                                <div className="relative group"><i className="fas fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-white/40"></i><input type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} placeholder="Mật khẩu" className="w-full pl-12 pr-5 py-4 rounded-[20px] outline-none border border-white/10 text-sm bg-black/20 placeholder:text-white/40 focus:border-indigo-400/50 transition-colors" /></div>
+                                <button type="submit" className="w-full p-4 rounded-[20px] btn-primary btn-press text-sm uppercase tracking-wide">{isSignUp ? "Đăng ký" : "Đăng nhập"}</button>
+                            </form>
                             
-                            <h2 className="text-2xl md:text-3xl font-black mb-1 text-white tracking-tight">
-                                {isSignUp ? "Tạo tài khoản" : "Chào mừng trở lại"}
-                            </h2>
-                            <p className="opacity-70 text-xs md:text-sm mb-8 text-indigo-200">Tuy Hòa, Phú Yên</p>
-                            
-                            <div className="space-y-4">
-                                {isSignUp && (
-                                    <div className="relative group">
-                                        <i className="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-white/50 group-focus-within:text-indigo-300 transition-colors"></i>
-                                        <input type="text" placeholder="Họ và tên" className="w-full pl-12 pr-4 py-4 rounded-[20px] outline-none border border-white/10 text-sm focus:border-indigo-400/60 focus:bg-white/10 transition-all placeholder:text-white/40 bg-black/10 backdrop-blur-md shadow-inner" />
-                                    </div>
-                                )}
-                                <div className="relative group">
-                                    <i className="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-white/50 group-focus-within:text-indigo-300 transition-colors"></i>
-                                    <input type="email" placeholder="Email" className="w-full pl-12 pr-4 py-4 rounded-[20px] outline-none border border-white/10 text-sm focus:border-indigo-400/60 focus:bg-white/10 transition-all placeholder:text-white/40 bg-black/10 backdrop-blur-md shadow-inner" />
+                            <div className="mt-8 flex flex-col gap-5">
+                                <div className="relative flex items-center py-2">
+                                    <div className="flex-grow border-t border-white/10"></div>
+                                    <span className="flex-shrink-0 mx-4 text-white/40 text-[10px] font-bold uppercase tracking-widest">Hoặc tiếp tục với</span>
+                                    <div className="flex-grow border-t border-white/10"></div>
                                 </div>
-                                <div className="relative group">
-                                    <i className="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-white/50 group-focus-within:text-indigo-300 transition-colors"></i>
-                                    <input type="password" placeholder="Mật khẩu" className="w-full pl-12 pr-4 py-4 rounded-[20px] outline-none border border-white/10 text-sm focus:border-indigo-400/60 focus:bg-white/10 transition-all placeholder:text-white/40 bg-black/10 backdrop-blur-md shadow-inner" />
-                                </div>
-                                
-                                {!isSignUp && (
-                                    <div className="text-right">
-                                        <span className="text-[11px] text-indigo-300 hover:text-white transition-colors cursor-pointer font-medium drop-shadow-sm">Quên mật khẩu?</span>
-                                    </div>
-                                )}
-
-                                <button 
-                                    onClick={handleLogin} 
-                                    disabled={isAuthenticating} 
-                                    className="w-full p-4 rounded-[20px] lavender-gradient text-white font-bold shadow-[0_8px_20px_rgba(168,85,247,0.4)] hover:shadow-[0_12px_25px_rgba(168,85,247,0.6)] transition-all active:scale-95 text-sm flex items-center justify-center gap-2 disabled:opacity-80 disabled:cursor-not-allowed border border-white/20"
-                                >
-                                    {isAuthenticating ? (
-                                        <i className="fas fa-circle-notch animate-spin text-lg"></i>
-                                    ) : (
-                                        isSignUp ? "Đăng ký" : "Đăng nhập"
-                                    )}
-                                </button>
-                            </div>
-
-                            <div className="mt-8">
-                                <div className="relative flex items-center justify-center mb-6">
-                                    <div className="absolute border-t border-white/10 w-full"></div>
-                                    <span className="bg-[#020617]/50 backdrop-blur-md px-4 py-1 text-[10px] text-white/60 relative z-10 rounded-full border border-white/5 font-medium tracking-wide">Hoặc tiếp tục với</span>
-                                </div>
-                                
-                                <div className="flex gap-5 justify-center">
-                                    <button className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all hover:-translate-y-1 group bg-white/10 shadow-[0_5px_15px_rgba(0,0,0,0.2)] backdrop-blur-xl">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" className="w-5 h-5 group-hover:scale-110 transition-transform"/>
+                                <div className="flex justify-center gap-4">
+                                    <button type="button" onClick={() => handleSocialLogin('Google')} className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all btn-press group hover:border-red-400/50">
+                                        <i className="fab fa-google text-white/70 group-hover:text-red-400 text-xl transition-colors"></i>
                                     </button>
-                                    <button className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#1877F2]/30 hover:border-[#1877F2]/60 transition-all hover:-translate-y-1 group bg-white/10 shadow-[0_5px_15px_rgba(0,0,0,0.2)] backdrop-blur-xl">
-                                        <i className="fab fa-facebook-f text-[#1877F2] text-lg group-hover:scale-110 transition-transform"></i>
+                                    <button type="button" onClick={() => handleSocialLogin('Facebook')} className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all btn-press group hover:border-blue-400/50">
+                                        <i className="fab fa-facebook-f text-white/70 group-hover:text-blue-400 text-xl transition-colors"></i>
                                     </button>
-                                    <button className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/30 transition-all hover:-translate-y-1 group bg-white/10 shadow-[0_5px_15px_rgba(0,0,0,0.2)] backdrop-blur-xl">
-                                        <i className="fab fa-apple text-white text-xl group-hover:scale-110 transition-transform"></i>
+                                    <button type="button" onClick={() => handleSocialLogin('Apple')} className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all btn-press group hover:border-white/50">
+                                        <i className="fab fa-apple text-white/70 group-hover:text-white text-xl transition-colors"></i>
                                     </button>
                                 </div>
                             </div>
 
-                            <div className="mt-8 text-[11px] md:text-xs text-white/60 font-medium">
+                            <div className="mt-8 text-sm text-white/60 font-medium">
                                 {isSignUp ? "Đã có tài khoản? " : "Chưa có tài khoản? "}
-                                <span 
-                                    onClick={() => setIsSignUp(!isSignUp)} 
-                                    className="text-indigo-300 font-bold cursor-pointer hover:text-white transition-colors"
-                                >
-                                    {isSignUp ? "Đăng nhập ngay" : "Đăng ký ngay"}
-                                </span>
+                                <span onClick={() => { setIsSignUp(!isSignUp); setAuthError(''); }} className="text-indigo-400 font-bold cursor-pointer hover:text-indigo-300 transition-colors">{isSignUp ? "Đăng nhập" : "Đăng ký"}</span>
                             </div>
                         </div>
-                        
-                        <FeedbackWidget />
                     </div>
                 );
             }
 
             return (
                 <div className="min-h-screen relative">
+                    <GlobalLoader /> <GlobalErrorUI />
+                    
                     {page !== 'watch' && (
-                        <nav className="nav-container fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl z-[100] iphone-glass py-3 px-5 md:px-7 rounded-[36px] flex justify-between items-center">
-                            <h1 onClick={goToHome} className="text-xl md:text-2xl font-black cursor-pointer lavender-text tracking-tighter shrink-0 active:scale-95 transition-transform flex items-center gap-2">
-                                LAVENDER
-                                {isSyncing && <i className="fas fa-cloud-arrow-up text-xs text-indigo-400 syncing-icon ml-1 drop-shadow-md"></i>}
+                        <nav className="nav-container fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl z-[100] iphone-glass py-3 px-5 md:px-7 rounded-[40px] flex justify-between items-center">
+                            <h1 onClick={goToHome} className="text-xl md:text-2xl font-black cursor-pointer lavender-text tracking-tighter shrink-0 btn-press flex items-center gap-2">
+                                LAVENDER {isSyncing && <i className="fas fa-cloud-arrow-up text-xs text-indigo-400 syncing-icon ml-1 drop-shadow-md"></i>}
                             </h1>
                             <div className="flex items-center gap-3 md:gap-4">
-                                
                                 <div className="relative" ref={searchRef}>
-                                    <div className={`flex items-center bg-black/20 backdrop-blur-md border ${showSearchDropdown ? 'border-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.3)]' : 'border-white/15'} rounded-[20px] transition-all duration-300 relative group`}>
-                                        <i className="fas fa-search text-white/50 ml-4 text-xs md:text-sm group-focus-within:text-purple-300 transition-colors"></i>
+                                    <div className={`flex items-center bg-black/20 backdrop-blur-md border rounded-[24px] transition-all duration-300 relative group ${isSearchFocused || showSearchDropdown ? 'border-purple-400 search-bar-focus bg-black/40' : 'border-white/15'}`}>
+                                        <i className={`fas fa-search ml-4 text-xs md:text-sm transition-colors ${isSearchFocused || showSearchDropdown ? 'text-purple-400 drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]' : 'text-white/50'}`}></i>
                                         <input 
                                             type="text" 
                                             placeholder="Tìm kiếm phim..." 
-                                            value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
-                                            onFocus={() => { if(searchQuery.length > 1) setShowSearchDropdown(true); }}
-                                            className="pl-2 pr-10 py-2.5 bg-transparent text-xs md:text-sm w-36 md:w-60 focus:w-48 md:focus:w-80 transition-all outline-none text-white placeholder:text-white/40 font-medium"
+                                            value={searchQuery} 
+                                            onChange={(e) => setSearchQuery(e.target.value)} 
+                                            onFocus={() => { setIsSearchFocused(true); if(searchQuery.length > 1) setShowSearchDropdown(true); }}
+                                            onBlur={() => setIsSearchFocused(false)}
+                                            className="pl-3 pr-10 py-3 bg-transparent text-sm w-36 md:w-60 focus:w-56 md:focus:w-80 transition-all outline-none text-[var(--text-color)] placeholder:text-white/40 font-medium" 
                                         />
+                                        
                                         {searchQuery && (
                                             <button 
-                                                onClick={() => {setSearchQuery(""); setShowSearchDropdown(false);}}
-                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
+                                                onClick={() => {
+                                                    setSearchQuery(""); 
+                                                    setShowSearchDropdown(false); 
+                                                    searchRef.current.querySelector('input').focus();
+                                                }} 
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/30 text-white/70 hover:text-white transition-all btn-press text-[10px]"
                                             >
-                                                <i className="fas fa-times text-xs md:text-sm"></i>
+                                                <i className="fas fa-times"></i>
                                             </button>
                                         )}
                                     </div>
                                     
                                     {showSearchDropdown && (
-                                        <div className="absolute top-[calc(100%+12px)] right-0 w-[300px] md:w-[380px] search-results-glass rounded-[32px] overflow-hidden z-[150] login-card-animate">
+                                        <div className="absolute top-[calc(100%+16px)] right-0 w-[320px] md:w-[420px] glass-deep rounded-[32px] overflow-hidden z-[150] modal-spring border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.7)]">
                                             {isSearching ? (
-                                                <div className="p-6 flex justify-center items-center gap-3 text-white/70 text-sm font-semibold">
-                                                    <i className="fas fa-circle-notch animate-spin text-purple-400 text-xl"></i> Đang tìm kiếm...
+                                                <div className="p-10 flex flex-col justify-center items-center gap-4 text-white/70 text-sm font-bold tracking-wide">
+                                                    <i className="fas fa-circle-notch animate-spin text-purple-400 text-4xl drop-shadow-[0_0_10px_rgba(168,85,247,0.6)]"></i>
+                                                    Đang tìm kiếm...
                                                 </div>
                                             ) : searchResults.length > 0 ? (
-                                                <div className="max-h-[400px] overflow-y-auto scrollbar-hide py-3">
-                                                    {searchResults.slice(0, 6).map(item => (
-                                                        <div 
-                                                            key={item.id} 
-                                                            onClick={() => {
-                                                                handleOpenModal(item);
-                                                                setShowSearchDropdown(false);
-                                                                setSearchQuery("");
-                                                            }}
-                                                            className="flex items-center gap-4 p-3 hover:bg-white/10 cursor-pointer transition-colors mx-2 rounded-2xl"
-                                                        >
-                                                            <img 
-                                                                src={item.poster_path ? IMG_PATH + item.poster_path : 'https://via.placeholder.com/40x60'} 
-                                                                className="w-14 h-20 object-cover rounded-xl shadow-[0_5px_15px_rgba(0,0,0,0.3)] border border-white/10"
-                                                            />
+                                                <div className="max-h-[450px] overflow-y-auto scrollbar-hide py-4">
+                                                    {searchResults.slice(0, 6).map((item, i) => (
+                                                        <div key={item.id} onClick={() => { handleOpenModal(item); setShowSearchDropdown(false); setSearchQuery(""); }} className="flex items-center gap-4 p-3 hover:bg-white/10 cursor-pointer transition-all duration-300 mx-3 rounded-2xl group slide-fade-stagger" style={{animationDelay: `${i*0.05}s`}}>
+                                                            <img src={item.poster_path ? IMG_PATH + item.poster_path : 'https://via.placeholder.com/60x90'} className="w-14 h-20 object-cover rounded-xl border border-white/10 group-hover:scale-105 transition-transform duration-300 shadow-md" />
                                                             <div className="flex-1 min-w-0">
-                                                                <p className="text-white text-sm font-bold truncate tracking-wide">{item.title || item.name}</p>
-                                                                <div className="flex items-center gap-2 mt-2 text-[10px] text-white/60 font-medium">
-                                                                    <span className="flex items-center gap-1 text-yellow-400 bg-black/30 px-2 py-1 rounded-md backdrop-blur-md border border-white/5">
-                                                                        <i className="fas fa-star text-[8px]"></i> {item.vote_average?.toFixed(1) || 'N/A'}
-                                                                    </span>
-                                                                    <span>•</span>
-                                                                    <span>{item.release_date?.split('-')[0] || item.first_air_date?.split('-')[0] || "N/A"}</span>
-                                                                    <span>•</span>
-                                                                    <span className="truncate uppercase tracking-widest text-[9px] text-indigo-300">{item.media_type === 'tv' ? 'Series' : 'Phim lẻ'}</span>
+                                                                <p className="text-white text-sm md:text-base font-black truncate group-hover:text-purple-300 transition-colors">{item.title || item.name}</p>
+                                                                <div className="flex items-center gap-2 mt-1.5 text-[11px] text-white/60 font-bold">
+                                                                    <span className="flex items-center gap-1 text-yellow-400"><i className="fas fa-star text-[10px]"></i> {item.vote_average?.toFixed(1) || 'N/A'}</span>
+                                                                    <span>•</span><span>{item.release_date?.split('-')[0] || item.first_air_date?.split('-')[0] || "N/A"}</span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     ))}
-                                                    {searchResults.length > 6 && (
-                                                        <div className="text-center p-3 border-t border-white/10 mt-2 mx-4">
-                                                            <span className="text-xs text-purple-300 font-bold hover:text-white cursor-pointer transition-colors tracking-wide">
-                                                                Tìm thấy {searchResults.length} kết quả
-                                                            </span>
-                                                        </div>
-                                                    )}
                                                 </div>
                                             ) : (
-                                                <div className="p-8 text-center flex flex-col items-center gap-3 text-white/50">
-                                                    <i className="fas fa-box-open text-3xl mb-1 opacity-40"></i>
-                                                    <span className="text-sm font-medium">Không tìm thấy "{searchQuery}"</span>
+                                                <div className="p-12 text-center flex flex-col items-center gap-4 text-white/40 slide-fade-stagger">
+                                                    <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center border border-white/10 mb-2 shadow-inner">
+                                                        <i className="fas fa-search-minus text-3xl text-white/30"></i>
+                                                    </div>
+                                                    <span className="text-base font-black text-white/80 tracking-tight">Không tìm thấy kết quả</span>
+                                                    <span className="text-xs text-white/50 px-6 text-center leading-relaxed">Không tìm thấy phim "{searchQuery}". Thử từ khóa khác xem sao!</span>
                                                 </div>
                                             )}
                                         </div>
                                     )}
                                 </div>
 
-                                <button onClick={() => globalStore.set({ isDarkMode: !isDarkMode })} className="w-10 h-10 md:w-11 md:h-11 rounded-full flex items-center justify-center border border-white/15 hover:bg-white/15 transition-all text-sm md:text-base bg-black/20 backdrop-blur-md shadow-inner">
-                                    {isDarkMode ? <i className="fas fa-moon text-indigo-300 drop-shadow-md"></i> : <i className="fas fa-sun text-orange-400 drop-shadow-md"></i>}
+                                <button 
+                                    onClick={() => globalStore.set({ isDarkMode: !isDarkMode })} 
+                                    className="theme-toggle-btn w-11 h-11 md:w-12 md:h-12 rounded-full border border-white/10 bg-black/20 backdrop-blur-md flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all btn-press shrink-0"
+                                >
+                                    <i className={`fas ${isDarkMode ? 'fa-moon text-indigo-400 drop-shadow-[0_0_8px_rgba(129,140,248,0.8)]' : 'fa-sun text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]'} text-lg`}></i>
                                 </button>
-                                
-                                <div className="relative">
-                                    <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-indigo-400/50 overflow-hidden cursor-pointer hover:scale-105 transition-transform shadow-[0_0_15px_rgba(99,102,241,0.3)]" onClick={() => setShowProfile(!showProfile)}>
-                                        <img src={USER_AVATAR} alt="Avatar" className="w-full h-full object-cover" />
+
+                                <div className="relative profile-container">
+                                    <div className="w-11 h-11 md:w-12 md:h-12 rounded-full border-[2.5px] border-indigo-400/60 overflow-hidden cursor-pointer btn-press shadow-[0_0_15px_rgba(129,140,248,0.3)]" onClick={() => setShowProfile(!showProfile)}>
+                                        <img src={currentUser?.avatar || USER_AVATAR} alt="Avatar" className="w-full h-full object-cover" />
                                     </div>
                                     
                                     {showProfile && (
-                                        <div className="absolute top-16 right-0 w-72 search-results-glass rounded-[32px] p-5 z-50 login-card-animate">
-                                            <div className="flex flex-col items-center border-b border-white/10 pb-5 mb-4">
-                                                <div className="w-16 h-16 rounded-full mb-3 p-1 border-2 border-indigo-400/60 bg-indigo-500/10 shadow-[0_0_20px_rgba(99,102,241,0.2)]">
-                                                    <img src={USER_AVATAR} className="w-full h-full rounded-full object-cover" />
+                                        <div className="absolute top-[calc(100%+16px)] right-0 w-[320px] glass-deep rounded-[36px] p-7 z-50 modal-spring border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.6)]">
+                                            <div className="flex items-center gap-4 border-b border-white/10 pb-6 mb-5">
+                                                <div className="w-16 h-16 rounded-full p-1 border-2 border-indigo-400/60 bg-indigo-500/10 shrink-0">
+                                                    <img src={currentUser?.avatar || USER_AVATAR} className="w-full h-full rounded-full object-cover" />
                                                 </div>
-                                                <h3 className="text-white font-bold text-base tracking-wide">Huỳnh Nguyên Đạt</h3>
-                                                <p className="text-indigo-300 text-xs font-medium mt-1">Lớp 12C2 • THPT Nguyễn Trãi</p>
-                                                <p className="text-white/50 text-[10px] mt-2 bg-black/20 px-3 py-1 rounded-full border border-white/5"><i className="fas fa-location-dot mr-1 text-red-400"></i> Tuy Hòa, Phú Yên</p>
+                                                <div className="flex flex-col overflow-hidden">
+                                                    <h3 className="text-white font-black text-lg truncate tracking-tight">{currentUser?.name || "Người dùng"}</h3>
+                                                    <p className="text-white/60 text-xs mt-1 truncate font-medium">{currentUser?.email}</p>
+                                                    <span className="text-indigo-400 text-[10px] font-bold mt-2 bg-indigo-500/10 w-max px-3 py-1 rounded-lg border border-indigo-500/20 shadow-sm flex items-center gap-1.5 uppercase tracking-wider">
+                                                        Premium ✨
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div className="space-y-4">
-                                                <div className="flex items-center gap-3 text-xs text-white/80 hover:text-white cursor-pointer transition-colors p-2 rounded-xl hover:bg-white/5">
-                                                    <div className="w-6 h-6 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
-                                                        <i className="fas fa-cloud text-indigo-300 text-[10px]"></i>
+                                            
+                                            <div className="flex flex-col gap-2 mb-6">
+                                                <div className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/5 mb-2">
+                                                    <div className="flex flex-col">
+                                                        <span className="text-[10px] text-white/50 uppercase font-bold tracking-wider">Phim Yêu Thích</span>
+                                                        <span className="text-white font-black text-lg">{favorites.length}</span>
                                                     </div>
-                                                    <span className="font-medium">Watchlist Cloud Sync</span>
-                                                    {isSyncing ? <i className="fas fa-sync animate-spin text-[10px] ml-auto text-white/50"></i> : <i className="fas fa-check text-green-400 text-[10px] ml-auto drop-shadow-[0_0_5px_rgba(34,197,94,0.5)]"></i>}
+                                                    <i className="fas fa-heart text-red-400 text-2xl opacity-50"></i>
                                                 </div>
-                                                <div className="flex items-center gap-3 text-xs text-white/80 p-2">
-                                                    <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
-                                                        <i className="fas fa-code text-purple-300 text-[10px]"></i>
-                                                    </div>
-                                                    <span className="font-medium">Frontend & HTML/CSS</span>
+                                                
+                                                <div onClick={() => { setPage('history'); setShowProfile(false); window.scrollTo(0,0); }} className="flex items-center gap-4 p-3.5 rounded-[20px] hover:bg-white/10 cursor-pointer transition-colors text-sm text-white/80 hover:text-white font-bold btn-press">
+                                                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0"><i className="fas fa-history text-white/70 text-sm"></i></div>
+                                                    Lịch sử xem phim
                                                 </div>
-                                                <div className="flex items-center gap-3 text-xs text-white/80 p-2">
-                                                    <div className="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
-                                                        <i className="fas fa-plane text-blue-300 text-[10px]"></i>
-                                                    </div>
-                                                    <span className="font-medium">Dự án: Nhóm 4.2</span>
+                                                <div onClick={() => { setPage('settings'); setShowProfile(false); window.scrollTo(0,0); setSettingsSuccess(false); }} className="flex items-center gap-4 p-3.5 rounded-[20px] hover:bg-white/10 cursor-pointer transition-colors text-sm text-white/80 hover:text-white font-bold btn-press">
+                                                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0"><i className="fas fa-cog text-white/70 text-sm"></i></div>
+                                                    Cài đặt tài khoản
                                                 </div>
-                                                <button onClick={() => setPage('login')} className="w-full mt-4 py-3 rounded-2xl bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all text-xs font-bold border border-red-500/20 shadow-inner">
-                                                    Đăng xuất
-                                                </button>
                                             </div>
+
+                                            <button onClick={handleLogout} className="w-full py-4 rounded-[20px] bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 text-sm font-bold btn-press uppercase tracking-wider flex justify-center items-center gap-2 transition-colors border border-red-500/20">
+                                                <i className="fas fa-sign-out-alt"></i> Đăng xuất
+                                            </button>
                                         </div>
                                     )}
                                 </div>
@@ -1068,188 +1093,264 @@
                                 <div className="h-[65vh] md:h-[85vh] w-full skeleton opacity-40 rounded-b-[40px] md:rounded-b-[60px]"></div>
                             ) : (
                                 movies.trending[0] && (
-                                    <div className="hero-section relative h-[65vh] md:h-[85vh] w-full flex items-end pb-24 md:pb-32 px-6 md:px-12 overflow-hidden rounded-b-[40px] md:rounded-b-[60px] shadow-[0_30px_60px_rgba(0,0,0,0.5)] border-b border-white/10">
-                                        <img src={IMG_PATH + movies.trending[0].backdrop_path} className="absolute inset-0 w-full h-full object-cover z-0" loading="lazy" />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] via-[var(--bg-color)]/50 to-transparent z-10 backdrop-blur-[2px]"></div>
-                                        <div className="relative z-20 max-w-3xl">
-                                            <h2 className="hero-title text-4xl md:text-7xl font-black mb-4 md:mb-6 text-white leading-tight drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">{movies.trending[0].title}</h2>
-                                            <div className="flex gap-4">
-                                                <button onClick={() => handleSelectMedia(movies.trending[0], false)} className="px-10 md:px-12 py-3.5 md:py-4 lavender-gradient text-white rounded-full text-sm md:text-base font-bold hover:scale-105 transition-transform shadow-[0_10px_25px_rgba(168,85,247,0.5)] active:scale-95 border border-white/20 tracking-wide">Phát ngay</button>
-                                                <button onClick={() => handleOpenModal(movies.trending[0])} className="w-12 h-12 md:w-[56px] md:h-[56px] rounded-full iphone-glass text-white flex items-center justify-center hover:scale-105 transition-all text-lg">
-                                                    <i className="fas fa-info"></i>
-                                                </button>
+                                    <div className="hero-section relative h-[65vh] md:h-[85vh] w-full flex items-end pb-24 md:pb-32 px-6 md:px-12 overflow-hidden rounded-b-[40px] md:rounded-b-[60px] shadow-[0_30px_60px_rgba(0,0,0,0.5)] border-b border-white/10 group">
+                                        <img src={IMG_PATH + movies.trending[0].backdrop_path} className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-[15s] group-hover:scale-110" loading="lazy" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] via-[var(--bg-color)]/70 to-transparent z-10"></div>
+                                        <div className="relative z-20 max-w-4xl">
+                                            <h2 className="text-5xl md:text-8xl font-black mb-4 text-white leading-none drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)] tracking-tighter slide-fade-stagger">{movies.trending[0].title}</h2>
+                                            <p className="text-white/70 text-sm md:text-base font-medium mb-8 leading-relaxed max-w-2xl line-clamp-3 slide-fade-stagger" style={{animationDelay: '0.1s'}}>{movies.trending[0].overview}</p>
+                                            <div className="flex gap-4 slide-fade-stagger" style={{animationDelay: '0.2s'}}>
+                                                <button onClick={() => handleSelectMedia(movies.trending[0], false)} className="px-10 py-4 btn-primary rounded-[24px] text-sm tracking-wide uppercase flex items-center gap-3 btn-press"><i className="fas fa-play text-lg"></i> Phát ngay</button>
+                                                <button onClick={() => handleOpenModal(movies.trending[0])} className="px-8 py-4 rounded-[24px] bg-white/10 backdrop-blur-md text-white font-bold text-sm tracking-wide uppercase border border-white/20 flex items-center gap-3 btn-press hover:bg-white/20"><i className="fas fa-info-circle text-lg"></i> Chi tiết</button>
                                             </div>
                                         </div>
                                     </div>
                                 )
                             )}
 
-                            <div className="relative z-30 flex gap-3 overflow-x-auto px-6 md:px-12 py-4 scrollbar-hide -mt-8 md:-mt-16 mb-6">
+                            <div className="relative z-30 flex gap-3 overflow-x-auto px-6 md:px-12 py-4 scrollbar-hide -mt-8 md:-mt-16 mb-8 slide-fade-stagger" style={{animationDelay: '0.3s'}}>
                                 {[{id: null, n: 'Tất cả'}, {id: 28, n: 'Hành động'}, {id: 16, n: 'Anime'}, {id: 27, n: 'Kinh dị'}, {id: 35, n: 'Hài kịch'}, {id: 878, n: 'Viễn tưởng'}].map(g => (
-                                    <button 
-                                        key={g.id || 'all'}
-                                        onClick={() => setFilterGenre(g.id)}
-                                        className={`px-6 py-2.5 rounded-full border text-[10px] md:text-xs font-bold whitespace-nowrap filter-btn transition-all backdrop-blur-md shadow-lg ${filterGenre === g.id ? 'active' : 'border-white/15 bg-black/30 text-white/80 hover:bg-white/15 hover:text-white'}`}
-                                    >
+                                    <button key={g.id || 'all'} onClick={() => setFilterGenre(g.id)} className={`px-7 py-3 rounded-full text-sm font-bold whitespace-nowrap btn-press transition-all tracking-wide ${filterGenre === g.id ? 'btn-primary border-transparent' : 'border border-white/10 bg-black/40 text-white/70 hover:bg-white/20 hover:text-white backdrop-blur-md'}`}>
                                         {g.n}
                                     </button>
                                 ))}
                             </div>
 
-                            <div className="relative z-30 space-y-12 md:space-y-20 pb-24">
+                            <div className="relative z-30 space-y-12 md:space-y-16 pb-24">
                                 {continueWatching.length > 0 && !isLoading && !filterGenre && (
-                                    <div className="row-container">
-                                        <h3 className="row-title px-6 md:px-12 text-lg md:text-2xl font-bold mb-4 md:mb-6 text-indigo-300 flex items-center gap-3 drop-shadow-md">
-                                            <span className="w-1.5 h-6 lavender-gradient rounded-full"></span> Tiếp tục xem
+                                    <div className="row-container slide-fade-stagger" style={{animationDelay: '0.4s'}}>
+                                        <h3 className="px-6 md:px-12 text-xl md:text-2xl font-black mb-5 text-indigo-300 flex items-center gap-3 tracking-tighter">
+                                            <span className="w-2 h-8 lavender-gradient rounded-full"></span> Tiếp tục xem
                                         </h3>
-                                        <div className="scroll-container gap-4 md:gap-6">
-                                            {continueWatching.map(m => {
-                                                const currentProgress = getRealProgress(m.id);
-                                                return (
-                                                <div key={m.id} onClick={() => handleSelectMedia(m, m.isTV)} className="scroll-item w-[240px] md:w-[300px] h-[140px] md:h-[180px] rounded-[32px] overflow-hidden cursor-pointer border border-white/15 relative group shadow-[0_15px_30px_rgba(0,0,0,0.4)] transition-all duration-500 hover:scale-[1.03] hover:border-white/30">
-                                                    <img src={IMG_PATH + m.backdrop} loading="lazy" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-5">
-                                                        <p className="text-white font-bold text-sm md:text-base truncate drop-shadow-md tracking-wide">{m.title}</p>
-                                                        {m.isTV && <p className="text-indigo-300 font-medium text-[10px] md:text-xs mt-1">Tập {m.lastEpisode} - Mùa {m.lastSeason}</p>}
-                                                        <div className="w-full h-1.5 bg-white/20 mt-3 rounded-full overflow-hidden backdrop-blur-sm border border-white/10">
-                                                            <div className="h-full lavender-gradient transition-all duration-300" style={{ width: `${currentProgress}%` }}></div>
+                                        <div className="scroll-container gap-5">
+                                            {continueWatching.map((m, index) => (
+                                                <div key={m.id} onClick={() => handleSelectMedia(m, m.isTV)} className="scroll-item w-[260px] md:w-[300px] h-[150px] md:h-[170px] rounded-[28px] overflow-hidden cursor-pointer relative group btn-press border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.4)]" style={{animationDelay: `${index * 0.1}s`}}>
+                                                    <img src={IMG_PATH + m.backdrop} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform duration-700" />
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent flex flex-col justify-end p-5">
+                                                        <p className="text-white font-black text-sm md:text-base truncate tracking-tight">{m.title}</p>
+                                                        {m.isTV && <p className="text-indigo-300 font-bold text-[11px] mt-1">Tập {m.lastEpisode} - Mùa {m.lastSeason}</p>}
+                                                        <div className="w-full h-1.5 bg-white/20 mt-3 rounded-full overflow-hidden">
+                                                            <div className="h-full lavender-gradient" style={{ width: `${getRealProgress(m.id)}%` }}></div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            )})}
+                                            ))}
                                         </div>
                                     </div>
                                 )}
 
-                                {favorites.length > 0 && !filterGenre && (
-                                    <Row title="❤️ Yêu Thích" data={favorites} onOpenModal={handleOpenModal} isLoading={false} />
-                                )}
+                                {!filterGenre && <Row title="Phim Bạn Yêu Thích" data={favorites} onOpenModal={handleOpenModal} isLoading={false} isEmptyState={favorites.length === 0} />}
 
-                                {filterData(aiRecs)?.length > 0 && <Row title="✨ AI Gợi ý cho bạn" data={filterData(aiRecs)} isLoading={isLoading} onOpenModal={handleOpenModal} />}
-                                {filterData(movies.trending)?.length > 0 && <Row title="🔥 Phim Thịnh Hành" data={filterData(movies.trending)} isLoading={isLoading} onOpenModal={handleOpenModal} />}
-                                {filterData(movies.tvTrending)?.length > 0 && <Row title="📺 Phim Bộ Hot" data={filterData(movies.tvTrending)} isLoading={isLoading} onOpenModal={handleOpenModal} />}
+                                {filterData(aiRecs)?.length > 0 && <Row title="Dành Cho Bạn (Vì bạn đã xem)" data={filterData(aiRecs)} isLoading={isLoading} onOpenModal={handleOpenModal} />}
+                                {filterData(movies.trending)?.length > 0 && <Row title="Thịnh Hành Hôm Nay" data={filterData(movies.trending)} isLoading={isLoading} onOpenModal={handleOpenModal} />}
+                                {filterData(movies.tvTrending)?.length > 0 && <Row title="Series Đáng Chú Ý" data={filterData(movies.tvTrending)} isLoading={isLoading} onOpenModal={handleOpenModal} />}
                                 
                                 {!filterGenre && discoverMovies.length > 0 && (
-                                    <InfiniteGrid 
-                                        title="🌍 Khám Phá Thêm" 
-                                        data={discoverMovies} 
-                                        onSelect={(m) => handleSelectMedia(m, false)} 
-                                        onOpenModal={handleOpenModal} 
-                                        onLoadMore={handleLoadMore}
-                                        isFetching={isFetchingMore}
-                                    />
+                                    <>
+                                        <InfiniteGrid title="Khám Phá Toàn Cầu" data={discoverMovies} onSelect={(m) => handleSelectMedia(m, false)} onOpenModal={handleOpenModal} onLoadMore={handleLoadMore} isFetching={isFetchingMore} />
+                                    </>
                                 )}
+                            </div>
+                        </div>
+                    )}
+
+                    {page === 'history' && (
+                        <div className="min-h-screen pt-36 px-6 md:px-12 pb-24 relative slide-fade-stagger">
+                            <div className="max-w-[1400px] mx-auto">
+                                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                                    <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter flex items-center gap-3">
+                                        <span className="w-2 h-8 bg-purple-500 rounded-full shadow-[0_0_12px_#a855f7]"></span> Lịch sử xem phim
+                                    </h2>
+                                    {continueWatching.length > 0 && (
+                                        <button onClick={() => { localStorage.removeItem('lavender_history'); setContinueWatching([]); }} className="px-5 py-2.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20 rounded-2xl text-sm font-bold transition-colors btn-press">
+                                            <i className="fas fa-trash-alt mr-2"></i> Xóa tất cả
+                                        </button>
+                                    )}
+                                </div>
+                                {continueWatching.length > 0 ? (
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 md:gap-7">
+                                        {continueWatching.map((m, index) => (
+                                            <div key={m.id} className="relative group slide-fade-stagger flex justify-center" style={{animationDelay: `${(index % 20) * 0.05}s`}}>
+                                                <MovieCard 
+                                                    m={{...m, poster_path: m.poster, backdrop_path: m.backdrop, name: m.title}} 
+                                                    onSelect={() => handleSelectMedia(m, m.isTV)} 
+                                                    onOpenModal={() => handleOpenModal({...m, poster_path: m.poster, backdrop_path: m.backdrop, name: m.title})} 
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center py-20 text-white/40 slide-fade-stagger glass-deep rounded-[40px] border border-white/10 mt-8">
+                                        <i className="fas fa-ghost text-6xl mb-6 opacity-30 drop-shadow-md"></i>
+                                        <p className="text-xl font-black mb-2 tracking-tight">Chưa có lịch sử xem phim</p>
+                                        <p className="text-sm font-medium opacity-70">Có vẻ bạn chưa trải nghiệm bộ phim nào cả!</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {page === 'settings' && (
+                        <div className="min-h-screen pt-36 px-6 md:px-12 pb-24 relative slide-fade-stagger flex justify-center">
+                            <div className="w-full max-w-2xl iphone-glass p-8 md:p-12 rounded-[48px] shadow-[0_40px_80px_rgba(0,0,0,0.5)] border-t border-l border-white/20">
+                                <h2 className="text-3xl font-black text-white tracking-tighter mb-8 flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
+                                        <i className="fas fa-user-edit text-indigo-400"></i>
+                                    </div>
+                                    Cài đặt tài khoản
+                                </h2>
+                                
+                                {settingsSuccess && (
+                                    <div className="mb-6 bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-4 rounded-[20px] text-sm font-bold flex items-center gap-3 slide-fade-stagger">
+                                        <i className="fas fa-check-circle text-lg drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]"></i> Đã lưu thông tin tài khoản thành công!
+                                    </div>
+                                )}
+
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                    const users = JSON.parse(localStorage.getItem('lavender_users') || '[]');
+                                    const updatedUsers = users.map(u => u.email === currentUser.email ? {...u, name: editName, avatar: editAvatar, password: editPassword || u.password} : u);
+                                    localStorage.setItem('lavender_users', JSON.stringify(updatedUsers));
+                                    
+                                    const updatedUser = {...currentUser, name: editName, avatar: editAvatar, password: editPassword || currentUser.password};
+                                    localStorage.setItem('lavender_active_user', JSON.stringify(updatedUser));
+                                    globalStore.set({ currentUser: updatedUser });
+                                    
+                                    setSettingsSuccess(true);
+                                    setEditPassword('');
+                                    setTimeout(() => setSettingsSuccess(false), 4000);
+                                }} className="space-y-6">
+                                    <div className="flex flex-col items-center mb-6">
+                                        <div className="w-28 h-28 rounded-full border-[3px] border-indigo-400/50 mb-4 overflow-hidden shadow-[0_0_20px_rgba(129,140,248,0.3)] bg-black/50 p-1">
+                                            <img src={editAvatar || USER_AVATAR} className="w-full h-full object-cover rounded-full" onError={(e) => {e.target.onerror = null; e.target.src = USER_AVATAR}} />
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="space-y-5">
+                                        <div className="relative group">
+                                            <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-2 block">Họ và tên</label>
+                                            <input type="text" value={editName} onChange={e => setEditName(e.target.value)} required className="w-full px-5 py-4 rounded-[20px] outline-none border border-white/10 bg-black/20 text-sm text-white focus:border-indigo-400/50 transition-colors" />
+                                        </div>
+                                        <div className="relative group">
+                                            <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-2 block">Email đăng nhập</label>
+                                            <input type="email" value={currentUser?.email} disabled className="w-full px-5 py-4 rounded-[20px] outline-none border border-white/5 bg-black/40 text-sm text-white/40 cursor-not-allowed" />
+                                        </div>
+                                        <div className="relative group">
+                                            <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-2 block">URL Ảnh đại diện</label>
+                                            <input type="text" value={editAvatar} onChange={e => setEditAvatar(e.target.value)} className="w-full px-5 py-4 rounded-[20px] outline-none border border-white/10 bg-black/20 text-sm text-white focus:border-indigo-400/50 transition-colors placeholder:text-white/20" placeholder="https://..." />
+                                        </div>
+                                        <div className="relative group">
+                                            <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-2 block">Đổi Mật khẩu (Bỏ trống nếu không đổi)</label>
+                                            <input type="password" value={editPassword} onChange={e => setEditPassword(e.target.value)} placeholder="••••••••" className="w-full px-5 py-4 rounded-[20px] outline-none border border-white/10 bg-black/20 text-sm text-white focus:border-indigo-400/50 transition-colors" />
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" className="w-full p-4 mt-8 rounded-[20px] btn-primary btn-press text-sm font-black uppercase tracking-widest">
+                                        Lưu thay đổi
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     )}
 
                     {page === 'watch' && (
-                        <div className="min-h-screen w-full bg-black flex flex-col items-center pt-24 md:justify-center p-4 md:p-8">
-                            <button onClick={() => setPage('home')} className="fixed top-8 left-6 md:left-10 z-50 px-6 py-2.5 md:px-8 md:py-3 apple-btn rounded-full text-white text-xs md:text-sm font-bold tracking-wide">← Trở về</button>
-                            <div className="w-full max-w-[1200px] flex flex-col gap-6 md:gap-8 relative z-10">
-                                <div className="aspect-video w-full rounded-[32px] md:rounded-[40px] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.8)] border border-white/15 bg-slate-900 relative">
-                                    <iframe 
-                                        src={isTV 
-                                            ? `https://vidsrc.${server}/embed/tv/${activeId}/${season}/${episode}` 
-                                            : `https://vidsrc.${server}/embed/movie/${activeId}`} 
-                                        className="w-full h-full"
-                                        allowFullScreen
-                                    ></iframe>
+                        <div className="min-h-screen w-full flex flex-col items-center pt-28 p-6 pb-16 relative slide-fade-stagger">
+                            <button onClick={() => setPage('home')} className="fixed top-8 left-6 z-50 px-6 py-3 bg-white/10 backdrop-blur-md rounded-full text-white text-sm font-bold uppercase btn-press border border-white/20 shadow-lg hover:bg-white/20 transition-colors"><i className="fas fa-arrow-left mr-2"></i>Trở về</button>
+                            <div className="w-full max-w-[1200px] flex flex-col gap-8 relative z-10">
+                                <div className="aspect-video w-full rounded-[40px] overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.8)] border border-white/10 bg-black">
+                                    <iframe src={isTV ? `https://vidsrc.${server}/embed/tv/${activeId}/${season}/${episode}` : `https://vidsrc.${server}/embed/movie/${activeId}`} className="w-full h-full" allowFullScreen></iframe>
                                 </div>
-                                
-                                <div className="flex flex-wrap gap-3 md:gap-4 justify-center items-center iphone-glass p-4 md:p-5 rounded-[28px] max-w-fit mx-auto">
-                                    <span className="text-white/60 text-[10px] md:text-xs mr-2 font-bold tracking-widest uppercase">Server:</span>
-                                    {[{id:'to', name:'TO'}, {id:'me', name:'ME'}, {id:'xyz', name:'XYZ'}, {id:'pro', name:'PRO'}].map((srv) => (
-                                        <button key={srv.id} onClick={() => setServer(srv.id)} className={`px-5 py-2 md:px-6 md:py-2.5 rounded-[14px] text-[10px] md:text-xs font-bold transition-all shadow-md ${server === srv.id ? 'lavender-gradient text-white border border-white/30' : 'bg-black/30 border border-white/10 text-white/70 hover:bg-white/15 hover:text-white'}`}>{srv.name}</button>
+                                <div className="flex gap-4 justify-center">
+                                    {[{id:'to', name:'Server TO'}, {id:'me', name:'Server ME'}].map((srv) => (
+                                        <button key={srv.id} onClick={() => setServer(srv.id)} className={`px-6 py-3 rounded-2xl text-sm font-bold btn-press tracking-wide ${server === srv.id ? 'btn-primary' : 'bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10'}`}>{srv.name}</button>
                                     ))}
                                 </div>
-
                                 {isTV && (
-                                    <div className="iphone-glass p-6 md:p-8 rounded-[36px] md:rounded-[48px] flex flex-col gap-6 w-full max-w-4xl mx-auto">
-                                        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                                            <h3 className="font-bold text-base md:text-xl text-white tracking-wide">Chọn tập phim</h3>
-                                            <div className="flex items-center gap-5 bg-black/20 p-2 rounded-2xl border border-white/10 backdrop-blur-md">
-                                                <div className="flex items-center gap-2">
-                                                    <button onClick={() => setEpisode(prev => Math.max(1, prev - 1))} className="w-9 h-9 rounded-[12px] bg-white/10 flex items-center justify-center text-white text-sm hover:bg-white/25 transition-all border border-white/5"><i className="fas fa-chevron-left"></i></button>
-                                                    <span className="text-white font-bold text-sm w-16 text-center">Tập {episode}</span>
-                                                    <button onClick={() => setEpisode(prev => prev + 1)} className="w-9 h-9 rounded-[12px] bg-white/10 flex items-center justify-center text-white text-sm hover:bg-white/25 transition-all border border-white/5"><i className="fas fa-chevron-right"></i></button>
-                                                </div>
-                                                <div className="flex items-center gap-3 border-l border-white/15 pl-5">
-                                                    <span className="text-xs font-medium text-white/60">Mùa:</span>
-                                                    <input type="number" min="1" value={season} onChange={(e) => setSeason(parseInt(e.target.value) || 1)} className="w-12 bg-black/40 rounded-[10px] text-center text-sm outline-none text-white p-1.5 font-bold border border-white/10 shadow-inner" />
-                                                </div>
+                                    <div className="iphone-glass p-8 rounded-[40px] w-full max-w-4xl mx-auto shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h3 className="font-black text-xl text-white tracking-tight">Chọn tập phim</h3>
+                                            <div className="flex items-center gap-3 bg-black/30 px-4 py-2 rounded-2xl border border-white/10">
+                                                <span className="text-sm text-white/60 font-bold uppercase tracking-wider">Mùa</span>
+                                                <input type="number" min="1" value={season} onChange={(e) => setSeason(parseInt(e.target.value) || 1)} className="w-12 bg-transparent text-white text-lg font-black outline-none text-center" />
                                             </div>
                                         </div>
-                                        <div className="grid grid-cols-6 sm:grid-cols-8 md:flex md:flex-wrap gap-3 max-h-48 overflow-y-auto md:overflow-visible pr-2 scrollbar-hide">
+                                        <div className="flex flex-wrap gap-3">
                                             {[...Array(24)].map((_, i) => (
-                                                <button key={i} onClick={() => setEpisode(i + 1)} className={`aspect-square md:min-w-[56px] md:h-[56px] rounded-[16px] md:rounded-[20px] transition-all font-bold text-sm shadow-md border ${episode === i + 1 ? 'lavender-gradient text-white border-white/40 shadow-[0_5px_15px_rgba(168,85,247,0.5)] scale-105' : 'bg-black/30 border-white/10 hover:bg-white/15 text-white/80 hover:text-white'}`}>{i + 1}</button>
+                                                <button key={i} onClick={() => setEpisode(i + 1)} className={`w-14 h-14 rounded-2xl font-black text-base btn-press ${episode === i + 1 ? 'btn-primary' : 'bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10'}`}>{i + 1}</button>
                                             ))}
                                         </div>
                                     </div>
                                 )}
+                                <MovieFeedback movieId={activeId} />
                             </div>
                         </div>
                     )}
 
                     {selectedMovie && (
-                        <div 
-                            className="modal-overlay fixed inset-0 flex items-end md:items-center justify-center p-0 md:p-6 z-[200]"
-                        >
-                            <div className="search-results-glass w-full h-[85vh] md:h-auto md:max-w-4xl md:rounded-[48px] overflow-hidden relative flex flex-col md:flex-row transition-transform duration-500 login-card-animate rounded-t-[40px]">
-                                <button onClick={() => { setSelectedMovie(null); }} className="absolute top-5 right-5 md:top-6 md:right-6 w-10 h-10 rounded-full bg-black/40 backdrop-blur-xl border border-white/20 text-white z-50 flex items-center justify-center hover:bg-black/60 hover:scale-110 transition-all shadow-lg">
-                                    <i className="fas fa-times"></i>
-                                </button>
+                        <div className="modal-overlay fixed inset-0 flex items-center justify-center p-4 md:p-8 z-[200]">
+                            <div className="modal-backdrop-blur" style={{backgroundImage: `url(${IMG_PATH + (selectedMovie.backdrop_path || selectedMovie.backdrop)})`}}></div>
+                            
+                            <div className="w-full max-w-6xl bg-black/50 backdrop-blur-3xl rounded-[48px] overflow-hidden relative flex flex-col md:flex-row modal-spring border border-white/15 shadow-[0_50px_100px_rgba(0,0,0,0.9)] z-10">
+                                <button onClick={() => setSelectedMovie(null)} className="absolute top-6 right-6 w-12 h-12 rounded-full bg-black/40 backdrop-blur-xl text-white/80 z-50 flex items-center justify-center btn-press hover:bg-white/20 hover:text-white border border-white/20 transition-all shadow-lg"><i className="fas fa-times text-xl"></i></button>
                                 
-                                <div className="w-full h-[45%] md:h-[550px] md:w-[45%] relative bg-black shrink-0 overflow-hidden">
-                                    <img src={IMG_PATH + (selectedMovie.poster_path || selectedMovie.backdrop_path)} className="absolute inset-0 w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/50 to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#020617]"></div>
+                                <div className="w-full h-72 md:h-auto md:w-[45%] relative shrink-0">
+                                    <img src={selectedMovie.poster_path ? (selectedMovie.poster_path.startsWith('http') ? selectedMovie.poster_path : IMG_PATH + selectedMovie.poster_path) : 'https://via.placeholder.com/600x900'} className="absolute inset-0 w-full h-full object-cover" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/50 to-transparent md:bg-gradient-to-r md:from-transparent md:via-[#020617]/40 md:to-black/80"></div>
                                 </div>
 
-                                <div className="w-full flex-1 md:w-[55%] p-7 md:p-10 flex flex-col justify-start bg-transparent overflow-y-auto scrollbar-hide relative z-10 -mt-6 md:mt-0">
-                                    <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-6 md:hidden"></div>
+                                <div className="w-full md:w-[55%] p-8 md:p-12 flex flex-col justify-center bg-transparent relative z-10 max-h-[85vh] overflow-y-auto scrollbar-hide">
+                                    <h2 className="text-4xl md:text-6xl font-black mb-5 text-white leading-tight drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] tracking-tighter">{selectedMovie.title || selectedMovie.name}</h2>
                                     
-                                    <h2 className="text-3xl md:text-4xl font-black mb-4 text-white leading-tight tracking-wide drop-shadow-md">{selectedMovie.title || selectedMovie.name}</h2>
-                                    
-                                    <div className="flex flex-wrap gap-3 mb-6 text-[11px] md:text-xs text-white/80 font-bold items-center">
-                                        <span className="bg-white/10 px-3 py-1 rounded-lg border border-white/10 backdrop-blur-sm">{selectedMovie.release_date?.split('-')[0] || selectedMovie.first_air_date?.split('-')[0] || "2026"}</span>
-                                        <span className="border border-indigo-400/50 bg-indigo-500/10 text-indigo-300 px-2.5 py-1 rounded-lg uppercase backdrop-blur-sm">{selectedMovie.original_language || 'en'}</span>
-                                        <span className="flex items-center gap-1.5 text-yellow-400 bg-black/30 px-3 py-1 rounded-lg border border-white/5 backdrop-blur-sm">
-                                            <i className="fas fa-star drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]"></i> {selectedMovie.vote_average?.toFixed(1) || "8.5"}
+                                    {selectedMovie.genre_ids && (
+                                        <div className="flex flex-wrap gap-2 mb-6">
+                                            {selectedMovie.genre_ids.map(id => (
+                                                <span key={id} className="px-4 py-1.5 text-[11px] font-black bg-white/10 border border-white/20 rounded-full text-white backdrop-blur-md uppercase tracking-widest shadow-sm">{GENRES[id] || "Phim"}</span>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    <div className="flex items-center gap-5 mb-8 text-sm text-white/70 font-bold uppercase tracking-widest">
+                                        <span className="flex items-center gap-2 text-yellow-400 bg-yellow-400/10 px-3 py-1.5 rounded-xl border border-yellow-400/20 shadow-[0_0_15px_rgba(250,204,21,0.2)]">
+                                            <i className="fas fa-star drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]"></i> {selectedMovie.vote_average?.toFixed(1) || "N/A"}
                                         </span>
+                                        <span className="w-1.5 h-1.5 rounded-full bg-white/30"></span>
+                                        <span className="bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">{selectedMovie.release_date?.split('-')[0] || selectedMovie.first_air_date?.split('-')[0] || "2026"}</span>
                                     </div>
                                     
-                                    <p className="text-sm text-white/70 mb-8 leading-relaxed font-medium">
-                                        {selectedMovie.overview || "Đang cập nhật nội dung chi tiết cho bộ phim này..."}
+                                    <p className="text-base text-white/80 mb-10 leading-relaxed font-medium line-clamp-5 md:line-clamp-none">
+                                        {selectedMovie.overview || "Đang cập nhật nội dung chi tiết cho bộ phim này. Hãy quay lại sau nhé!"}
                                     </p>
                                     
-                                    <div className="flex gap-4 mt-auto pb-4">
-                                        <button onClick={() => handleSelectMedia(selectedMovie, !!selectedMovie.first_air_date)} className="flex-1 py-4 lavender-gradient rounded-[20px] font-bold text-white shadow-[0_10px_25px_rgba(168,85,247,0.4)] active:scale-95 hover:shadow-[0_15px_30px_rgba(168,85,247,0.6)] transition-all text-sm flex items-center justify-center gap-2 border border-white/30 tracking-wide">
-                                            <i className="fas fa-play"></i> Xem ngay
+                                    <div className="flex gap-4 mt-auto">
+                                        <button onClick={() => handleSelectMedia(selectedMovie, !!selectedMovie.first_air_date || selectedMovie.isTV)} className="flex-1 md:flex-none px-10 py-5 btn-primary rounded-2xl font-black tracking-widest uppercase text-white btn-press flex items-center justify-center gap-3">
+                                            <i className="fas fa-play text-xl"></i> Xem ngay
                                         </button>
+                                        
                                         <button onClick={(e) => {
                                                 const btn = e.currentTarget;
+                                                const icon = btn.querySelector('i');
                                                 globalStore.set({ isSyncing: true });
                                                 const currentFavs = globalStore.get().favorites;
                                                 let newFavs;
                                                 if (currentFavs.some(f => f.id === selectedMovie.id)) {
                                                     newFavs = currentFavs.filter(f => f.id !== selectedMovie.id);
-                                                    btn.querySelector('i').className = "far fa-heart text-white text-lg";
+                                                    icon.className = "far fa-heart text-2xl transition-all text-white";
                                                 } else {
                                                     newFavs = [selectedMovie, ...currentFavs];
-                                                    btn.querySelector('i').className = "fas fa-heart text-red-500 text-lg shadow-[0_0_15px_rgba(239,68,68,0.6)]";
+                                                    icon.className = "fas fa-heart text-2xl heart-active";
                                                 }
                                                 globalStore.set({ favorites: newFavs });
                                                 localStorage.setItem('lavender_favorites', JSON.stringify(newFavs));
-                                                setTimeout(() => globalStore.set({ isSyncing: false }), 800);
-                                            }} className="w-[56px] h-[56px] bg-white/5 rounded-[20px] border border-white/15 flex items-center justify-center hover:bg-white/15 transition-all shadow-md backdrop-blur-md">
-                                            <i className={`fa-heart text-lg ${favorites.some(f => f.id === selectedMovie.id) ? 'fas text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]' : 'far text-white'}`}></i>
+                                                setTimeout(() => globalStore.set({ isSyncing: false }), 400);
+                                            }} className="w-[64px] h-[64px] bg-white/10 rounded-2xl border border-white/20 flex items-center justify-center btn-press hover:bg-white/20 transition-colors shadow-lg">
+                                            <i className={`fa-heart text-2xl transition-all ${favorites.some(f => f.id === selectedMovie.id) ? 'fas heart-active' : 'far text-white'}`}></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     )}
-                    
+
                     <FeedbackWidget />
                 </div>
             );
