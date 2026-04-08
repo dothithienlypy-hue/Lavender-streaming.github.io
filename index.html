@@ -20,34 +20,36 @@
         @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap');
         
         :root {
-            --bg-color: #020617;
+            --bg-color: #000000;
             --text-color: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --input-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-highlight: rgba(255, 255, 255, 0.25);
-            --glass-shadow: rgba(0, 0, 0, 0.6);
-            --glass-deep-bg: rgba(10, 15, 30, 0.75);
+            --glass-bg: rgba(20, 20, 22, 0.45);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --glass-shadow: rgba(0, 0, 0, 0.8);
+            --glass-deep-bg: rgba(10, 10, 12, 0.65);
             
             --accent-primary: #818cf8;
             --accent-secondary: #f472b6; 
             --state-success: #34d399;
-            --state-error: #f87171;
-            --state-warning: #fbbf24;
+            --state-error: #ff453a;
+            --state-warning: #ffd60a;
+            
+            --ios-radius: 44px;
+            --ios-radius-sm: 24px;
         }
 
         .light-mode {
-            --bg-color: #f8fafc;
-            --text-color: #0f172a;
-            --glass-bg: rgba(255, 255, 255, 0.6);
+            --bg-color: #f2f2f7;
+            --text-color: #000000;
+            --glass-bg: rgba(255, 255, 255, 0.55);
             --input-bg: rgba(0, 0, 0, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.8);
             --glass-highlight: rgba(255, 255, 255, 0.9);
-            --glass-shadow: rgba(0, 0, 0, 0.1);
-            --glass-deep-bg: rgba(255, 255, 255, 0.85);
+            --glass-shadow: rgba(0, 0, 0, 0.05);
+            --glass-deep-bg: rgba(255, 255, 255, 0.75);
         }
 
-        /* CURSOR EFFECT (LEVEL 3) */
         @media (pointer: fine) {
             body, a, button, input, textarea, .cursor-pointer { cursor: none !important; }
         }
@@ -56,6 +58,7 @@
             background: var(--accent-primary); pointer-events: none; z-index: 999999;
             transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s;
             mix-blend-mode: screen; box-shadow: 0 0 15px var(--accent-primary);
+            will-change: transform, width, height;
         }
         .custom-cursor.hovering {
             width: 40px; height: 40px; background: transparent;
@@ -63,10 +66,10 @@
             box-shadow: 0 0 20px var(--accent-secondary), inset 0 0 10px var(--accent-secondary);
         }
 
-        /* NOISE TEXTURE (LEVEL 3) */
         .noise-bg {
             position: fixed; inset: 0; pointer-events: none; z-index: 9998; opacity: 0.035;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            will-change: transform;
         }
 
         body { 
@@ -75,127 +78,172 @@
             background-color: var(--bg-color); 
             color: var(--text-color);
             overflow-x: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease; /* Timing đồng bộ (LEVEL 1) */
+            transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* DYNAMIC GRADIENT BỀN BỈ HƠN (LEVEL 2) */
         body::before {
             content: '';
             position: fixed;
             top: -50%; left: -50%; width: 200%; height: 200%;
             background: 
-                radial-gradient(circle at 40% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 70% 30%, rgba(244, 114, 182, 0.05) 0%, transparent 35%);
+                radial-gradient(circle at 40% 50%, rgba(99, 102, 241, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 70% 30%, rgba(244, 114, 182, 0.08) 0%, transparent 35%),
+                radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
+            filter: blur(60px) url(#goo); 
             z-index: -1;
             pointer-events: none;
-            animation: liquid-bg 20s infinite linear alternate; /* Tốc độ sống động hơn */
+            animation: liquid-bg-ios 25s infinite ease-in-out alternate;
+            will-change: transform, filter;
         }
 
-        @keyframes liquid-bg {
-            0% { transform: rotate(0deg) scale(1); background-position: 0% 0%; }
-            50% { transform: rotate(10deg) scale(1.05); background-position: 100% 100%; }
-            100% { transform: rotate(20deg) scale(1.15); background-position: 50% 50%; }
+        @keyframes liquid-bg-ios {
+            0% { transform: rotate(0deg) scale(1) translate(0, 0); }
+            50% { transform: rotate(15deg) scale(1.1) translate(-2%, 3%); }
+            100% { transform: rotate(30deg) scale(1.2) translate(2%, -3%); }
         }
 
-        h1, h2, h3, h4, h5, h6 { line-height: 1.2; letter-spacing: -0.02em; }
+        h1, h2, h3, h4, h5, h6 { line-height: 1.2; letter-spacing: -0.03em; }
         p, span, div { line-height: 1.5; }
 
-        /* INNER SHADOW SÂU HƠN (LEVEL 1) */
-        .iphone-glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(40px) saturate(200%);
-            -webkit-backdrop-filter: blur(40px) saturate(200%);
-            border: 1px solid var(--glass-border);
-            border-top: 1px solid var(--glass-highlight);
-            border-left: 1px solid rgba(255, 255, 255, 0.15);
+        .iphone-glass, .nav-container {
+            background: var(--glass-bg) !important;
+            backdrop-filter: blur(60px) saturate(250%) !important;
+            -webkit-backdrop-filter: blur(60px) saturate(250%) !important;
+            border: 0.5px solid var(--glass-border) !important;
+            border-top: 0.5px solid var(--glass-highlight) !important;
+            border-radius: var(--ios-radius) !important;
             box-shadow: 
-                0 25px 50px -12px var(--glass-shadow), 
-                inset 0 4px 15px rgba(0, 0, 0, 0.3), /* Tăng chiều sâu */
-                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+                0 30px 60px -15px var(--glass-shadow), 
+                inset 0 2px 10px rgba(255, 255, 255, 0.03) !important;
+        }
+        
+        .nav-container {
+            border-radius: 999px !important; 
+            padding: 8px 12px 8px 24px !important;
         }
 
         .glass-deep {
             background: var(--glass-deep-bg);
-            backdrop-filter: blur(70px) saturate(250%);
-            -webkit-backdrop-filter: blur(70px) saturate(250%);
-            border: 1px solid var(--glass-border);
-            border-top: 1px solid var(--glass-highlight);
+            backdrop-filter: blur(80px) saturate(300%);
+            -webkit-backdrop-filter: blur(80px) saturate(300%);
+            border: 0.5px solid var(--glass-border);
+            border-radius: var(--ios-radius);
             box-shadow: 
                 0 40px 80px -20px var(--glass-shadow), 
-                inset 0 4px 20px rgba(0, 0, 0, 0.5), /* Tăng chiều sâu */
-                inset 0 1px 1px rgba(255, 255, 255, 0.4);
+                inset 0 4px 20px rgba(0, 0, 0, 0.5), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
         }
 
-        /* ANIMATION ĐỒNG BỘ ~200ms (LEVEL 1) + MICRO-INTERACTION (LEVEL 3) */
         .btn-press {
-            transition: all 0.2s ease;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
             transform-origin: center;
         }
-        .btn-press:hover {
-            transform: scale(1.02); /* Scale nhẹ chuẩn UX */
-        }
+        .btn-press:hover { transform: scale(1.03); }
         .btn-press:active {
-            transform: scale(0.96) !important;
-            transition: all 0.1s ease;
+            transform: scale(0.92) !important;
+            transition: all 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+            filter: brightness(0.8);
         }
-        .btn-press i { transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .btn-press:active i { transform: scale(0.8); } /* Icon rung nhẹ khi click */
 
-        /* SMART GLOW & GRADIENT BORDER BẬT KHI HOVER (LEVEL 1 & 2) */
         .btn-primary {
             background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-            box-shadow: 0 0 0 rgba(168, 85, 247, 0), inset 0 2px 5px rgba(255,255,255,0.3); /* Idle không glow */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white; font-weight: 800;
-            position: relative; z-index: 1;
-        }
-        .btn-primary::before {
-            content: ''; position: absolute; inset: -2px; border-radius: inherit;
-            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary));
-            background-size: 200% auto; z-index: -1; opacity: 0; transition: opacity 0.2s ease;
-            animation: borderGlow 3s linear infinite;
-        }
-        .btn-primary:hover {
-            box-shadow: 0 10px 20px -5px rgba(168, 85, 247, 0.5); /* Glow nhẹ */
-            filter: brightness(1.1); border-color: transparent;
-        }
-        .btn-primary:hover::before { opacity: 1; } /* Hiện gradient border */
-        .btn-primary:active {
-            box-shadow: 0 0 30px rgba(244, 114, 182, 0.9); /* Glow mạnh */
+            box-shadow: 0 10px 20px -5px rgba(168, 85, 247, 0.4), inset 0 2px 5px rgba(255,255,255,0.3);
+            border: 0.5px solid rgba(255, 255, 255, 0.3);
+            color: white; font-weight: 800; border-radius: 999px;
         }
 
-        @keyframes shimmer {
+        @keyframes iosWaterDropReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.85) translateY(20px);
+                filter: blur(20px);
+                clip-path: circle(5% at 50% 80%); 
+            }
+            40% { opacity: 1; filter: blur(5px); }
+            100% {
+                opacity: 1; transform: scale(1) translateY(0); filter: blur(0px);
+                clip-path: circle(150% at 50% 50%); 
+            }
+        }
+        
+        .slide-fade-stagger {
+            opacity: 0;
+            animation: iosWaterDropReveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            will-change: transform, opacity, filter, clip-path;
+        }
+
+        @keyframes modalLiquidSpring {
+            0% { transform: scale(0.8) translateY(60px); opacity: 0; clip-path: circle(10% at 50% 100%); filter: blur(15px); }
+            60% { transform: scale(1.02) translateY(-5px); opacity: 1; clip-path: circle(120% at 50% 50%); filter: blur(0px); }
+            100% { transform: scale(1) translateY(0); opacity: 1; clip-path: circle(150% at 50% 50%); }
+        }
+        .modal-spring { 
+            animation: modalLiquidSpring 0.7s cubic-bezier(0.24, 1.2, 0.64, 1) forwards; 
+            will-change: transform, opacity;
+        }
+
+        .movie-card {
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease, border-radius 0.4s ease;
+            transform-origin: center; transform-style: preserve-3d;
+            border: 0.5px solid rgba(255, 255, 255, 0.15); 
+            border-top: 0.5px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--ios-radius-sm) !important; 
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), inset 0 2px 10px rgba(255,255,255,0.05);
+            cursor: pointer; position: relative; overflow: hidden;
+            background: #000;
+            will-change: transform;
+        }
+
+        .movie-card:active { transform: scale(0.93) !important; border-radius: 36px !important; }
+
+        @media (min-width: 768px) {
+            .movie-card { border-radius: var(--ios-radius-sm) !important; }
+            .movie-card:hover { 
+                z-index: 50; 
+                box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.9), 0 0 30px rgba(168, 85, 247, 0.2); 
+            }
+        }
+
+        @keyframes shimmerLiquid {
             0% { transform: translateX(-150%) skewX(-15deg); }
             100% { transform: translateX(150%) skewX(-15deg); }
         }
         .skeleton {
-            background-color: rgba(255, 255, 255, 0.04);
+            background-color: rgba(255, 255, 255, 0.05);
             position: relative; overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: var(--ios-radius-sm) !important;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
         }
         .skeleton::after {
             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-            animation: shimmer 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmerLiquid 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
 
         .lavender-text {
             background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+            text-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
         }
 
         .lavender-gradient {
             background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4);
         }
 
-        input, textarea {
+        input, textarea, select {
             background-color: var(--input-bg) !important; color: var(--text-color) !important;
-            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.4); /* Inner shadow sắc nét */
-            transition: all 0.2s ease;
+            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.5); 
+            border-radius: 20px !important;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            backdrop-filter: blur(20px);
+        }
+        
+        input:focus, textarea:focus {
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2), 0 0 0 3px rgba(129, 140, 248, 0.3);
+            background-color: rgba(255,255,255,0.12) !important;
         }
 
         .scroll-container {
@@ -209,91 +257,73 @@
         .scroll-item { scroll-snap-align: start; flex-shrink: 0; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
 
-        @keyframes borderGlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* MOVIE CARD ENHANCEMENTS (LEVEL 1, 2) */
-        .movie-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease; /* Đồng bộ 200ms */
-            transform-origin: center; transform-style: preserve-3d;
-            border: 1px solid rgba(255, 255, 255, 0.1); border-top: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 24px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), inset 0 2px 10px rgba(0,0,0,0.5); /* Inner shadow */
-            cursor: pointer; position: relative; overflow: hidden;
-        }
-
-        /* Gradient Border */
-        .movie-card::before {
-            content: ''; position: absolute; inset: -2px; border-radius: inherit;
-            background: linear-gradient(45deg, transparent, rgba(168, 85, 247, 0.8), rgba(244, 114, 182, 0.8), transparent);
-            background-size: 200% 200%; z-index: -1; opacity: 0; transition: opacity 0.2s ease;
-        }
-
-        /* Light Reflection (Ánh sáng quét qua) */
-        .movie-card::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-20deg); transition: left 0s; pointer-events: none; z-index: 40;
-        }
-
-        .movie-card:active { transform: scale(0.96) !important; }
-
-        @media (min-width: 768px) {
-            .movie-card { border-radius: 32px; }
-            .movie-card:hover { z-index: 50; box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(168, 85, 247, 0.3); }
-            .movie-card:hover::before { opacity: 1; animation: borderGlow 3s ease infinite; }
-            .movie-card:hover::after { left: 200%; transition: left 0.6s ease-in-out; } /* Tia sáng lướt */
-        }
-
         @keyframes heartPop {
             0% { transform: scale(1); }
-            40% { transform: scale(1.5) rotate(-15deg); filter: drop-shadow(0 0 15px rgba(239, 68, 68, 1)); }
+            40% { transform: scale(1.6) rotate(-15deg); filter: drop-shadow(0 0 20px rgba(255, 69, 58, 1)); }
             60% { transform: scale(1.1) rotate(10deg); }
-            100% { transform: scale(1) rotate(0); filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.8)); }
+            100% { transform: scale(1) rotate(0); filter: drop-shadow(0 0 10px rgba(255, 69, 58, 0.8)); }
         }
-        .heart-active { animation: heartPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; color: var(--state-error) !important; }
+        .heart-active { animation: heartPop 0.5s cubic-bezier(0.24, 1.2, 0.64, 1) forwards; color: var(--state-error) !important; }
 
         .info-overlay {
-            opacity: 0; transition: opacity 0.2s ease;
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%); z-index: 20;
+            opacity: 0; transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 60%, transparent 100%); z-index: 20;
         }
         .movie-card:hover .info-overlay { opacity: 1; }
 
-        .fav-btn { position: absolute; top: 12px; right: 12px; z-index: 60; opacity: 0; transition: all 0.2s ease; }
+        .fav-btn { position: absolute; top: 12px; right: 12px; z-index: 60; opacity: 0; transition: all 0.3s ease; }
         .movie-card:hover .fav-btn { opacity: 1; }
 
         .modal-overlay {
-            background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(30px) saturate(150%);
-            -webkit-backdrop-filter: blur(30px) saturate(150%); z-index: 200;
+            background: rgba(0, 0, 0, 0.7); 
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%); 
+            z-index: 200;
         }
-
-        /* PAGE ANIMATION ~400ms (LEVEL 1) */
-        @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(30px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .slide-fade-stagger { opacity: 0; animation: fadeInSlideUp 0.4s ease-out forwards; }
-        
-        /* MODAL ANIMATION ~300ms (LEVEL 1) */
-        @keyframes modalSpring {
-            0% { transform: scale(0.9) translateY(20px); opacity: 0; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
-        }
-        .modal-spring { animation: modalSpring 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
 
         .modal-backdrop-blur {
             position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center;
-            filter: blur(80px) brightness(0.2); transform: scale(1.1);
+            filter: blur(100px) brightness(0.3); transform: scale(1.2);
+            opacity: 0.6;
         }
         
-        .search-bar-focus { box-shadow: 0 0 0 2px var(--accent-primary), 0 10px 30px -10px rgba(129, 140, 248, 0.5); }
+        .search-bar-focus { 
+            box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.6), 0 15px 35px -10px rgba(129, 140, 248, 0.4); 
+            background: rgba(30, 30, 35, 0.8) !important;
+        }
+
+        .search-result-item.active {
+            background-color: rgba(255,255,255,0.15);
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        /* NÂNG CẤP PROFILE: Mặt nạ gradient cho Banner */
+        .mask-image-bottom {
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        }
+
+        /* NÂNG CẤP TRÌNH PHÁT & CHI TIẾT: CSS mới */
+        .cast-scroll::-webkit-scrollbar { height: 6px; }
+        .cast-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        .trailer-overlay { background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); z-index: 250; }
+        .custom-player-controls {
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .player-container:hover .custom-player-controls { opacity: 1; }
 
     </style>
 </head>
 <body>
+    <svg width="0" height="0" style="position:absolute; pointer-events:none;">
+        <filter id="goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+            <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+    </svg>
+
     <div id="root"></div>
 
     <script type="text/babel">
@@ -303,6 +333,22 @@
         const BASE_URL = "https://api.themoviedb.org/3";
         const IMG_PATH = "https://image.tmdb.org/t/p/original";
         const USER_AVATAR = "https://cdn2.fptshop.com.vn/unsafe/800x0/avatar_anime_nam_cute_14_60037b48e5.jpg";
+
+        /* NÂNG CẤP PROFILE: Kho Avatar Phim Mặc Định */
+        const MOVIE_AVATARS = [
+            USER_AVATAR,
+            "https://i.pinimg.com/736x/8f/58/06/8f5806c9a6332ea5232d96ab29b0a7c4.jpg", // Spiderman
+            "https://i.pinimg.com/736x/21/df/b2/21dfb2569c73336ebecbc8bb3ce2c1b1.jpg", // Batman
+            "https://i.pinimg.com/736x/d6/9e/10/d69e102607998393e878516ee71cb32b.jpg", // Iron Man
+            "https://i.pinimg.com/736x/32/cb/76/32cb7646a78ea330c68ab2213a0fc3f0.jpg"  // Anime Style
+        ];
+
+        /* NÂNG CẤP PROFILE: Thiết bị ảo đăng nhập */
+        const MOCK_DEVICES = [
+            { id: 1, name: "Trình duyệt Chrome (Windows 11)", location: "Hà Nội, VN", current: true, time: "Đang hoạt động", icon: "fa-laptop" },
+            { id: 2, name: "Safari (iPhone 14 Pro)", location: "Hà Nội, VN", current: false, time: "2 giờ trước", icon: "fa-mobile-alt" },
+            { id: 3, name: "Ứng dụng Lavender (Smart TV)", location: "Hồ Chí Minh, VN", current: false, time: "Hôm qua", icon: "fa-tv" }
+        ];
 
         const GENRES = { 28: "Hành động", 12: "Phiêu lưu", 16: "Hoạt hình", 35: "Hài kịch", 80: "Tội phạm", 99: "Tài liệu", 18: "Chính kịch", 10751: "Gia đình", 14: "Kỳ ảo", 36: "Lịch sử", 27: "Kinh dị", 10402: "Âm nhạc", 9648: "Bí ẩn", 10749: "Lãng mạn", 878: "Viễn tưởng", 10770: "Truyền hình", 53: "Giật gân", 10752: "Chiến tranh", 37: "Miền Tây", 10759: "Action & Adventure", 10762: "Kids", 10765: "Sci-Fi & Fantasy", 10768: "War & Politics" };
 
@@ -328,14 +374,30 @@
             globalError: null
         });
 
-        /* --- CÁC COMPONENT PHỤ THUỘC --- */
-        
-        // LEVEL 3: Custom Cursor Effect
+        const triggerHaptic = () => {
+            if (typeof navigator !== 'undefined' && navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        };
+
+        const highlightText = (text, query) => {
+            if (!query || !text) return text;
+            const parts = text.split(new RegExp(`(${query})`, 'gi'));
+            return (
+                <span>
+                    {parts.map((part, i) => 
+                        part.toLowerCase() === query.toLowerCase() ? 
+                        <b key={i} className="text-purple-400">{part}</b> : part
+                    )}
+                </span>
+            );
+        };
+
         const CustomCursor = () => {
             const cursorRef = useRef(null);
             
             useEffect(() => {
-                if (window.matchMedia("(pointer: coarse)").matches) return; // Bỏ qua thiết bị cảm ứng
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
                 
                 const moveCursor = (e) => {
                     if (cursorRef.current) {
@@ -345,7 +407,7 @@
                 };
                 const handleMouseOver = (e) => {
                     if (cursorRef.current) {
-                        const isInteractable = e.target.closest('a, button, input, textarea, .cursor-pointer, .movie-card, .btn-press');
+                        const isInteractable = e.target.closest('a, button, input, textarea, select, .cursor-pointer, .movie-card, .btn-press, .profile-tab-btn');
                         if (isInteractable) cursorRef.current.classList.add('hovering');
                         else cursorRef.current.classList.remove('hovering');
                     }
@@ -429,8 +491,7 @@
             return 0;
         };
 
-        // LEVEL 2 & 1 TÍCH HỢP VÀO MOVIE CARD: Hover tilt 3D + Scale 1.02
-        const MovieCard = ({ m, onSelect, onOpenModal, index = 0 }) => {
+        const MovieCard = React.memo(({ m, onSelect, onOpenModal, index = 0 }) => {
             const { favorites } = globalStore.useStore();
             const cardRef = useRef(null);
             const isVisible = useIntersectionObserver(cardRef, { rootMargin: '200px' });
@@ -443,11 +504,11 @@
                 const rect = cardRef.current.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
-                // Nghiêng nhẹ max 10 độ
                 setTilt({ x: -(y / rect.height) * 20, y: (x / rect.width) * 20 }); 
             };
 
             const toggleFavorite = (e, item) => {
+                triggerHaptic(); 
                 e.stopPropagation();
                 globalStore.set({ isSyncing: true });
                 const currentFavs = globalStore.get().favorites;
@@ -461,23 +522,26 @@
             const dynamicStyle = {
                 animationDelay: `${index * 0.05}s`,
                 transform: isHovered ? `perspective(1000px) scale(1.02) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` : 'perspective(1000px) scale(1) rotateX(0deg) rotateY(0deg)',
-                transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.3s ease-out'
+                transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)'
             };
+
+            const posterUrl = m.poster_path ? (m.poster_path.startsWith('http') ? m.poster_path : `https://image.tmdb.org/t/p/w300${m.poster_path}`) : 'https://via.placeholder.com/200x300';
+            const posterSrcSet = m.poster_path && !m.poster_path.startsWith('http') ? `https://image.tmdb.org/t/p/w300${m.poster_path} 300w, https://image.tmdb.org/t/p/w780${m.poster_path} 780w` : undefined;
 
             return (
                 <div ref={cardRef} 
-                    onClick={() => onOpenModal ? onOpenModal(m) : onSelect(m)} 
+                    onClick={() => { triggerHaptic(); onOpenModal ? onOpenModal(m) : onSelect(m) }} 
                     onMouseMove={handleMouseMove}
-                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseEnter={() => { setIsHovered(true); triggerHaptic(); }} 
                     onMouseLeave={() => { setIsHovered(false); setTilt({x:0, y:0}); }}
                     className="movie-card w-[150px] md:w-[220px] h-[220px] md:h-[320px] bg-slate-900 slide-fade-stagger flex-shrink-0"
                     style={dynamicStyle}
                 >
                     {isVisible ? (
                         <>
-                            <img src={m.poster_path ? (m.poster_path.startsWith('http') ? m.poster_path : IMG_PATH + m.poster_path) : 'https://via.placeholder.com/200x300'} className="absolute inset-0 w-full h-full object-cover transition-all duration-500 brightness-90 group-hover:brightness-50" loading="lazy" />
+                            <img src={posterUrl} srcSet={posterSrcSet} sizes="(max-width: 768px) 150px, 220px" className="absolute inset-0 w-full h-full object-cover transition-all duration-700 brightness-90 group-hover:brightness-50 group-hover:scale-105" loading="lazy" />
                             
-                            <button onClick={(e) => toggleFavorite(e, m)} className="fav-btn w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-sm hover:bg-white/20 btn-press border border-white/10">
+                            <button onClick={(e) => toggleFavorite(e, m)} className="fav-btn w-9 h-9 rounded-full bg-black/40 backdrop-blur-xl flex items-center justify-center text-sm hover:bg-white/20 btn-press border border-white/20">
                                 <i className={`fa-heart ${isFav ? 'fas heart-active' : 'far text-white transition-all'}`}></i>
                             </button>
 
@@ -490,8 +554,8 @@
                             </div>
 
                             {getRealProgress(m.id) > 0 && (
-                                <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-40">
-                                    <div className="h-full lavender-gradient" style={{ width: `${getRealProgress(m.id)}%` }}></div>
+                                <div className="absolute bottom-0 left-0 w-full h-1.5 bg-white/20 z-40 backdrop-blur-md">
+                                    <div className="h-full lavender-gradient rounded-r-full" style={{ width: `${getRealProgress(m.id)}%` }}></div>
                                 </div>
                             )}
                         </>
@@ -500,7 +564,7 @@
                     )}
                 </div>
             );
-        };
+        });
 
         const InfiniteGrid = ({ title, data, onSelect, onOpenModal, onLoadMore, isFetching }) => {
             const lastItemRef = useInfiniteScroll(onLoadMore, isFetching);
@@ -526,7 +590,7 @@
                     <h3 className="row-title px-6 md:px-12 text-xl md:text-2xl font-black mb-5 flex items-center gap-3 tracking-tighter"><span className="w-2 h-8 bg-purple-500 rounded-full shadow-[0_0_12px_#a855f7]"></span> {title}</h3>
                     <div className="scroll-container gap-5 md:gap-7 !overflow-visible"> 
                         {isEmptyState ? (
-                            <div className="flex flex-col items-center justify-center w-[90%] max-w-md py-12 glass-deep rounded-[36px] mx-auto slide-fade-stagger mt-2 border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+                            <div className="flex flex-col items-center justify-center w-[90%] max-w-md py-12 glass-deep mx-auto slide-fade-stagger mt-2 border border-dashed border-white/10">
                                 <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-5 border border-white/10 shadow-inner"><i className="fas fa-heart-broken text-3xl text-white/20"></i></div>
                                 <h4 className="text-white font-black text-lg mb-2">Chưa có mục yêu thích 💜</h4>
                                 <p className="text-white/50 text-sm font-medium text-center px-6 leading-relaxed">Hãy bấm thả tim những bộ phim bạn thích để xem lại sau nhé.</p>
@@ -537,8 +601,7 @@
             );
         };
 
-        /* LƯỢC BỎ CÁC ĐOẠN ĐÃ CÓ TRONG BẢN GỐC (FEEDBACK WIDGET, MOVIE FEEDBACK) ĐỂ GIỮ NGUYÊN CẤU TRÚC LOGIC */
-        const MovieFeedback = ({ movieId }) => { /* ... Giữ nguyên như cũ ... */
+        const MovieFeedback = ({ movieId }) => { 
             const { currentUser } = globalStore.useStore();
             const [reviews, setReviews] = useState([]);
             const [comment, setComment] = useState('');
@@ -567,16 +630,16 @@
             };
 
             return (
-                <div className="iphone-glass p-6 md:p-8 rounded-[36px] md:rounded-[48px] flex flex-col gap-6 w-full max-w-4xl mx-auto mt-6">
+                <div className="iphone-glass p-6 md:p-8 flex flex-col gap-6 w-full max-w-4xl mx-auto mt-6">
                     <h3 className="font-black text-lg md:text-xl text-white tracking-tight flex items-center gap-3"><i className="fas fa-comments text-indigo-400"></i> Đánh giá phim</h3>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                         <div className="flex items-center gap-2">
                             {[1, 2, 3, 4, 5].map(star => (
-                                <i key={star} className={`fas fa-star text-3xl cursor-pointer transition-transform btn-press ${star <= (hoveredRating || rating) ? 'text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,0.8)]' : 'text-white/20'}`} onMouseEnter={() => setHoveredRating(star)} onMouseLeave={() => setHoveredRating(0)} onClick={() => setRating(star)}></i>
+                                <i key={star} className={`fas fa-star text-3xl cursor-pointer transition-transform btn-press ${star <= (hoveredRating || rating) ? 'text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,0.8)]' : 'text-white/20'}`} onMouseEnter={() => setHoveredRating(star)} onMouseLeave={() => setHoveredRating(0)} onClick={() => { triggerHaptic(); setRating(star) }}></i>
                             ))}
                         </div>
-                        <textarea placeholder="Chia sẻ cảm nghĩ của bạn về bộ phim này..." value={comment} onChange={(e) => setComment(e.target.value)} className="w-full bg-black/20 border border-white/10 rounded-[24px] p-5 text-sm text-white placeholder:text-white/40 outline-none focus:border-indigo-500/50 focus:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all resize-none h-28 backdrop-blur-xl"></textarea>
-                        <button type="submit" disabled={rating === 0 || !comment.trim() || isSubmitting} className="self-end px-8 py-3.5 rounded-[20px] btn-primary disabled:opacity-50 btn-press flex items-center gap-2 text-sm tracking-wide">
+                        <textarea placeholder="Chia sẻ cảm nghĩ của bạn về bộ phim này..." value={comment} onChange={(e) => setComment(e.target.value)} className="w-full bg-black/20 border border-white/10 p-5 text-sm text-white placeholder:text-white/40 outline-none focus:border-indigo-500/50 focus:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all resize-none h-28 backdrop-blur-xl" style={{borderRadius: '24px'}}></textarea>
+                        <button type="submit" disabled={rating === 0 || !comment.trim() || isSubmitting} className="self-end px-8 py-3.5 btn-primary disabled:opacity-50 btn-press flex items-center gap-2 text-sm tracking-wide">
                             {isSubmitting ? <><i className="fas fa-circle-notch animate-spin"></i> Đang gửi</> : 'Gửi Đánh Giá'}
                         </button>
                     </form>
@@ -584,7 +647,7 @@
                     <div className="flex flex-col gap-4 mt-4 max-h-[300px] overflow-y-auto scrollbar-hide pr-2">
                         {reviews.length > 0 ? reviews.map((rev, i) => (
                             <div key={rev.id} className="bg-black/20 p-5 rounded-[28px] border border-white/10 flex gap-4 backdrop-blur-md slide-fade-stagger" style={{animationDelay: `${i*0.05}s`}}>
-                                <img src={rev.avatar} alt="avatar" className="w-12 h-12 rounded-full border-2 border-indigo-400/50 object-cover shrink-0" />
+                                <img src={rev.avatar} alt="avatar" loading="lazy" className="w-12 h-12 rounded-full border-2 border-indigo-400/50 object-cover shrink-0" />
                                 <div className="flex flex-col w-full">
                                     <div className="flex justify-between items-start mb-1">
                                         <span className="text-white font-bold text-sm tracking-tight">{rev.user}</span>
@@ -607,7 +670,7 @@
             );
         };
 
-        const FeedbackWidget = () => { /* ... Giữ nguyên như cũ ... */
+        const FeedbackWidget = () => { 
             const { currentUser } = globalStore.useStore();
             const [isOpen, setIsOpen] = useState(false);
             const [rating, setRating] = useState(0);
@@ -636,25 +699,25 @@
             return (
                 <>
                     {!isOpen && (
-                        <button onClick={() => setIsOpen(true)} className="fixed bottom-6 right-6 z-[150] w-14 h-14 rounded-full btn-primary shadow-[0_10px_30px_rgba(168,85,247,0.5)] flex items-center justify-center btn-press">
+                        <button onClick={() => { triggerHaptic(); setIsOpen(true) }} className="fixed bottom-6 right-6 z-[150] w-14 h-14 rounded-full btn-primary shadow-[0_10px_30px_rgba(168,85,247,0.5)] flex items-center justify-center btn-press">
                             <i className="fas fa-comment-dots text-xl"></i>
                         </button>
                     )}
                     {isOpen && (
                         <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 bg-black/70 backdrop-blur-2xl">
-                            <div className="glass-deep w-full max-w-sm p-8 rounded-[48px] border border-white/20 relative modal-spring shadow-[0_40px_80px_rgba(0,0,0,0.8)]">
+                            <div className="glass-deep w-full max-w-sm p-8 border border-white/20 relative modal-spring shadow-[0_40px_80px_rgba(0,0,0,0.8)]">
                                 <button onClick={() => setIsOpen(false)} className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/20 transition-all btn-press border border-white/10"><i className="fas fa-times"></i></button>
                                 <h3 className="text-2xl font-black text-white mb-6 flex items-center gap-3 tracking-tighter"><i className="fas fa-heart text-pink-400"></i> Góc Góp Ý</h3>
                                 <form onSubmit={handleSubmit} className="space-y-5">
                                     <div className="flex flex-col items-center gap-3 mb-2">
                                         <p className="text-sm text-white/60 font-bold">Trải nghiệm của bạn thế nào?</p>
                                         <div className="flex gap-2">
-                                            {[1, 2, 3, 4, 5].map(star => <i key={star} className={`fas fa-star text-4xl cursor-pointer btn-press ${star <= (hoveredRating || rating) ? 'text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]' : 'text-white/20'}`} onMouseEnter={() => setHoveredRating(star)} onMouseLeave={() => setHoveredRating(0)} onClick={() => setRating(star)}></i>)}
+                                            {[1, 2, 3, 4, 5].map(star => <i key={star} className={`fas fa-star text-4xl cursor-pointer btn-press ${star <= (hoveredRating || rating) ? 'text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]' : 'text-white/20'}`} onMouseEnter={() => setHoveredRating(star)} onMouseLeave={() => setHoveredRating(0)} onClick={() => { triggerHaptic(); setRating(star) }}></i>)}
                                         </div>
                                     </div>
-                                    <textarea placeholder="Bạn nghĩ gì về Lavender? (Tùy chọn)" value={comment} onChange={(e) => setComment(e.target.value)} className="w-full bg-black/20 border border-white/10 rounded-[24px] p-5 text-sm text-white placeholder:text-white/40 outline-none h-28 focus:border-indigo-400/50 transition-all"></textarea>
-                                    <div className="relative group"><i className="fas fa-envelope absolute left-5 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i><input type="email" placeholder="Email của bạn" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full pl-12 pr-5 py-4 rounded-[20px] outline-none border border-white/10 bg-black/20 text-sm text-white placeholder:text-white/40 focus:border-indigo-400/50 transition-all" /></div>
-                                    <button type="submit" disabled={rating === 0 || isSubmitting} className="w-full py-4 mt-2 rounded-[20px] btn-primary disabled:opacity-50 btn-press flex justify-center items-center gap-2 text-sm tracking-wide">{isSubmitting ? <><i className="fas fa-circle-notch animate-spin"></i> Đang gửi...</> : 'Gửi Đánh Giá'}</button>
+                                    <textarea placeholder="Bạn nghĩ gì về Lavender? (Tùy chọn)" value={comment} onChange={(e) => setComment(e.target.value)} className="w-full bg-black/20 border border-white/10 p-5 text-sm text-white placeholder:text-white/40 outline-none h-28 focus:border-indigo-400/50 transition-all"></textarea>
+                                    <div className="relative group"><i className="fas fa-envelope absolute left-5 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i><input type="email" placeholder="Email của bạn" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full pl-12 pr-5 py-4 outline-none border border-white/10 bg-black/20 text-sm text-white placeholder:text-white/40 focus:border-indigo-400/50 transition-all" /></div>
+                                    <button type="submit" disabled={rating === 0 || isSubmitting} className="w-full py-4 mt-2 btn-primary disabled:opacity-50 btn-press flex justify-center items-center gap-2 text-sm tracking-wide">{isSubmitting ? <><i className="fas fa-circle-notch animate-spin"></i> Đang gửi...</> : 'Gửi Đánh Giá'}</button>
                                 </form>
                             </div>
                         </div>
@@ -671,7 +734,14 @@
 
         const App = () => {
             const { isDarkMode, favorites, isSyncing, currentUser } = globalStore.useStore();
+            const [showSplash, setShowSplash] = useState(!!currentUser);
             const [page, setPage] = useState(currentUser ? 'home' : 'login'); 
+            const [signUpAvatar, setSignUpAvatar] = useState(MOVIE_AVATARS[0]);
+            
+            /* NÂNG CẤP PROFILE: Quản lý Tab Dashboard */
+            const [profileTab, setProfileTab] = useState('overview'); 
+            const [playerSettings, setPlayerSettings] = useState(() => JSON.parse(localStorage.getItem('lavender_player_settings') || '{"autoPlay":true, "subtitleColor":"white", "quality":"auto"}'));
+            
             const [activeId, setActiveId] = useState(null);
             const [isTV, setIsTV] = useState(false);
             const [season, setSeason] = useState(1);
@@ -693,7 +763,13 @@
             const [continueWatching, setContinueWatching] = useState([]);
             const [aiRecs, setAiRecs] = useState([]);
             const [selectedMovie, setSelectedMovie] = useState(null);
+            
+            /* NÂNG CẤP BỘ LỌC KHÁM PHÁ */
             const [filterGenre, setFilterGenre] = useState(null);
+            const [filterYear, setFilterYear] = useState('');
+            const [filterRating, setFilterRating] = useState('');
+            const [filterSort, setFilterSort] = useState('popularity.desc');
+
             const [showProfile, setShowProfile] = useState(false);
             const [discoverMovies, setDiscoverMovies] = useState([]);
             const [discoverPage, setDiscoverPage] = useState(1);
@@ -706,30 +782,180 @@
             const [editPassword, setEditPassword] = useState('');
             const [settingsSuccess, setSettingsSuccess] = useState(false);
 
-            useEffect(() => { if (currentUser) { setEditName(currentUser.name || ''); setEditAvatar(currentUser.avatar || ''); } }, [currentUser]);
+            const [tvDetails, setTvDetails] = useState(null);
+            const [episodeCount, setEpisodeCount] = useState(24);
+            const [availableSeasons, setAvailableSeasons] = useState([]);
+
+            /* NÂNG CẤP CHI TIẾT PHIM: Cast, Trailer, Similar */
+            const [movieExtData, setMovieExtData] = useState({ cast: [], trailer: null, similar: [] });
+            const [showTrailer, setShowTrailer] = useState(false);
+
+            const [searchHistory, setSearchHistory] = useState([]);
+            const [isListening, setIsListening] = useState(false);
+            const [isCinemaMode, setIsCinemaMode] = useState(false);
+            const [searchFilterMenu, setSearchFilterMenu] = useState('all'); 
+            const [searchSelectedIndex, setSearchSelectedIndex] = useState(-1); 
+
+            const [showNav, setShowNav] = useState(true);
+            const [lastScrollY, setLastScrollY] = useState(0);
+
+            const [toastMessage, setToastMessage] = useState(null);
+
+            useEffect(() => {
+                if (showSplash) {
+                    const timer = setTimeout(() => setShowSplash(false), 2500);
+                    return () => clearTimeout(timer);
+                }
+            }, [showSplash]);
+
+            useEffect(() => {
+                localStorage.setItem('lavender_player_settings', JSON.stringify(playerSettings));
+            }, [playerSettings]);
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    const currentScrollY = window.scrollY;
+                    if (currentScrollY > lastScrollY && currentScrollY > 100) setShowNav(false);
+                    else setShowNav(true);
+                    setLastScrollY(currentScrollY);
+                };
+                window.addEventListener('scroll', handleScroll, { passive: true });
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, [lastScrollY]);
+
+            useEffect(() => { 
+                if (currentUser) { setEditName(currentUser.name || ''); setEditAvatar(currentUser.avatar || ''); } 
+                setSearchHistory(JSON.parse(localStorage.getItem('lavender_search_history') || '[]'));
+            }, [currentUser]);
+
+            useEffect(() => {
+                const handleKeyDown = (e) => { 
+                    if ((e.ctrlKey && e.key === 'k') || (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA')) {
+                        e.preventDefault();
+                        if(searchRef.current) {
+                            const input = searchRef.current.querySelector('input');
+                            if(input) { input.focus(); setIsSearchFocused(true); setShowSearchDropdown(true); }
+                        }
+                    }
+                    if (e.key === 'Escape') { setSelectedMovie(null); setShowSearchDropdown(false); setShowProfile(false); setIsSearchFocused(false); setShowTrailer(false); } 
+                };
+                window.addEventListener('keydown', handleKeyDown);
+                return () => window.removeEventListener('keydown', handleKeyDown);
+            }, []);
+
+            const handleSearchInputKeyDown = (e) => {
+                if (!showSearchDropdown || searchResults.length === 0) return;
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    setSearchSelectedIndex(prev => Math.min(prev + 1, Math.min(searchResults.length, 6) - 1));
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    setSearchSelectedIndex(prev => Math.max(prev - 1, -1));
+                } else if (e.key === 'Enter' && searchSelectedIndex >= 0) {
+                    e.preventDefault();
+                    handleOpenModal(searchResults[searchSelectedIndex]);
+                    setShowSearchDropdown(false);
+                    setSearchQuery("");
+                }
+            };
+
+            const handleVoiceSearch = () => {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) { alert("Trình duyệt của bạn không hỗ trợ tìm kiếm bằng giọng nói."); return; }
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'vi-VN';
+                recognition.onstart = () => setIsListening(true);
+                recognition.onresult = (e) => {
+                    const transcript = e.results[0][0].transcript;
+                    setSearchQuery(transcript);
+                    setIsSearchFocused(true);
+                    setShowSearchDropdown(true);
+                };
+                recognition.onend = () => setIsListening(false);
+                recognition.start();
+            };
+
+            const saveSearchHistory = (query) => {
+                if (!query.trim()) return;
+                let history = JSON.parse(localStorage.getItem('lavender_search_history') || '[]');
+                history = [query, ...history.filter(h => h !== query)].slice(0, 5);
+                localStorage.setItem('lavender_search_history', JSON.stringify(history));
+                setSearchHistory(history);
+            };
+
+            useEffect(() => {
+                if (page === 'watch' && isTV && activeId) {
+                    fetch(`${BASE_URL}/tv/${activeId}?api_key=${API_KEY}&language=vi-VN`)
+                        .then(res => res.json())
+                        .then(data => {
+                            setTvDetails(data);
+                            if (data.seasons) {
+                                const validSeasons = data.seasons.filter(s => s.season_number > 0);
+                                setAvailableSeasons(validSeasons);
+                                const currentSeasonData = validSeasons.find(s => s.season_number === season);
+                                setEpisodeCount(currentSeasonData ? currentSeasonData.episode_count : (validSeasons[0]?.episode_count || 24));
+                            }
+                        }).catch(e => console.error("Lỗi lấy thông tin TV:", e));
+                }
+            }, [page, isTV, activeId]);
+
+            useEffect(() => {
+                if (tvDetails && tvDetails.seasons) {
+                    const currentSeasonData = tvDetails.seasons.find(s => s.season_number === season);
+                    if (currentSeasonData) setEpisodeCount(currentSeasonData.episode_count);
+                }
+            }, [season, tvDetails]);
+
+            /* NÂNG CẤP CHI TIẾT PHIM: Lấy thông tin mở rộng (Cast, Trailer, Similar) */
+            useEffect(() => {
+                if (selectedMovie) {
+                    const type = selectedMovie.first_air_date || selectedMovie.isTV ? 'tv' : 'movie';
+                    Promise.all([
+                        fetch(`${BASE_URL}/${type}/${selectedMovie.id}/credits?api_key=${API_KEY}&language=vi-VN`).then(r => r.json()),
+                        fetch(`${BASE_URL}/${type}/${selectedMovie.id}/videos?api_key=${API_KEY}`).then(r => r.json()),
+                        fetch(`${BASE_URL}/${type}/${selectedMovie.id}/similar?api_key=${API_KEY}&language=vi-VN`).then(r => r.json())
+                    ]).then(([creditsData, videosData, similarData]) => {
+                        const trailerKey = videosData.results?.find(v => v.type === 'Trailer' && v.site === 'YouTube')?.key;
+                        setMovieExtData({
+                            cast: creditsData.cast?.slice(0, 10) || [],
+                            trailer: trailerKey || null,
+                            similar: similarData.results?.slice(0, 12) || []
+                        });
+                    }).catch(e => console.error(e));
+                } else {
+                    setMovieExtData({ cast: [], trailer: null, similar: [] });
+                }
+            }, [selectedMovie]);
 
             useEffect(() => {
                 const handleClickOutside = (event) => {
-                    if (searchRef.current && !searchRef.current.contains(event.target)) { setShowSearchDropdown(false); setIsSearchFocused(false); }
+                    if (searchRef.current && !searchRef.current.contains(event.target)) { setShowSearchDropdown(false); setIsSearchFocused(false); setSearchSelectedIndex(-1); }
                     if (!event.target.closest('.profile-container') && !event.target.closest('.theme-toggle-btn')) setShowProfile(false);
                 };
                 document.addEventListener("mousedown", handleClickOutside);
                 return () => document.removeEventListener("mousedown", handleClickOutside);
             }, []);
 
-            useEffect(() => {
-                const handleKeyDown = (e) => { if (e.key === 'Escape') { setSelectedMovie(null); setShowSearchDropdown(false); setShowProfile(false); setIsSearchFocused(false); } };
-                window.addEventListener('keydown', handleKeyDown);
-                return () => window.removeEventListener('keydown', handleKeyDown);
-            }, []);
-
+            /* NÂNG CẤP TRÌNH PHÁT: Auto-play next episode & Lưu thời gian */
             useEffect(() => {
                 let progressInterval;
                 if (page === 'watch' && activeId) {
                     progressInterval = setInterval(() => {
                         setContinueWatching(prev => {
                             const updated = prev.map(m => {
-                                if (m.id === activeId) { return { ...m, watchedTime: Math.min((m.watchedTime || 0) + 5, m.isTV ? 2700 : 7200), totalTime: m.isTV ? 2700 : 7200 }; }
+                                if (m.id === activeId) { 
+                                    const newTime = Math.min((m.watchedTime || 0) + 5, m.isTV ? 2700 : 7200);
+                                    
+                                    /* Tự động phát tập tiếp theo khi đạt 98% */
+                                    if (m.isTV && playerSettings.autoPlay && newTime >= (m.isTV ? 2700 : 7200) * 0.98) {
+                                        if (episode < episodeCount) {
+                                            setEpisode(ep => ep + 1);
+                                            return { ...m, watchedTime: 0, lastEpisode: episode + 1 }; // Reset time cho tập mới
+                                        }
+                                    }
+                                    
+                                    return { ...m, watchedTime: newTime, totalTime: m.isTV ? 2700 : 7200 }; 
+                                }
                                 return m;
                             });
                             localStorage.setItem('lavender_history', JSON.stringify(updated));
@@ -738,23 +964,35 @@
                     }, 5000); 
                 }
                 return () => clearInterval(progressInterval);
-            }, [page, activeId]);
+            }, [page, activeId, playerSettings.autoPlay, episode, episodeCount]);
 
-            const goToHome = () => { setPage('home'); setActiveId(null); setIsTV(false); setSearchQuery(""); setSearchResults([]); setShowSearchDropdown(false); setIsSearchFocused(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
-            const handleLogout = () => { localStorage.removeItem('lavender_active_user'); globalStore.set({ currentUser: null }); setPage('login'); setShowProfile(false); setLoginPassword(''); };
+            const goToHome = () => { triggerHaptic(); setPage('home'); setActiveId(null); setIsTV(false); setSearchQuery(""); setSearchResults([]); setShowSearchDropdown(false); setIsSearchFocused(false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+            const handleLogout = () => { localStorage.removeItem('lavender_active_user'); globalStore.set({ currentUser: null }); setPage('login'); setShowProfile(false); setLoginPassword(''); setShowSplash(false); };
 
             useEffect(() => {
                 if (!isDarkMode) document.body.classList.add('light-mode'); else document.body.classList.remove('light-mode');
                 localStorage.setItem('lavender_theme', JSON.stringify(isDarkMode));
             }, [isDarkMode]);
 
-            const fetchDiscoverData = async (pageNum, isManual = false) => {
+            /* NÂNG CẤP BỘ LỌC: Truyền các tham số lọc vào API */
+            const fetchDiscoverData = async (pageNum, isManual = false, fYear = filterYear, fRating = filterRating, fSort = filterSort) => {
                 if (isManual) globalStore.set({ globalLoading: true }); else setIsFetchingMore(true);
                 try {
-                    const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=vi-VN&page=${pageNum}&sort_by=popularity.desc`);
+                    let url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=vi-VN&page=${pageNum}&sort_by=${fSort}`;
+                    if (fYear) url += `&primary_release_year=${fYear}`;
+                    if (fRating) url += `&vote_average.gte=${fRating}`;
+                    
+                    const res = await fetch(url);
                     if (!res.ok) throw new Error(`Status: ${res.status}`);
                     const data = await res.json();
-                    if (isManual) { setDiscoverMovies(data.results); window.scrollTo({ top: document.body.scrollHeight / 1.5, behavior: 'smooth' }); } 
+                    
+                    if (isManual) { 
+                        setDiscoverMovies(data.results); 
+                        // Chỉ cuộn xuống nếu không phải tải lần đầu
+                        if(pageNum > 1 || fYear || fRating || fSort !== 'popularity.desc') {
+                            window.scrollTo({ top: document.body.scrollHeight / 1.5, behavior: 'smooth' }); 
+                        }
+                    } 
                     else setDiscoverMovies(prev => [...prev, ...data.results]);
                     setTotalPages(Math.min(data.total_pages, 500));
                 } catch(e) { globalStore.set({ globalError: { title: "API Mất Kết Nối", message: "Vui lòng kiểm tra lại mạng hoặc thử lại sau." } }); } 
@@ -786,8 +1024,8 @@
 
             const handleLoadMore = useCallback(() => {
                 if (isFetchingMore || discoverPage >= totalPages) return;
-                const nextPage = discoverPage + 1; setDiscoverPage(nextPage); fetchDiscoverData(nextPage, false);
-            }, [discoverPage, isFetchingMore, totalPages]);
+                const nextPage = discoverPage + 1; setDiscoverPage(nextPage); fetchDiscoverData(nextPage, false, filterYear, filterRating, filterSort);
+            }, [discoverPage, isFetchingMore, totalPages, filterYear, filterRating, filterSort]);
 
             useEffect(() => {
                 if (continueWatching.length > 0 && page !== 'login') {
@@ -805,17 +1043,21 @@
             useEffect(() => { const timer = setTimeout(() => setDebouncedSearch(searchQuery), 500); return () => clearTimeout(timer); }, [searchQuery]);
 
             useEffect(() => {
+                setSearchSelectedIndex(-1); 
                 if (debouncedSearch.length > 1) {
                     setIsSearching(true); setShowSearchDropdown(true);
                     fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${debouncedSearch}&language=vi-VN`)
                         .then(res => { if(!res.ok) throw new Error(); return res.json(); })
                         .then(data => { setSearchResults(data.results || []); setIsSearching(false); })
                         .catch(err => { setIsSearching(false); globalStore.set({ globalError: { title: "Lỗi Tìm Kiếm", message: "Đã xảy ra lỗi mạng." } }); });
-                } else { setSearchResults([]); setIsSearching(false); setShowSearchDropdown(false); }
+                } else { setSearchResults([]); setIsSearching(false); }
             }, [debouncedSearch]);
 
             const handleOpenModal = (m) => setSelectedMovie(m);
             const handleSelectMedia = (item, tvStatus) => {
+                triggerHaptic(); 
+                if(searchQuery) saveSearchHistory(searchQuery); 
+
                 const savedProgress = continueWatching.find(m => m.id === item.id);
                 const historyItem = { id: item.id, title: item.title || item.name, poster: item.poster_path, backdrop: item.backdrop_path, isTV: tvStatus, lastSeason: savedProgress?.lastSeason || 1, lastEpisode: savedProgress?.lastEpisode || 1, watchedTime: savedProgress?.watchedTime || 0, totalTime: savedProgress?.totalTime || (tvStatus ? 2700 : 7200) };
                 const filtered = continueWatching.filter(m => m.id !== item.id);
@@ -827,32 +1069,92 @@
 
             const filterData = (dataArray) => (!filterGenre || !dataArray) ? dataArray : dataArray.filter(m => m.genre_ids && m.genre_ids.includes(filterGenre));
 
+            /* NÂNG CẤP PROFILE: Logic Thống Kê & Giao diện Profile Mới */
+            const totalWatchSeconds = continueWatching.reduce((acc, curr) => acc + (curr.watchedTime || 0), 0);
+            const totalWatchHours = Math.floor(totalWatchSeconds / 3600);
+            const totalWatchMinutes = Math.floor((totalWatchSeconds % 3600) / 60);
+
+            let mBadge = { name: "Tân Binh Phim Ảnh", icon: "fa-seedling", color: "text-green-400" };
+            if (continueWatching.length >= 50) mBadge = { name: "Thần Thức Đêm", icon: "fa-moon", color: "text-indigo-400" };
+            else if (continueWatching.length >= 20) mBadge = { name: "Mọt Phim Chính Hiệu", icon: "fa-fire", color: "text-orange-400" };
+
+            const profileBanner = continueWatching.length > 0 && continueWatching[0].backdrop ? (IMG_PATH + continueWatching[0].backdrop) : "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070";
+            
+            const handleClearHistory = () => {
+                triggerHaptic();
+                localStorage.removeItem('lavender_history');
+                setContinueWatching([]);
+                setToastMessage("Đã xóa toàn bộ lịch sử xem phim!");
+                setTimeout(() => setToastMessage(null), 3000);
+            };
+
+            // HIỆU ỨNG SPLASH SCREEN CHÀO MỪNG QUAY LẠI
+            if (showSplash) {
+                return (
+                    <div className="h-screen w-full flex items-center justify-center relative overflow-hidden bg-[var(--bg-color)] px-4">
+                        <CustomCursor /> <div className="noise-bg"></div>
+                        <div className="flex flex-col items-center">
+                            <div className="w-28 h-28 mb-6 rounded-full overflow-hidden border-[3px] border-indigo-400 shadow-[0_0_40px_rgba(129,140,248,0.5)] p-1 bg-[#020617] slide-fade-stagger">
+                                <img src={currentUser?.avatar || USER_AVATAR} className="w-full h-full rounded-full object-cover" />
+                            </div>
+                            <h2 className="text-2xl md:text-3xl font-bold text-white/70 tracking-tight mb-2 slide-fade-stagger" style={{animationDelay: '0.15s'}}>Chào mừng trở lại,</h2>
+                            <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter drop-shadow-lg slide-fade-stagger" style={{animationDelay: '0.3s'}}>{currentUser?.name || 'Bạn'}!</h1>
+                        </div>
+                    </div>
+                );
+            }
+
+            // GIAO DIỆN ĐĂNG NHẬP ĐÃ ĐƯỢC NÂNG CẤP
             if (page === 'login') {
                 const handleAuth = (e) => {
-                    e.preventDefault(); setAuthError('');
-                    if (!loginEmail || !loginPassword || (isSignUp && !loginName)) { setAuthError('Vui lòng điền đầy đủ thông tin!'); return; }
+                    e.preventDefault(); setAuthError(''); triggerHaptic();
+                    if (!loginEmail || !loginPassword || (isSignUp && !loginName)) { 
+                        triggerHaptic(); 
+                        setAuthError('Vui lòng điền đầy đủ thông tin!'); 
+                        return; 
+                    }
                     globalStore.set({ globalLoading: true });
                     setTimeout(() => {
                         const users = JSON.parse(localStorage.getItem('lavender_users') || '[]');
                         if (isSignUp) {
-                            if (users.find(u => u.email === loginEmail)) { setAuthError('Email này đã được sử dụng!'); globalStore.set({ globalLoading: false }); return; }
-                            const newUser = { name: loginName, email: loginEmail, password: loginPassword, avatar: USER_AVATAR };
-                            users.push(newUser); localStorage.setItem('lavender_users', JSON.stringify(users)); localStorage.setItem('lavender_active_user', JSON.stringify(newUser));
-                            globalStore.set({ currentUser: newUser }); setPage('home');
+                            if (users.find(u => u.email === loginEmail)) { 
+                                triggerHaptic(); 
+                                setAuthError('Email này đã được sử dụng!'); 
+                                globalStore.set({ globalLoading: false }); 
+                                return; 
+                            }
+                            const newUser = { name: loginName, email: loginEmail, password: loginPassword, avatar: signUpAvatar };
+                            users.push(newUser); 
+                            localStorage.setItem('lavender_users', JSON.stringify(users)); 
+                            localStorage.setItem('lavender_active_user', JSON.stringify(newUser));
+                            globalStore.set({ currentUser: newUser }); 
+                            setPage('home');
+                            setShowSplash(true); // Hiển thị Splash chào mừng
                         } else {
                             const user = users.find(u => u.email === loginEmail && u.password === loginPassword);
-                            if (!user) { setAuthError('Email hoặc mật khẩu không chính xác!'); globalStore.set({ globalLoading: false }); return; }
-                            localStorage.setItem('lavender_active_user', JSON.stringify(user)); globalStore.set({ currentUser: user }); setPage('home');
+                            if (!user) { 
+                                triggerHaptic(); 
+                                setAuthError('Email hoặc mật khẩu không chính xác!'); 
+                                globalStore.set({ globalLoading: false }); 
+                                return; 
+                            }
+                            localStorage.setItem('lavender_active_user', JSON.stringify(user)); 
+                            globalStore.set({ currentUser: user }); 
+                            setPage('home');
+                            setShowSplash(true); // Hiển thị Splash chào mừng
                         }
                         globalStore.set({ globalLoading: false });
                     }, 1200); 
                 };
 
                 const handleSocialLogin = (provider) => {
-                    globalStore.set({ globalLoading: true });
+                    triggerHaptic(); globalStore.set({ globalLoading: true });
                     setTimeout(() => {
-                        const socialUser = { name: `Người dùng ${provider}`, email: `user@${provider.toLowerCase()}.com`, avatar: USER_AVATAR };
-                        localStorage.setItem('lavender_active_user', JSON.stringify(socialUser)); globalStore.set({ currentUser: socialUser }); setPage('home');
+                        const socialUser = { name: `Người dùng ${provider}`, email: `user@${provider.toLowerCase()}.com`, avatar: MOVIE_AVATARS[1] };
+                        localStorage.setItem('lavender_active_user', JSON.stringify(socialUser)); 
+                        globalStore.set({ currentUser: socialUser }); 
+                        setPage('home');
+                        setShowSplash(true);
                         globalStore.set({ globalLoading: false });
                     }, 1200);
                 };
@@ -861,34 +1163,65 @@
                     <div className="h-screen w-full flex items-center justify-center relative overflow-hidden bg-transparent px-4">
                         <CustomCursor /> <div className="noise-bg"></div>
                         <GlobalLoader /> <GlobalErrorUI />
-                        <div className="iphone-glass w-full max-w-[420px] p-8 md:p-12 rounded-[48px] text-center z-10 transition-all slide-fade-stagger border-t border-l border-white/20 shadow-[0_40px_80px_rgba(0,0,0,0.8)]">
-                            <div className="w-24 h-24 mx-auto mb-6 bg-indigo-500/20 p-1.5 rounded-full border border-indigo-400/30"><img src={USER_AVATAR} className="w-full h-full object-cover rounded-full" /></div>
-                            <h2 className="text-3xl font-black mb-2 text-white tracking-tighter">{isSignUp ? "Tạo tài khoản" : "Chào mừng trở lại"}</h2>
-                            <p className="opacity-60 text-sm mb-8 font-medium">Trải nghiệm điện ảnh đỉnh cao</p>
-                            <form onSubmit={handleAuth} className="space-y-4">
-                                {authError && <div className="text-red-400 text-sm font-bold bg-red-500/10 py-3 rounded-[16px] border border-red-500/20"><i className="fas fa-exclamation-circle mr-2"></i> {authError}</div>}
-                                {isSignUp && <div className="relative group"><i className="fas fa-user absolute left-5 top-1/2 -translate-y-1/2 text-white/40"></i><input type="text" value={loginName} onChange={(e) => setLoginName(e.target.value)} placeholder="Họ và tên" className="w-full pl-12 pr-5 py-4 rounded-[20px] outline-none border border-white/10 text-sm bg-black/20 placeholder:text-white/40 focus:border-indigo-400/50 transition-colors" /></div>}
-                                <div className="relative group"><i className="fas fa-envelope absolute left-5 top-1/2 -translate-y-1/2 text-white/40"></i><input type="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} placeholder="Email" className="w-full pl-12 pr-5 py-4 rounded-[20px] outline-none border border-white/10 text-sm bg-black/20 placeholder:text-white/40 focus:border-indigo-400/50 transition-colors" /></div>
-                                <div className="relative group"><i className="fas fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-white/40"></i><input type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} placeholder="Mật khẩu" className="w-full pl-12 pr-5 py-4 rounded-[20px] outline-none border border-white/10 text-sm bg-black/20 placeholder:text-white/40 focus:border-indigo-400/50 transition-colors" /></div>
-                                <button type="submit" className="w-full p-4 rounded-[20px] btn-primary btn-press text-sm uppercase tracking-wide">{isSignUp ? "Đăng ký" : "Đăng nhập"}</button>
-                            </form>
+                        
+                        {/* Kính mờ siêu thực (Ultra-Glass) + Hiệu ứng bung nở modal-spring */}
+                        <div className="iphone-glass modal-spring w-full max-w-[420px] p-8 md:p-12 text-center z-10 transition-all border-[0.5px] border-white/15 shadow-[0_40px_80px_rgba(0,0,0,0.8)] relative overflow-hidden backdrop-saturate-[200%]">
                             
-                            <div className="mt-8 flex flex-col gap-5">
-                                <div className="relative flex items-center py-2">
-                                    <div className="flex-grow border-t border-white/10"></div>
-                                    <span className="flex-shrink-0 mx-4 text-white/40 text-[10px] font-bold uppercase tracking-widest">Hoặc tiếp tục với</span>
-                                    <div className="flex-grow border-t border-white/10"></div>
+                            {/* Hiệu ứng Noise nền bề mặt */}
+                            <div className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")'}}></div>
+                            
+                            <div className="relative z-10">
+                                {/* Lựa chọn Avatar Phim */}
+                                {isSignUp ? (
+                                    <div className="mb-6 slide-fade-stagger">
+                                        <p className="text-[10px] text-white/50 font-black uppercase tracking-widest mb-3">Chọn Avatar của bạn</p>
+                                        <div className="flex justify-center gap-3 overflow-x-auto py-1 scrollbar-hide">
+                                            {MOVIE_AVATARS.map((src, idx) => (
+                                                <img key={idx} src={src} onClick={() => { triggerHaptic(); setSignUpAvatar(src); }} className={`w-12 h-12 md:w-14 md:h-14 rounded-full cursor-pointer object-cover shrink-0 border-2 transition-all hover:scale-110 btn-press ${signUpAvatar === src ? 'border-indigo-400 shadow-[0_0_15px_rgba(129,140,248,0.5)] scale-110' : 'border-transparent opacity-50 hover:opacity-100'}`} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="w-24 h-24 mx-auto mb-6 bg-indigo-500/20 p-1.5 rounded-full border border-indigo-400/30 slide-fade-stagger">
+                                        <img src={USER_AVATAR} className="w-full h-full object-cover rounded-full" />
+                                    </div>
+                                )}
+                                
+                                <h2 className="text-3xl font-black mb-2 text-white tracking-tighter slide-fade-stagger" style={{animationDelay: '0.1s'}}>{isSignUp ? "Tạo tài khoản" : "Chào mừng trở lại"}</h2>
+                                <p className="opacity-60 text-sm mb-8 font-medium slide-fade-stagger" style={{animationDelay: '0.2s'}}>Trải nghiệm điện ảnh đỉnh cao</p>
+                                
+                                <form onSubmit={handleAuth} className="space-y-4 slide-fade-stagger" style={{animationDelay: '0.3s'}}>
+                                    {authError && <div className="text-red-400 text-sm font-bold bg-red-500/10 py-3 rounded-[16px] border border-red-500/20 animate-pulse"><i className="fas fa-exclamation-circle mr-2"></i> {authError}</div>}
+                                    
+                                    {isSignUp && <div className="relative group"><i className="fas fa-user absolute left-5 top-1/2 -translate-y-1/2 text-white/40"></i><input type="text" value={loginName} onChange={(e) => setLoginName(e.target.value)} placeholder="Họ và tên" className="w-full pl-12 pr-5 py-4 outline-none border border-white/10 text-sm bg-black/20 placeholder:text-white/40 focus:border-indigo-400/50 transition-colors" /></div>}
+                                    
+                                    <div className="relative group"><i className="fas fa-envelope absolute left-5 top-1/2 -translate-y-1/2 text-white/40"></i><input type="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} placeholder="Email" className="w-full pl-12 pr-5 py-4 outline-none border border-white/10 text-sm bg-black/20 placeholder:text-white/40 focus:border-indigo-400/50 transition-colors" /></div>
+                                    
+                                    <div className="relative group"><i className="fas fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-white/40"></i><input type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} placeholder="Mật khẩu" className="w-full pl-12 pr-5 py-4 outline-none border border-white/10 text-sm bg-black/20 placeholder:text-white/40 focus:border-indigo-400/50 transition-colors" /></div>
+                                    
+                                    {/* Nút bấm Gradient chuyển động phát sáng */}
+                                    <button type="submit" className="w-full p-4 lavender-gradient border-[0.5px] border-white/30 text-white font-black rounded-full btn-press text-sm uppercase tracking-widest transition-all duration-300 hover:shadow-[0_0_30px_rgba(129,140,248,0.5)]">
+                                        {isSignUp ? "Đăng ký" : "Đăng nhập"}
+                                    </button>
+                                </form>
+                                
+                                <div className="mt-8 flex flex-col gap-5 slide-fade-stagger" style={{animationDelay: '0.4s'}}>
+                                    <div className="relative flex items-center py-2">
+                                        <div className="flex-grow border-t border-white/10"></div>
+                                        <span className="flex-shrink-0 mx-4 text-white/40 text-[10px] font-bold uppercase tracking-widest">Hoặc tiếp tục với</span>
+                                        <div className="flex-grow border-t border-white/10"></div>
+                                    </div>
+                                    <div className="flex justify-center gap-4">
+                                        <button type="button" onClick={() => handleSocialLogin('Google')} className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all btn-press group hover:border-red-400/50 hover:shadow-[0_0_20px_rgba(248,113,113,0.3)]"><i className="fab fa-google text-white/70 group-hover:text-red-400 text-xl transition-colors"></i></button>
+                                        <button type="button" onClick={() => handleSocialLogin('Facebook')} className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all btn-press group hover:border-blue-400/50 hover:shadow-[0_0_20px_rgba(96,165,250,0.3)]"><i className="fab fa-facebook-f text-white/70 group-hover:text-blue-400 text-xl transition-colors"></i></button>
+                                        <button type="button" onClick={() => handleSocialLogin('Apple')} className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all btn-press group hover:border-white/50 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"><i className="fab fa-apple text-white/70 group-hover:text-white text-xl transition-colors"></i></button>
+                                    </div>
                                 </div>
-                                <div className="flex justify-center gap-4">
-                                    <button type="button" onClick={() => handleSocialLogin('Google')} className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all btn-press group hover:border-red-400/50"><i className="fab fa-google text-white/70 group-hover:text-red-400 text-xl transition-colors"></i></button>
-                                    <button type="button" onClick={() => handleSocialLogin('Facebook')} className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all btn-press group hover:border-blue-400/50"><i className="fab fa-facebook-f text-white/70 group-hover:text-blue-400 text-xl transition-colors"></i></button>
-                                    <button type="button" onClick={() => handleSocialLogin('Apple')} className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/20 transition-all btn-press group hover:border-white/50"><i className="fab fa-apple text-white/70 group-hover:text-white text-xl transition-colors"></i></button>
-                                </div>
-                            </div>
 
-                            <div className="mt-8 text-sm text-white/60 font-medium">
-                                {isSignUp ? "Đã có tài khoản? " : "Chưa có tài khoản? "}
-                                <span onClick={() => { setIsSignUp(!isSignUp); setAuthError(''); }} className="text-indigo-400 font-bold cursor-pointer hover:text-indigo-300 transition-colors">{isSignUp ? "Đăng nhập" : "Đăng ký"}</span>
+                                <div className="mt-8 text-sm text-white/60 font-medium slide-fade-stagger" style={{animationDelay: '0.5s'}}>
+                                    {isSignUp ? "Đã có tài khoản? " : "Chưa có tài khoản? "}
+                                    <span onClick={() => { triggerHaptic(); setIsSignUp(!isSignUp); setAuthError(''); }} className="text-indigo-400 font-bold cursor-pointer hover:text-indigo-300 transition-colors">{isSignUp ? "Đăng nhập" : "Đăng ký"}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -900,55 +1233,106 @@
                     <CustomCursor /> <div className="noise-bg"></div>
                     <GlobalLoader /> <GlobalErrorUI />
                     
+                    {toastMessage && (
+                        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[300] iphone-glass px-6 py-4 rounded-3xl border-l-4 border-l-green-400 border-y border-r border-white/20 flex items-center gap-3 shadow-[0_20px_40px_rgba(52,211,153,0.4)] slide-fade-stagger bg-green-500/10">
+                            <i className="fas fa-check-circle text-green-400 text-xl drop-shadow-[0_0_12px_rgba(52,211,153,0.8)]"></i>
+                            <span className="text-white text-sm font-bold tracking-wide">{toastMessage}</span>
+                        </div>
+                    )}
+
                     {page !== 'watch' && (
-                        <nav className="nav-container fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl z-[100] iphone-glass py-3 px-5 md:px-7 rounded-[40px] flex justify-between items-center">
+                        <nav className={`nav-container fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl z-[100] flex justify-between items-center transition-transform duration-500 ease-in-out ${showNav ? 'translate-y-0' : '-translate-y-[150%]'}`}>
                             <h1 onClick={goToHome} className="text-xl md:text-2xl font-black cursor-pointer lavender-text tracking-tighter shrink-0 btn-press flex items-center gap-2">
                                 LAVENDER {isSyncing && <i className="fas fa-cloud-arrow-up text-xs text-indigo-400 syncing-icon ml-1 drop-shadow-md"></i>}
                             </h1>
                             <div className="flex items-center gap-3 md:gap-4">
+                                
+                                {/* Notifications Upgrade */}
+                                <div className="relative group cursor-pointer hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 transition-colors btn-press">
+                                    <i className="fas fa-bell text-white/70 group-hover:text-white"></i>
+                                    <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+                                </div>
+
                                 <div className="relative" ref={searchRef}>
-                                    <div className={`flex items-center bg-black/20 backdrop-blur-md border rounded-[24px] transition-all duration-300 relative group ${isSearchFocused || showSearchDropdown ? 'border-purple-400 search-bar-focus bg-black/40' : 'border-white/15'}`}>
+                                    <div className={`flex items-center bg-black/20 backdrop-blur-md border transition-all duration-300 relative group ${isSearchFocused || showSearchDropdown ? 'border-purple-400 search-bar-focus bg-black/40' : 'border-white/15'}`} style={{borderRadius: '999px'}}>
                                         <i className={`fas fa-search ml-4 text-xs md:text-sm transition-colors ${isSearchFocused || showSearchDropdown ? 'text-purple-400 drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]' : 'text-white/50'}`}></i>
+                                        
                                         <input 
                                             type="text" placeholder="Tìm kiếm phim..." value={searchQuery} 
                                             onChange={(e) => setSearchQuery(e.target.value)} 
-                                            onFocus={() => { setIsSearchFocused(true); if(searchQuery.length > 1) setShowSearchDropdown(true); }}
-                                            onBlur={() => setIsSearchFocused(false)}
-                                            className="pl-3 pr-10 py-3 bg-transparent text-sm w-36 md:w-60 focus:w-56 md:focus:w-80 transition-all outline-none text-[var(--text-color)] placeholder:text-white/40 font-medium cursor-none" 
+                                            onFocus={() => { setIsSearchFocused(true); setShowSearchDropdown(true); }}
+                                            onKeyDown={handleSearchInputKeyDown}
+                                            className="pl-3 pr-[70px] py-3 bg-transparent text-sm w-36 md:w-64 focus:w-60 md:focus:w-80 transition-all outline-none text-[var(--text-color)] placeholder:text-white/40 font-medium cursor-none" 
+                                            style={{boxShadow: 'none', borderRadius: '0'}}
                                         />
-                                        {searchQuery && (
-                                            <button onClick={() => { setSearchQuery(""); setShowSearchDropdown(false); searchRef.current.querySelector('input').focus(); }} className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/30 text-white/70 hover:text-white transition-all btn-press text-[10px]"><i className="fas fa-times"></i></button>
-                                        )}
+                                        
+                                        <div className="absolute right-3 flex items-center gap-1.5">
+                                            {searchQuery && (
+                                                <button onClick={() => { setSearchQuery(""); setShowSearchDropdown(true); searchRef.current.querySelector('input').focus(); }} className="w-6 h-6 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/30 text-white/70 hover:text-white transition-all btn-press text-[10px]"><i className="fas fa-times"></i></button>
+                                            )}
+                                            <button onClick={handleVoiceSearch} className={`w-7 h-7 flex items-center justify-center rounded-full btn-press transition-colors ${isListening ? 'bg-red-500 text-white animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.6)]' : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/20'}`} title="Tìm kiếm bằng giọng nói">
+                                                <i className="fas fa-microphone text-xs"></i>
+                                            </button>
+                                            {!isSearchFocused && !searchQuery && <span className="hidden md:flex text-[10px] text-white/30 border border-white/10 px-1.5 py-0.5 rounded-md bg-white/5 font-bold select-none cursor-pointer" onClick={() => searchRef.current.querySelector('input').focus()} title="Phím tắt">/</span>}
+                                        </div>
                                     </div>
                                     
                                     {showSearchDropdown && (
-                                        <div className="absolute top-[calc(100%+16px)] right-0 w-[320px] md:w-[420px] glass-deep rounded-[32px] overflow-hidden z-[150] modal-spring border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.7)]">
+                                        <div className="absolute top-[calc(100%+16px)] right-0 w-[320px] md:w-[420px] glass-deep overflow-hidden z-[150] modal-spring border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.7)] flex flex-col">
+                                            
+                                            <div className="flex border-b border-white/10 p-2 gap-2 bg-black/20">
+                                                {[{id:'all', n:'Tất cả'}, {id:'movie', n:'Phim Lẻ'}, {id:'tv', n:'Series'}].map(f => (
+                                                    <button key={f.id} onClick={() => setSearchFilterMenu(f.id)} className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-colors ${searchFilterMenu === f.id ? 'bg-white/15 text-white' : 'text-white/50 hover:bg-white/5 hover:text-white'}`}>{f.n}</button>
+                                                ))}
+                                            </div>
+
                                             {isSearching ? (
-                                                <div className="p-10 flex flex-col justify-center items-center gap-4 text-white/70 text-sm font-bold tracking-wide">
-                                                    <i className="fas fa-circle-notch animate-spin text-purple-400 text-4xl drop-shadow-[0_0_10px_rgba(168,85,247,0.6)]"></i> Đang tìm kiếm...
+                                                <div className="py-5 px-3">
+                                                    {[...Array(4)].map((_, i) => (
+                                                        <div key={i} className="flex items-center gap-4 p-3 mx-2 rounded-2xl skeleton" style={{height: '80px', marginBottom: '8px'}}></div>
+                                                    ))}
                                                 </div>
                                             ) : searchResults.length > 0 ? (
                                                 <div className="max-h-[450px] overflow-y-auto scrollbar-hide py-4">
-                                                    {searchResults.slice(0, 6).map((item, i) => (
-                                                        <div key={item.id} onClick={() => { handleOpenModal(item); setShowSearchDropdown(false); setSearchQuery(""); }} className="flex items-center gap-4 p-3 hover:bg-white/10 cursor-pointer transition-all duration-300 mx-3 rounded-2xl group slide-fade-stagger" style={{animationDelay: `${i*0.05}s`}}>
-                                                            <img src={item.poster_path ? IMG_PATH + item.poster_path : 'https://via.placeholder.com/60x90'} className="w-14 h-20 object-cover rounded-xl border border-white/10 group-hover:scale-105 transition-transform duration-300 shadow-md" />
+                                                    {searchResults.filter(item => searchFilterMenu === 'all' ? true : (searchFilterMenu === 'movie' ? item.media_type === 'movie' : item.media_type === 'tv')).slice(0, 6).map((item, i) => (
+                                                        <div key={item.id} onClick={() => { handleOpenModal(item); setShowSearchDropdown(false); setSearchQuery(""); }} className={`search-result-item flex items-center gap-4 p-3 hover:bg-white/10 cursor-pointer transition-all duration-300 mx-3 rounded-2xl group slide-fade-stagger ${i === searchSelectedIndex ? 'active' : ''}`} style={{animationDelay: `${i*0.05}s`}}>
+                                                            <img src={item.poster_path ? (item.poster_path.startsWith('http') ? item.poster_path : `https://image.tmdb.org/t/p/w300${item.poster_path}`) : 'https://via.placeholder.com/60x90'} loading="lazy" className="w-14 h-20 object-cover rounded-xl border border-white/10 group-hover:scale-105 transition-transform duration-300 shadow-md" />
                                                             <div className="flex-1 min-w-0">
-                                                                <p className="text-white text-sm md:text-base font-black truncate group-hover:text-purple-300 transition-colors">{item.title || item.name}</p>
+                                                                <p className="text-white text-sm md:text-base font-black truncate group-hover:text-purple-300 transition-colors">
+                                                                    {highlightText(item.title || item.name, debouncedSearch)}
+                                                                </p>
                                                                 <div className="flex items-center gap-2 mt-1.5 text-[11px] text-white/60 font-bold">
                                                                     <span className="flex items-center gap-1 text-yellow-400"><i className="fas fa-star text-[10px]"></i> {item.vote_average?.toFixed(1) || 'N/A'}</span>
                                                                     <span>•</span><span>{item.release_date?.split('-')[0] || item.first_air_date?.split('-')[0] || "N/A"}</span>
+                                                                    <span className="px-1.5 py-0.5 rounded bg-white/10 text-[9px] uppercase tracking-wider">{item.media_type === 'tv' ? 'Series' : 'Phim'}</span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     ))}
                                                 </div>
-                                            ) : (
-                                                <div className="p-12 text-center flex flex-col items-center gap-4 text-white/40 slide-fade-stagger">
-                                                    <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center border border-white/10 mb-2 shadow-inner"><i className="fas fa-search-minus text-3xl text-white/30"></i></div>
-                                                    <span className="text-base font-black text-white/80 tracking-tight">Không tìm thấy kết quả</span>
-                                                    <span className="text-xs text-white/50 px-6 text-center leading-relaxed">Không tìm thấy phim "{searchQuery}". Thử từ khóa khác xem sao!</span>
+                                            ) : searchQuery ? (
+                                                <div className="p-12 text-center flex flex-col items-center justify-center gap-4 text-white/40 slide-fade-stagger border border-dashed border-white/10 m-4 rounded-[24px]">
+                                                    <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center border border-white/10 mb-2 shadow-inner">
+                                                        <i className="fas fa-search-minus text-3xl text-white/30"></i>
+                                                    </div>
+                                                    <h4 className="text-white font-black text-lg mb-1 tracking-tight">Không tìm thấy kết quả</h4>
+                                                    <p className="text-xs text-white/50 px-4 text-center leading-relaxed">Không tìm thấy phim "{searchQuery}". Thử từ khóa khác xem sao!</p>
                                                 </div>
-                                            )}
+                                            ) : searchHistory.length > 0 ? (
+                                                <div className="py-4 px-5 slide-fade-stagger">
+                                                    <div className="flex justify-between items-center mb-4">
+                                                        <span className="text-[11px] font-black text-white/50 uppercase tracking-widest">Tìm kiếm gần đây</span>
+                                                        <button onClick={() => { localStorage.removeItem('lavender_search_history'); setSearchHistory([]); }} className="text-[10px] text-white/40 hover:text-white font-bold bg-white/5 px-2 py-1 rounded-md border border-white/10 btn-press">XÓA</button>
+                                                    </div>
+                                                    <div className="flex flex-col gap-1">
+                                                        {searchHistory.map((h, i) => (
+                                                            <div key={i} onClick={() => { setSearchQuery(h); setShowSearchDropdown(true); searchRef.current.querySelector('input').focus(); }} className="flex items-center gap-3 p-3 hover:bg-white/10 rounded-xl cursor-pointer btn-press text-white/80 hover:text-white text-sm font-medium border border-transparent hover:border-white/10 transition-colors">
+                                                                <i className="fas fa-history text-white/30 text-xs"></i> {h}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ) : null}
                                         </div>
                                     )}
                                 </div>
@@ -963,36 +1347,71 @@
                                     </div>
                                     
                                     {showProfile && (
-                                        <div className="absolute top-[calc(100%+16px)] right-0 w-[320px] glass-deep rounded-[36px] p-7 z-50 modal-spring border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.6)]">
-                                            <div className="flex items-center gap-4 border-b border-white/10 pb-6 mb-5">
-                                                <div className="w-16 h-16 rounded-full p-1 border-2 border-indigo-400/60 bg-indigo-500/10 shrink-0"><img src={currentUser?.avatar || USER_AVATAR} className="w-full h-full rounded-full object-cover" /></div>
-                                                <div className="flex flex-col overflow-hidden">
-                                                    <h3 className="text-white font-black text-lg truncate tracking-tight">{currentUser?.name || "Người dùng"}</h3>
-                                                    <p className="text-white/60 text-xs mt-1 truncate font-medium">{currentUser?.email}</p>
-                                                    <span className="text-indigo-400 text-[10px] font-bold mt-2 bg-indigo-500/10 w-max px-3 py-1 rounded-lg border border-indigo-500/20 shadow-sm flex items-center gap-1.5 uppercase tracking-wider">Premium ✨</span>
-                                                </div>
+                                        <div className="absolute top-[calc(100%+16px)] right-0 w-[360px] glass-deep z-50 modal-spring shadow-[0_40px_80px_rgba(0,0,0,0.8)] overflow-hidden border border-white/20">
+                                            <div className="relative h-28 w-full bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
+                                                <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E')]"></div>
+                                                <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#020617] to-transparent"></div>
                                             </div>
                                             
-                                            <div className="flex flex-col gap-2 mb-6">
-                                                <div className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/5 mb-2">
-                                                    <div className="flex flex-col">
-                                                        <span className="text-[10px] text-white/50 uppercase font-bold tracking-wider">Phim Yêu Thích</span>
-                                                        <span className="text-white font-black text-lg">{favorites.length}</span>
+                                            <div className="px-7 pb-7 -mt-12 relative z-10">
+                                                <div className="flex flex-col items-center border-b border-white/10 pb-6 mb-5">
+                                                    <div className="relative mb-3 group cursor-pointer btn-press" onClick={() => { setPage('profile'); setProfileTab('settings'); setShowProfile(false); setSettingsSuccess(false); window.scrollTo(0,0); }}>
+                                                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-pink-400 rounded-full blur opacity-70 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+                                                        <div className="w-24 h-24 rounded-full p-1 border-2 border-white/30 bg-[#020617] shrink-0 relative z-10">
+                                                            <img src={currentUser?.avatar || USER_AVATAR} className="w-full h-full rounded-full object-cover" />
+                                                        </div>
+                                                        <div className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-indigo-500 border-2 border-[#020617] flex items-center justify-center relative z-20 text-white shadow-lg">
+                                                            <i className="fas fa-camera text-xs"></i>
+                                                        </div>
                                                     </div>
-                                                    <i className="fas fa-heart text-red-400 text-2xl opacity-50"></i>
+                                                    
+                                                    <h3 className="text-white font-black text-2xl truncate tracking-tight text-center w-full drop-shadow-md">{currentUser?.name || "Người dùng"}</h3>
+                                                    <p className="text-white/60 text-sm mt-0.5 truncate font-medium">{currentUser?.email}</p>
+                                                    
+                                                    <div className="mt-4 relative group overflow-hidden rounded-full p-[1px] cursor-default">
+                                                        <span className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full animate-[shimmer_3s_linear_infinite] bg-[length:200%_100%]"></span>
+                                                        <div className="relative bg-[#020617] px-4 py-1.5 rounded-full flex items-center gap-2">
+                                                            <i className="fas fa-crown text-yellow-400 text-[10px] drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]"></i>
+                                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-pink-300 text-[11px] font-black uppercase tracking-widest">Lavender Premium</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 
-                                                <div onClick={() => { setPage('history'); setShowProfile(false); window.scrollTo(0,0); }} className="flex items-center gap-4 p-3.5 rounded-[20px] hover:bg-white/10 cursor-pointer transition-colors text-sm text-white/80 hover:text-white font-bold btn-press">
-                                                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0"><i className="fas fa-history text-white/70 text-sm"></i></div> Lịch sử xem phim
+                                                <div className="flex flex-col gap-3 mb-6">
+                                                    <div className="grid grid-cols-2 gap-3 mb-2">
+                                                        <div onClick={() => { setPage('profile'); setProfileTab('favorites'); setShowProfile(false); window.scrollTo(0,0); }} className="flex flex-col items-center justify-center p-4 rounded-[24px] bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer group shadow-inner btn-press">
+                                                            <i className="fas fa-heart text-red-400 text-xl mb-1.5 drop-shadow-[0_0_10px_rgba(248,113,113,0.5)] group-hover:scale-110 transition-transform"></i>
+                                                            <span className="text-white font-black text-xl leading-none">{favorites.length}</span>
+                                                            <span className="text-[9px] text-white/50 uppercase font-bold tracking-widest mt-1">Yêu Thích</span>
+                                                        </div>
+                                                        <div onClick={() => { setPage('profile'); setProfileTab('history'); setShowProfile(false); window.scrollTo(0,0); }} className="flex flex-col items-center justify-center p-4 rounded-[24px] bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer group shadow-inner btn-press">
+                                                            <i className="fas fa-clock text-indigo-400 text-xl mb-1.5 drop-shadow-[0_0_10px_rgba(129,140,248,0.5)] group-hover:scale-110 transition-transform"></i>
+                                                            <span className="text-white font-black text-xl leading-none">{continueWatching.length}</span>
+                                                            <span className="text-[9px] text-white/50 uppercase font-bold tracking-widest mt-1">Đã Xem</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div onClick={() => { setPage('profile'); setProfileTab('history'); setShowProfile(false); window.scrollTo(0,0); }} className="flex items-center justify-between p-4 rounded-[24px] bg-black/30 hover:bg-white/10 border border-white/5 hover:border-white/20 cursor-pointer transition-all text-sm text-white/80 hover:text-white font-bold group btn-press shadow-inner">
+                                                        <div className="flex items-center gap-4">
+                                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center border border-indigo-500/30 group-hover:border-indigo-400/50 transition-colors"><i className="fas fa-history text-indigo-400 drop-shadow-[0_0_5px_rgba(129,140,248,0.5)]"></i></div>
+                                                            <span>Lịch sử xem phim</span>
+                                                        </div>
+                                                        <i className="fas fa-chevron-right text-xs text-white/30 group-hover:text-white/70 group-hover:translate-x-1 transition-all"></i>
+                                                    </div>
+                                                    
+                                                    <div onClick={() => { setPage('profile'); setProfileTab('settings'); setShowProfile(false); window.scrollTo(0,0); setSettingsSuccess(false); }} className="flex items-center justify-between p-4 rounded-[24px] bg-black/30 hover:bg-white/10 border border-white/5 hover:border-white/20 cursor-pointer transition-all text-sm text-white/80 hover:text-white font-bold group btn-press shadow-inner">
+                                                        <div className="flex items-center gap-4">
+                                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center border border-pink-500/30 group-hover:border-pink-400/50 transition-colors"><i className="fas fa-cog text-pink-400 drop-shadow-[0_0_5px_rgba(244,114,182,0.5)]"></i></div>
+                                                            <span>Cài đặt tài khoản</span>
+                                                        </div>
+                                                        <i className="fas fa-chevron-right text-xs text-white/30 group-hover:text-white/70 group-hover:translate-x-1 transition-all"></i>
+                                                    </div>
                                                 </div>
-                                                <div onClick={() => { setPage('settings'); setShowProfile(false); window.scrollTo(0,0); setSettingsSuccess(false); }} className="flex items-center gap-4 p-3.5 rounded-[20px] hover:bg-white/10 cursor-pointer transition-colors text-sm text-white/80 hover:text-white font-bold btn-press">
-                                                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0"><i className="fas fa-cog text-white/70 text-sm"></i></div> Cài đặt tài khoản
-                                                </div>
-                                            </div>
 
-                                            <button onClick={handleLogout} className="w-full py-4 rounded-[20px] bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 text-sm font-bold btn-press uppercase tracking-wider flex justify-center items-center gap-2 transition-colors border border-red-500/20">
-                                                <i className="fas fa-sign-out-alt"></i> Đăng xuất
-                                            </button>
+                                                <button onClick={handleLogout} className="w-full py-4 rounded-[20px] bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white text-sm font-black uppercase tracking-widest flex justify-center items-center gap-3 transition-all border border-red-500/20 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)] group overflow-hidden relative btn-press">
+                                                    <span className="relative z-10 flex items-center gap-2"><i className="fas fa-sign-out-alt group-hover:-translate-x-1 transition-transform"></i> Đăng xuất</span>
+                                                </button>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
@@ -1001,42 +1420,48 @@
                     )}
 
                     {page === 'home' && (
-                        <div className="pt-0 relative">
+                        <div className="pt-0 relative slide-fade-stagger">
                             {isLoading ? (
-                                <div className="h-[65vh] md:h-[85vh] w-full skeleton opacity-40 rounded-b-[40px] md:rounded-b-[60px]"></div>
+                                <div className="h-[65vh] md:h-[85vh] w-full skeleton opacity-40 rounded-b-[40px] md:rounded-b-[60px]" style={{borderRadius: '0 0 var(--ios-radius) var(--ios-radius)'}}></div>
                             ) : (
                                 movies.trending[0] && (
-                                    <div className="hero-section relative h-[65vh] md:h-[85vh] w-full flex items-end pb-24 md:pb-32 px-6 md:px-12 overflow-hidden rounded-b-[40px] md:rounded-b-[60px] shadow-[0_30px_60px_rgba(0,0,0,0.5)] border-b border-white/10 group">
-                                        <img src={IMG_PATH + movies.trending[0].backdrop_path} className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-[15s] group-hover:scale-110" loading="lazy" />
+                                    <div className="hero-section relative h-[65vh] md:h-[85vh] w-full flex items-end pb-24 md:pb-32 px-6 md:px-12 overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.5)] border-b border-white/10 group" style={{borderRadius: '0 0 var(--ios-radius) var(--ios-radius)'}}>
+                                        <img src={IMG_PATH + movies.trending[0].backdrop_path} loading="lazy" className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-[15s] group-hover:scale-110" />
                                         <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] via-[var(--bg-color)]/70 to-transparent z-10"></div>
                                         <div className="relative z-20 max-w-4xl">
-                                            <h2 className="text-5xl md:text-8xl font-black mb-4 text-white leading-none drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)] tracking-tighter slide-fade-stagger">{movies.trending[0].title}</h2>
-                                            <p className="text-white/70 text-sm md:text-base font-medium mb-8 leading-relaxed max-w-2xl line-clamp-3 slide-fade-stagger" style={{animationDelay: '0.1s'}}>{movies.trending[0].overview}</p>
-                                            <div className="flex gap-4 slide-fade-stagger" style={{animationDelay: '0.2s'}}>
-                                                <button onClick={() => handleSelectMedia(movies.trending[0], false)} className="px-10 py-4 btn-primary rounded-[24px] text-sm tracking-wide uppercase flex items-center gap-3 btn-press"><i className="fas fa-play text-lg"></i> Phát ngay</button>
-                                                <button onClick={() => handleOpenModal(movies.trending[0])} className="px-8 py-4 rounded-[24px] bg-white/10 backdrop-blur-md text-white font-bold text-sm tracking-wide uppercase border border-white/20 flex items-center gap-3 btn-press hover:bg-white/20"><i className="fas fa-info-circle text-lg"></i> Chi tiết</button>
+                                            <h2 className="text-5xl md:text-8xl font-black mb-4 text-white leading-none drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)] tracking-tighter" style={{animationDelay: '0.1s'}}>{movies.trending[0].title}</h2>
+                                            <p className="text-white/70 text-sm md:text-base font-medium mb-8 leading-relaxed max-w-2xl line-clamp-3" style={{animationDelay: '0.2s'}}>{movies.trending[0].overview}</p>
+                                            <div className="flex gap-4" style={{animationDelay: '0.3s'}}>
+                                                <button onClick={() => handleSelectMedia(movies.trending[0], false)} className="px-10 py-4 btn-primary text-sm tracking-wide uppercase flex items-center gap-3 btn-press"><i className="fas fa-play text-lg"></i> Phát ngay</button>
+                                                <button onClick={() => handleOpenModal(movies.trending[0])} className="px-8 py-4 rounded-[24px] bg-white/10 backdrop-blur-md text-white font-bold text-sm tracking-wide uppercase border border-white/20 flex items-center gap-3 btn-press hover:bg-white/20" style={{borderRadius: '999px'}}><i className="fas fa-info-circle text-lg"></i> Chi tiết</button>
                                             </div>
                                         </div>
                                     </div>
                                 )
                             )}
 
-                            <div className="relative z-30 flex gap-3 overflow-x-auto px-6 md:px-12 py-4 scrollbar-hide -mt-8 md:-mt-16 mb-8 slide-fade-stagger" style={{animationDelay: '0.3s'}}>
+                            <div className="relative z-30 flex gap-3 overflow-x-auto px-6 md:px-12 py-4 scrollbar-hide -mt-8 md:-mt-16 mb-8 slide-fade-stagger" style={{animationDelay: '0.4s'}}>
                                 {[{id: null, n: 'Tất cả'}, {id: 28, n: 'Hành động'}, {id: 16, n: 'Anime'}, {id: 27, n: 'Kinh dị'}, {id: 35, n: 'Hài kịch'}, {id: 878, n: 'Viễn tưởng'}].map(g => (
-                                    <button key={g.id || 'all'} onClick={() => setFilterGenre(g.id)} className={`px-7 py-3 rounded-full text-sm font-bold whitespace-nowrap btn-press transition-all tracking-wide ${filterGenre === g.id ? 'btn-primary border-transparent' : 'border border-white/10 bg-black/40 text-white/70 hover:bg-white/20 hover:text-white backdrop-blur-md'}`}>{g.n}</button>
+                                    <button key={g.id || 'all'} onClick={() => { triggerHaptic(); setFilterGenre(g.id) }} className={`px-7 py-3 rounded-full text-sm font-bold whitespace-nowrap btn-press transition-all tracking-wide ${filterGenre === g.id ? 'btn-primary border-transparent' : 'border border-white/10 bg-black/40 text-white/70 hover:bg-white/20 hover:text-white backdrop-blur-md'}`}>{g.n}</button>
                                 ))}
                             </div>
 
                             <div className="relative z-30 space-y-12 md:space-y-16 pb-24">
                                 {continueWatching.length > 0 && !isLoading && !filterGenre && (
-                                    <div className="row-container slide-fade-stagger" style={{animationDelay: '0.4s'}}>
+                                    <div className="row-container slide-fade-stagger" style={{animationDelay: '0.5s'}}>
                                         <h3 className="px-6 md:px-12 text-xl md:text-2xl font-black mb-5 text-indigo-300 flex items-center gap-3 tracking-tighter"><span className="w-2 h-8 lavender-gradient rounded-full"></span> Tiếp tục xem</h3>
                                         <div className="scroll-container gap-5">
                                             {continueWatching.map((m, index) => (
-                                                <div key={m.id} onClick={() => handleSelectMedia(m, m.isTV)} className="scroll-item w-[260px] md:w-[300px] h-[150px] md:h-[170px] rounded-[28px] overflow-hidden cursor-pointer relative group btn-press border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.4)]" style={{animationDelay: `${index * 0.1}s`}}>
-                                                    <img src={IMG_PATH + m.backdrop} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform duration-700" />
+                                                <div key={m.id} onClick={() => handleSelectMedia(m, m.isTV)} className="scroll-item w-[260px] md:w-[300px] h-[150px] md:h-[170px] rounded-[28px] overflow-hidden cursor-pointer relative group btn-press border border-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.4)]" style={{animationDelay: `${index * 0.1}s`, borderRadius: 'var(--ios-radius-sm)'}}>
+                                                    <img src={IMG_PATH + m.backdrop} loading="lazy" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform duration-700" />
                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent flex flex-col justify-end p-5">
                                                         <p className="text-white font-black text-sm md:text-base truncate tracking-tight">{m.title}</p>
+                                                        {/* NÂNG CẤP MY LIST: Hiển thị thời gian chính xác */}
+                                                        {m.watchedTime > 0 && (
+                                                            <p className="text-pink-300 font-bold text-[11px] mt-1 flex items-center gap-1.5">
+                                                                <i className="fas fa-play-circle"></i> Tiếp tục từ {Math.floor((m.watchedTime||0) / 60)}:{String((m.watchedTime||0) % 60).padStart(2, '0')}
+                                                            </p>
+                                                        )}
                                                         {m.isTV && <p className="text-indigo-300 font-bold text-[11px] mt-1">Tập {m.lastEpisode} - Mùa {m.lastSeason}</p>}
                                                         <div className="w-full h-1.5 bg-white/20 mt-3 rounded-full overflow-hidden"><div className="h-full lavender-gradient" style={{ width: `${getRealProgress(m.id)}%` }}></div></div>
                                                     </div>
@@ -1051,6 +1476,34 @@
                                 {filterData(movies.trending)?.length > 0 && <Row title="Thịnh Hành Hôm Nay" data={filterData(movies.trending)} isLoading={isLoading} onOpenModal={handleOpenModal} />}
                                 {filterData(movies.tvTrending)?.length > 0 && <Row title="Series Đáng Chú Ý" data={filterData(movies.tvTrending)} isLoading={isLoading} onOpenModal={handleOpenModal} />}
                                 
+                                {!filterGenre && (
+                                    <div className="px-6 md:px-12 mt-16 mb-4">
+                                        <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-md">
+                                            <div className="flex items-center gap-3">
+                                                <i className="fas fa-filter text-indigo-400"></i>
+                                                <span className="text-white font-bold text-sm uppercase tracking-widest">Bộ lọc Nâng cao</span>
+                                            </div>
+                                            <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                                                <select value={filterYear} onChange={(e) => { triggerHaptic(); setFilterYear(e.target.value); setDiscoverPage(1); fetchDiscoverData(1, true, e.target.value, filterRating, filterSort); }} className="bg-black/40 text-white/80 text-xs font-bold py-2.5 px-4 outline-none hover:bg-white/10 cursor-pointer w-full md:w-auto border-none shadow-none">
+                                                    <option value="">Tất cả Năm</option>
+                                                    {[2026,2025,2024,2023,2022,2021,2020].map(y => <option key={y} value={y}>{y}</option>)}
+                                                </select>
+                                                <select value={filterRating} onChange={(e) => { triggerHaptic(); setFilterRating(e.target.value); setDiscoverPage(1); fetchDiscoverData(1, true, filterYear, e.target.value, filterSort); }} className="bg-black/40 text-white/80 text-xs font-bold py-2.5 px-4 outline-none hover:bg-white/10 cursor-pointer w-full md:w-auto border-none shadow-none">
+                                                    <option value="">Mọi Điểm số</option>
+                                                    <option value="8">IMDb &gt; 8.0</option>
+                                                    <option value="7">IMDb &gt; 7.0</option>
+                                                    <option value="6">IMDb &gt; 6.0</option>
+                                                </select>
+                                                <select value={filterSort} onChange={(e) => { triggerHaptic(); setFilterSort(e.target.value); setDiscoverPage(1); fetchDiscoverData(1, true, filterYear, filterRating, e.target.value); }} className="bg-black/40 text-white/80 text-xs font-bold py-2.5 px-4 outline-none hover:bg-white/10 cursor-pointer w-full md:w-auto border-none shadow-none">
+                                                    <option value="popularity.desc">Thịnh hành nhất</option>
+                                                    <option value="vote_average.desc">Đánh giá cao nhất</option>
+                                                    <option value="primary_release_date.desc">Mới phát hành</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
                                 {!filterGenre && discoverMovies.length > 0 && (
                                     <InfiniteGrid title="Khám Phá Toàn Cầu" data={discoverMovies} onSelect={(m) => handleSelectMedia(m, false)} onOpenModal={handleOpenModal} onLoadMore={handleLoadMore} isFetching={isFetchingMore} />
                                 )}
@@ -1058,121 +1511,363 @@
                         </div>
                     )}
 
-                    {page === 'history' && (
-                        <div className="min-h-screen pt-36 px-6 md:px-12 pb-24 relative slide-fade-stagger">
-                            <div className="max-w-[1400px] mx-auto">
-                                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                                    <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter flex items-center gap-3">
-                                        <span className="w-2 h-8 bg-purple-500 rounded-full shadow-[0_0_12px_#a855f7]"></span> Lịch sử xem phim
-                                    </h2>
-                                    {continueWatching.length > 0 && (
-                                        <button onClick={() => { localStorage.removeItem('lavender_history'); setContinueWatching([]); }} className="px-5 py-2.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20 rounded-2xl text-sm font-bold transition-colors btn-press">
-                                            <i className="fas fa-trash-alt mr-2"></i> Xóa tất cả
-                                        </button>
-                                    )}
-                                </div>
-                                {continueWatching.length > 0 ? (
-                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 md:gap-7">
-                                        {continueWatching.map((m, index) => (
-                                            <div key={m.id} className="relative group slide-fade-stagger flex justify-center" style={{animationDelay: `${(index % 20) * 0.05}s`}}>
-                                                <MovieCard 
-                                                    m={{...m, poster_path: m.poster, backdrop_path: m.backdrop, name: m.title}} 
-                                                    onSelect={() => handleSelectMedia(m, m.isTV)} 
-                                                    onOpenModal={() => handleOpenModal({...m, poster_path: m.poster, backdrop_path: m.backdrop, name: m.title})} 
-                                                    index={index % 20}
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-col items-center justify-center py-20 text-white/40 slide-fade-stagger glass-deep rounded-[40px] border border-white/10 mt-8">
-                                        <i className="fas fa-ghost text-6xl mb-6 opacity-30 drop-shadow-md"></i>
-                                        <p className="text-xl font-black mb-2 tracking-tight">Chưa có lịch sử xem phim</p>
-                                        <p className="text-sm font-medium opacity-70">Có vẻ bạn chưa trải nghiệm bộ phim nào cả!</p>
-                                    </div>
-                                )}
+                    {/* NÂNG CẤP PROFILE: Dashboard Toàn Diện thay thế cho History và Settings cũ */}
+                    {page === 'profile' && (
+                        <div className="min-h-screen relative slide-fade-stagger bg-[var(--bg-color)]">
+                            {/* Banner Cover Mờ */}
+                            <div className="w-full h-[40vh] relative mask-image-bottom">
+                                <img src={profileBanner} className="absolute inset-0 w-full h-full object-cover blur-[8px] scale-105 opacity-60" loading="lazy" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] to-transparent"></div>
                             </div>
-                        </div>
-                    )}
 
-                    {page === 'settings' && (
-                        <div className="min-h-screen pt-36 px-6 md:px-12 pb-24 relative slide-fade-stagger flex justify-center">
-                            <div className="w-full max-w-2xl iphone-glass p-8 md:p-12 rounded-[48px] shadow-[0_40px_80px_rgba(0,0,0,0.5)] border-t border-l border-white/20">
-                                <h2 className="text-3xl font-black text-white tracking-tighter mb-8 flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30"><i className="fas fa-user-edit text-indigo-400"></i></div> Cài đặt tài khoản
-                                </h2>
-                                
-                                {settingsSuccess && (
-                                    <div className="mb-6 bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-4 rounded-[20px] text-sm font-bold flex items-center gap-3 slide-fade-stagger">
-                                        <i className="fas fa-check-circle text-lg drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]"></i> Đã lưu thông tin tài khoản thành công!
+                            <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10 -mt-32 pb-24">
+                                {/* Header Info */}
+                                <div className="flex flex-col md:flex-row items-center md:items-end gap-6 mb-12">
+                                    <div className="relative group shrink-0">
+                                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full blur opacity-50"></div>
+                                        <div className="w-32 h-32 md:w-40 md:h-40 rounded-full p-1.5 bg-[#020617] border border-white/20 relative z-10">
+                                            <img src={currentUser?.avatar || USER_AVATAR} className="w-full h-full rounded-full object-cover" />
+                                        </div>
                                     </div>
-                                )}
+                                    <div className="text-center md:text-left mb-2">
+                                        <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter drop-shadow-lg">{currentUser?.name || "Người dùng"}</h2>
+                                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-3">
+                                            <span className="px-3 py-1 bg-white/10 border border-white/10 rounded-full text-xs font-bold text-white/70 backdrop-blur-md">{currentUser?.email}</span>
+                                            <span className={`px-3 py-1 bg-white/10 border border-white/10 rounded-full text-xs font-bold backdrop-blur-md flex items-center gap-1.5 ${mBadge.color}`}><i className={`fas ${mBadge.icon}`}></i> {mBadge.name}</span>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <form onSubmit={(e) => {
-                                    e.preventDefault();
-                                    const users = JSON.parse(localStorage.getItem('lavender_users') || '[]');
-                                    const updatedUsers = users.map(u => u.email === currentUser.email ? {...u, name: editName, avatar: editAvatar, password: editPassword || u.password} : u);
-                                    localStorage.setItem('lavender_users', JSON.stringify(updatedUsers));
-                                    const updatedUser = {...currentUser, name: editName, avatar: editAvatar, password: editPassword || currentUser.password};
-                                    localStorage.setItem('lavender_active_user', JSON.stringify(updatedUser)); globalStore.set({ currentUser: updatedUser });
-                                    setSettingsSuccess(true); setEditPassword(''); setTimeout(() => setSettingsSuccess(false), 4000);
-                                }} className="space-y-6">
-                                    <div className="flex flex-col items-center mb-6">
-                                        <div className="w-28 h-28 rounded-full border-[3px] border-indigo-400/50 mb-4 overflow-hidden shadow-[0_0_20px_rgba(129,140,248,0.3)] bg-black/50 p-1"><img src={editAvatar || USER_AVATAR} className="w-full h-full object-cover rounded-full" onError={(e) => {e.target.onerror = null; e.target.src = USER_AVATAR}} /></div>
-                                    </div>
-                                    <div className="space-y-5">
-                                        <div className="relative group">
-                                            <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-2 block">Họ và tên</label>
-                                            <input type="text" value={editName} onChange={e => setEditName(e.target.value)} required className="w-full px-5 py-4 rounded-[20px] outline-none border border-white/10 bg-black/20 text-sm text-white focus:border-indigo-400/50 transition-colors" />
+                                {/* Tabs Navigation */}
+                                <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide mb-10 pb-2 border-b border-white/10">
+                                    {[
+                                        { id: 'overview', icon: 'fa-chart-pie', label: 'Tổng quan' },
+                                        { id: 'history', icon: 'fa-history', label: 'Lịch sử xem' },
+                                        { id: 'favorites', icon: 'fa-heart', label: 'Yêu thích' },
+                                        { id: 'settings', icon: 'fa-cog', label: 'Cài đặt' },
+                                        { id: 'devices', icon: 'fa-laptop-house', label: 'Thiết bị' }
+                                    ].map(tab => (
+                                        <button key={tab.id} onClick={() => { triggerHaptic(); setProfileTab(tab.id); }} className={`profile-tab-btn px-6 py-3 rounded-[20px] text-sm font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-2 ${profileTab === tab.id ? 'bg-white/10 text-white border border-white/20 shadow-inner' : 'text-white/50 hover:bg-white/5 hover:text-white border border-transparent'}`}>
+                                            <i className={`fas ${tab.icon} ${profileTab === tab.id ? 'text-indigo-400' : ''}`}></i> {tab.label}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {/* Tab Contents */}
+                                <div className="slide-fade-stagger">
+                                    
+                                    {/* TAB: TỔNG QUAN (Gamification & Continue Watching) */}
+                                    {profileTab === 'overview' && (
+                                        <div className="space-y-8">
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                                <div className="glass-deep p-6 rounded-[32px] border border-white/10 flex flex-col justify-center relative overflow-hidden group">
+                                                    <div className="absolute -right-6 -top-6 w-32 h-32 bg-indigo-500/20 blur-2xl rounded-full group-hover:bg-indigo-500/40 transition-colors"></div>
+                                                    <i className="fas fa-clock text-3xl text-indigo-400 mb-4 drop-shadow-[0_0_10px_rgba(129,140,248,0.5)]"></i>
+                                                    <h4 className="text-white/60 text-xs font-black uppercase tracking-widest mb-1">Thời gian đã chill</h4>
+                                                    <div className="text-3xl font-black text-white tracking-tighter">{totalWatchHours} <span className="text-lg text-white/50 font-bold">giờ</span> {totalWatchMinutes} <span className="text-lg text-white/50 font-bold">phút</span></div>
+                                                </div>
+
+                                                <div className="glass-deep p-6 rounded-[32px] border border-white/10 flex flex-col justify-center relative overflow-hidden group">
+                                                    <div className="absolute -right-6 -top-6 w-32 h-32 bg-pink-500/20 blur-2xl rounded-full group-hover:bg-pink-500/40 transition-colors"></div>
+                                                    <i className="fas fa-film text-3xl text-pink-400 mb-4 drop-shadow-[0_0_10px_rgba(244,114,182,0.5)]"></i>
+                                                    <h4 className="text-white/60 text-xs font-black uppercase tracking-widest mb-1">Thể loại Yêu thích</h4>
+                                                    <div className="text-xl md:text-2xl font-black text-white tracking-tight">Hành Động & Viễn Tưởng</div>
+                                                    <div className="w-full h-2 bg-white/10 rounded-full mt-4 overflow-hidden flex"><div className="h-full bg-pink-500 w-[60%]"></div><div className="h-full bg-indigo-500 w-[40%]"></div></div>
+                                                </div>
+
+                                                <div className="glass-deep p-6 rounded-[32px] border border-white/10 flex flex-col justify-center relative overflow-hidden group">
+                                                    <div className="absolute -right-6 -top-6 w-32 h-32 bg-yellow-500/20 blur-2xl rounded-full group-hover:bg-yellow-500/40 transition-colors"></div>
+                                                    <i className={`fas ${mBadge.icon} text-3xl ${mBadge.color} mb-4 drop-shadow-[0_0_10px_currentColor]`}></i>
+                                                    <h4 className="text-white/60 text-xs font-black uppercase tracking-widest mb-1">Danh hiệu đạt được</h4>
+                                                    <div className={`text-2xl font-black ${mBadge.color} tracking-tight`}>{mBadge.name}</div>
+                                                    <p className="text-white/40 text-[11px] font-bold mt-2">Dựa trên số phim bạn đã xem</p>
+                                                </div>
+                                            </div>
+
+                                            {continueWatching.filter(m => getRealProgress(m.id) < 95).length > 0 && (
+                                                <div className="mt-10">
+                                                    <h3 className="text-xl md:text-2xl font-black mb-5 text-white flex items-center gap-3 tracking-tighter"><span className="w-2 h-8 lavender-gradient rounded-full"></span> Đang xem dở</h3>
+                                                    <div className="scroll-container gap-5 -mx-6 md:-mx-12 px-6 md:px-12">
+                                                        {continueWatching.filter(m => getRealProgress(m.id) < 95).map((m, index) => (
+                                                            <div key={m.id} onClick={() => handleSelectMedia(m, m.isTV)} className="scroll-item w-[260px] md:w-[320px] h-[150px] md:h-[180px] rounded-[28px] overflow-hidden cursor-pointer relative group btn-press border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                                                                <img src={IMG_PATH + m.backdrop} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                                                                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent flex flex-col justify-end p-5">
+                                                                    <div className="flex justify-between items-end mb-3">
+                                                                        <div>
+                                                                            <p className="text-white font-black text-sm md:text-base truncate tracking-tight shadow-black">{m.title}</p>
+                                                                            {m.isTV && <p className="text-indigo-300 font-bold text-[11px] mt-0.5">Tập {m.lastEpisode} - Mùa {m.lastSeason}</p>}
+                                                                        </div>
+                                                                        <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white"><i className="fas fa-play text-sm ml-1"></i></div>
+                                                                    </div>
+                                                                    <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden"><div className="h-full lavender-gradient" style={{ width: `${getRealProgress(m.id)}%` }}></div></div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="relative group">
-                                            <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-2 block">Email đăng nhập</label>
-                                            <input type="email" value={currentUser?.email} disabled className="w-full px-5 py-4 rounded-[20px] outline-none border border-white/5 bg-black/40 text-sm text-white/40 cursor-not-allowed" />
+                                    )}
+
+                                    {/* TAB: LỊCH SỬ XEM (Toàn bộ) */}
+                                    {profileTab === 'history' && (
+                                        <div>
+                                            <div className="flex justify-between items-center mb-6">
+                                                <p className="text-white/60 text-sm font-bold">Danh sách tất cả phim bạn đã trải nghiệm.</p>
+                                                {continueWatching.length > 0 && (
+                                                    <button onClick={handleClearHistory} className="px-5 py-2.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20 rounded-2xl text-xs font-bold transition-colors btn-press flex items-center gap-2">
+                                                        <i className="fas fa-trash-alt"></i> Xóa lịch sử
+                                                    </button>
+                                                )}
+                                            </div>
+                                            {continueWatching.length > 0 ? (
+                                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 md:gap-7">
+                                                    {continueWatching.map((m, index) => (
+                                                        <div key={m.id} className="flex justify-center" style={{animationDelay: `${(index % 20) * 0.05}s`}}>
+                                                            <MovieCard m={{...m, poster_path: m.poster, backdrop_path: m.backdrop, name: m.title}} onSelect={() => handleSelectMedia(m, m.isTV)} onOpenModal={() => handleOpenModal({...m, poster_path: m.poster, backdrop_path: m.backdrop, name: m.title})} index={index % 20} />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="text-center py-20 border border-dashed border-white/10 rounded-[32px] bg-black/20">
+                                                    <i className="fas fa-history text-5xl mb-4 text-white/20"></i>
+                                                    <p className="text-white/50 font-bold">Chưa có lịch sử xem phim.</p>
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="relative group">
-                                            <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-2 block">URL Ảnh đại diện</label>
-                                            <input type="text" value={editAvatar} onChange={e => setEditAvatar(e.target.value)} className="w-full px-5 py-4 rounded-[20px] outline-none border border-white/10 bg-black/20 text-sm text-white focus:border-indigo-400/50 transition-colors placeholder:text-white/20" placeholder="https://..." />
+                                    )}
+
+                                    {/* TAB: YÊU THÍCH (My List) */}
+                                    {profileTab === 'favorites' && (
+                                        <div>
+                                            <p className="text-white/60 text-sm font-bold mb-6">Những bộ phim bạn đã đánh dấu thả tim.</p>
+                                            {favorites.length > 0 ? (
+                                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 md:gap-7">
+                                                    {favorites.map((m, index) => (
+                                                        <div key={m.id} className="flex justify-center">
+                                                            <MovieCard m={m} onSelect={() => handleSelectMedia(m, !!m.first_air_date)} onOpenModal={() => handleOpenModal(m)} index={index} />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="text-center py-20 border border-dashed border-white/10 rounded-[32px] bg-black/20">
+                                                    <i className="far fa-heart text-5xl mb-4 text-white/20"></i>
+                                                    <p className="text-white/50 font-bold">Danh sách yêu thích đang trống.</p>
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="relative group">
-                                            <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-2 block">Đổi Mật khẩu (Bỏ trống nếu không đổi)</label>
-                                            <input type="password" value={editPassword} onChange={e => setEditPassword(e.target.value)} placeholder="••••••••" className="w-full px-5 py-4 rounded-[20px] outline-none border border-white/10 bg-black/20 text-sm text-white focus:border-indigo-400/50 transition-colors" />
+                                    )}
+
+                                    {/* TAB: CÀI ĐẶT (Tùy chỉnh cá nhân) */}
+                                    {profileTab === 'settings' && (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            {/* Cột 1: Thông tin tài khoản */}
+                                            <div className="glass-deep p-8 rounded-[36px] border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
+                                                <h3 className="text-xl font-black text-white mb-6 flex items-center gap-3"><i className="fas fa-user-edit text-indigo-400"></i> Hồ sơ cá nhân</h3>
+                                                {settingsSuccess && (
+                                                    <div className="mb-6 bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-3 rounded-[16px] text-xs font-bold flex items-center gap-3 slide-fade-stagger"><i className="fas fa-check-circle text-base"></i> Đã lưu thành công!</div>
+                                                )}
+                                                <form onSubmit={(e) => {
+                                                    e.preventDefault(); triggerHaptic();
+                                                    const users = JSON.parse(localStorage.getItem('lavender_users') || '[]');
+                                                    const updatedUsers = users.map(u => u.email === currentUser.email ? {...u, name: editName, avatar: editAvatar, password: editPassword || u.password} : u);
+                                                    localStorage.setItem('lavender_users', JSON.stringify(updatedUsers));
+                                                    const updatedUser = {...currentUser, name: editName, avatar: editAvatar, password: editPassword || currentUser.password};
+                                                    localStorage.setItem('lavender_active_user', JSON.stringify(updatedUser)); globalStore.set({ currentUser: updatedUser });
+                                                    setSettingsSuccess(true); setEditPassword(''); setTimeout(() => setSettingsSuccess(false), 4000);
+                                                }} className="space-y-5">
+                                                    
+                                                    {/* Chọn Avatar Mặc định */}
+                                                    <div>
+                                                        <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-3 block">Chọn Avatar</label>
+                                                        <div className="flex gap-3 overflow-x-auto py-1 scrollbar-hide mb-2">
+                                                            {MOVIE_AVATARS.map(src => (
+                                                                <img key={src} src={src} onClick={() => setEditAvatar(src)} className={`w-14 h-14 rounded-full cursor-pointer object-cover shrink-0 border-2 transition-all hover:scale-110 ${editAvatar === src ? 'border-indigo-400 shadow-[0_0_15px_rgba(129,140,248,0.5)]' : 'border-transparent opacity-60 hover:opacity-100'}`} />
+                                                            ))}
+                                                        </div>
+                                                        <input type="text" value={editAvatar} onChange={e => setEditAvatar(e.target.value)} className="w-full px-5 py-4 outline-none border border-white/10 bg-black/20 text-sm text-white focus:border-indigo-400/50 transition-colors placeholder:text-white/20 mt-2" placeholder="Hoặc nhập URL ảnh..." />
+                                                    </div>
+
+                                                    <div className="relative group">
+                                                        <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-2 block">Họ và tên</label>
+                                                        <input type="text" value={editName} onChange={e => setEditName(e.target.value)} required className="w-full px-5 py-4 outline-none border border-white/10 bg-black/20 text-sm text-white focus:border-indigo-400/50 transition-colors" />
+                                                    </div>
+                                                    <div className="relative group">
+                                                        <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-2 block">Email đăng nhập</label>
+                                                        <input type="email" value={currentUser?.email} disabled className="w-full px-5 py-4 outline-none border border-white/5 bg-black/40 text-sm text-white/40 cursor-not-allowed" />
+                                                    </div>
+                                                    <div className="relative group">
+                                                        <label className="text-[11px] text-white/50 font-black uppercase tracking-widest mb-2 block">Đổi Mật khẩu</label>
+                                                        <input type="password" value={editPassword} onChange={e => setEditPassword(e.target.value)} placeholder="Bỏ trống nếu không đổi" className="w-full px-5 py-4 outline-none border border-white/10 bg-black/20 text-sm text-white focus:border-indigo-400/50 transition-colors placeholder:text-white/30" />
+                                                    </div>
+                                                    <button type="submit" className="w-full p-4 mt-2 btn-primary btn-press text-sm font-black uppercase tracking-widest">Lưu Hồ Sơ</button>
+                                                </form>
+                                            </div>
+
+                                            {/* Cột 2: Cài đặt Player & Dữ liệu */}
+                                            <div className="flex flex-col gap-6">
+                                                <div className="glass-deep p-8 rounded-[36px] border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
+                                                    <h3 className="text-xl font-black text-white mb-6 flex items-center gap-3"><i className="fas fa-sliders-h text-pink-400"></i> Cài đặt Trình phát</h3>
+                                                    <div className="space-y-6">
+                                                        <div className="flex items-center justify-between">
+                                                            <div>
+                                                                <p className="text-white font-bold text-sm">Tự động phát tập tiếp theo</p>
+                                                                <p className="text-white/50 text-xs mt-1">Tiết kiệm thời gian thao tác khi xem Series</p>
+                                                            </div>
+                                                            <div onClick={() => { triggerHaptic(); setPlayerSettings(p => ({...p, autoPlay: !p.autoPlay}))}} className={`w-12 h-6 rounded-full relative cursor-pointer transition-colors duration-300 ${playerSettings.autoPlay ? 'bg-indigo-500' : 'bg-white/20'}`}>
+                                                                <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform duration-300 ${playerSettings.autoPlay ? 'translate-x-6.5 left-1' : 'translate-x-0.5 left-0'}`}></div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Thêm Cài đặt Chất lượng hiển thị ảo */}
+                                                        <div className="border-t border-white/10 pt-6">
+                                                            <p className="text-white font-bold text-sm mb-3">Chất lượng mặc định (Nếu Server hỗ trợ)</p>
+                                                            <div className="flex gap-2">
+                                                                {['Auto', '1080p', '720p'].map(q => (
+                                                                    <button key={q} onClick={() => {triggerHaptic(); setPlayerSettings(p => ({...p, quality: q}))}} className={`px-4 py-2 rounded-xl text-xs font-bold transition-all btn-press border ${playerSettings.quality === q ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10 hover:text-white'}`}>{q}</button>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="border-t border-white/10 pt-6">
+                                                            <p className="text-white font-bold text-sm mb-3">Màu sắc Phụ đề mặc định</p>
+                                                            <div className="flex gap-4">
+                                                                {[{id: 'white', color: 'bg-white'}, {id: 'yellow', color: 'bg-yellow-400'}, {id: 'cyan', color: 'bg-cyan-400'}].map(s => (
+                                                                    <div key={s.id} onClick={() => {triggerHaptic(); setPlayerSettings(p => ({...p, subtitleColor: s.id}))}} className={`w-10 h-10 rounded-full cursor-pointer flex items-center justify-center border-2 transition-all btn-press ${playerSettings.subtitleColor === s.id ? 'border-indigo-400 scale-110' : 'border-transparent'}`}>
+                                                                        <div className={`w-6 h-6 rounded-full shadow-inner ${s.color}`}></div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="glass-deep p-8 rounded-[36px] border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
+                                                    <h3 className="text-xl font-black text-white mb-6 flex items-center gap-3"><i className="fas fa-shield-alt text-red-400"></i> Quản lý Dữ liệu</h3>
+                                                    <p className="text-white/60 text-xs leading-relaxed mb-6">Bạn có thể xóa toàn bộ lịch sử xem phim và danh sách yêu thích để làm mới trải nghiệm thuật toán đề xuất của Lavender.</p>
+                                                    <button onClick={() => {
+                                                        if(window.confirm('Bạn có chắc chắn muốn xóa mọi dữ liệu (Lịch sử, Yêu thích)?')) {
+                                                            triggerHaptic();
+                                                            localStorage.removeItem('lavender_history');
+                                                            localStorage.removeItem('lavender_favorites');
+                                                            setContinueWatching([]); globalStore.set({ favorites: [] });
+                                                            setToastMessage("Đã xóa trắng toàn bộ dữ liệu cá nhân!");
+                                                            setTimeout(() => setToastMessage(null), 3000);
+                                                        }
+                                                    }} className="w-full p-4 rounded-[20px] bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white text-sm font-black uppercase tracking-widest transition-all border border-red-500/20 btn-press">Reset Tài Khoản</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <button type="submit" className="w-full p-4 mt-8 rounded-[20px] btn-primary btn-press text-sm font-black uppercase tracking-widest">Lưu thay đổi</button>
-                                </form>
+                                    )}
+
+                                    {/* TAB: THIẾT BỊ (Bảo mật) */}
+                                    {profileTab === 'devices' && (
+                                        <div className="max-w-3xl mx-auto">
+                                            <div className="flex justify-between items-center mb-6">
+                                                <p className="text-white/60 text-sm font-bold">Các thiết bị đang đăng nhập tài khoản của bạn.</p>
+                                                <button onClick={() => { triggerHaptic(); alert("Đã gửi lệnh đăng xuất tới các thiết bị khác."); }} className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-[16px] text-xs font-bold text-white transition-colors btn-press">Đăng xuất tất cả</button>
+                                            </div>
+                                            <div className="space-y-4">
+                                                {MOCK_DEVICES.map(device => (
+                                                    <div key={device.id} className="glass-deep p-5 rounded-[24px] border border-white/10 flex items-center gap-5">
+                                                        <div className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl shrink-0 ${device.current ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30' : 'bg-white/5 text-white/40 border border-white/10'}`}>
+                                                            <i className={`fas ${device.icon}`}></i>
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <div className="flex items-center gap-3">
+                                                                <h4 className="text-white font-bold text-base">{device.name}</h4>
+                                                                {device.current && <span className="px-2 py-0.5 bg-green-500/20 text-green-400 border border-green-500/30 rounded text-[10px] uppercase font-black tracking-widest">Thiết bị này</span>}
+                                                            </div>
+                                                            <div className="text-white/50 text-xs font-medium mt-1 flex items-center gap-2">
+                                                                <span><i className="fas fa-map-marker-alt text-white/30 mr-1"></i> {device.location}</span>
+                                                                <span className="w-1 h-1 bg-white/20 rounded-full"></span>
+                                                                <span><i className="far fa-clock text-white/30 mr-1"></i> {device.time}</span>
+                                                            </div>
+                                                        </div>
+                                                        {!device.current && <button className="w-10 h-10 rounded-full bg-white/5 hover:bg-red-500/20 text-white/40 hover:text-red-400 border border-white/10 hover:border-red-500/30 transition-colors btn-press"><i className="fas fa-sign-out-alt"></i></button>}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                </div>
                             </div>
                         </div>
                     )}
 
                     {page === 'watch' && (
                         <div className="min-h-screen w-full flex flex-col items-center pt-28 p-6 pb-16 relative slide-fade-stagger">
-                            <button onClick={() => setPage('home')} className="fixed top-8 left-6 z-50 px-6 py-3 bg-white/10 backdrop-blur-md rounded-full text-white text-sm font-bold uppercase btn-press border border-white/20 shadow-lg hover:bg-white/20 transition-colors"><i className="fas fa-arrow-left mr-2"></i>Trở về</button>
-                            <div className="w-full max-w-[1200px] flex flex-col gap-8 relative z-10">
-                                <div className="aspect-video w-full rounded-[40px] overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.8)] border border-white/10 bg-black">
-                                    <iframe src={isTV ? `https://vidsrc.${server}/embed/tv/${activeId}/${season}/${episode}` : `https://vidsrc.${server}/embed/movie/${activeId}`} className="w-full h-full" allowFullScreen></iframe>
-                                </div>
-                                <div className="flex gap-4 justify-center">
-                                    {[{id:'to', name:'Server TO'}, {id:'me', name:'Server ME'}].map((srv) => (
-                                        <button key={srv.id} onClick={() => setServer(srv.id)} className={`px-6 py-3 rounded-2xl text-sm font-bold btn-press tracking-wide ${server === srv.id ? 'btn-primary' : 'bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10'}`}>{srv.name}</button>
-                                    ))}
-                                </div>
-                                {isTV && (
-                                    <div className="iphone-glass p-8 rounded-[40px] w-full max-w-4xl mx-auto shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
-                                        <div className="flex items-center justify-between mb-6">
-                                            <h3 className="font-black text-xl text-white tracking-tight">Chọn tập phim</h3>
-                                            <div className="flex items-center gap-3 bg-black/30 px-4 py-2 rounded-2xl border border-white/10">
-                                                <span className="text-sm text-white/60 font-bold uppercase tracking-wider">Mùa</span>
-                                                <input type="number" min="1" value={season} onChange={(e) => setSeason(parseInt(e.target.value) || 1)} className="w-12 bg-transparent text-white text-lg font-black outline-none text-center" />
+                            {/* Chế độ Cinema Background */}
+                            {isCinemaMode && <div className="fixed inset-0 bg-[#000000] z-[140] transition-opacity duration-500" onClick={() => { triggerHaptic(); setIsCinemaMode(false); }}></div>}
+                            
+                            <button onClick={() => setPage('home')} className={`fixed top-8 left-6 px-6 py-3 bg-white/10 backdrop-blur-md rounded-full text-white text-sm font-bold uppercase btn-press border border-white/20 shadow-lg hover:bg-white/20 transition-colors ${isCinemaMode ? 'z-[160]' : 'z-50'}`}><i className="fas fa-arrow-left mr-2"></i>Trở về</button>
+                            
+                            <div className={`w-full flex flex-col gap-6 transition-all duration-700 ease-out ${isCinemaMode ? 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[95vw] md:max-w-7xl z-[150] h-auto' : 'max-w-[1200px] relative z-10'}`}>
+                                <div className="player-container aspect-video w-full overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.8)] border border-white/10 bg-black relative rounded-2xl md:rounded-[36px]">
+                                    
+                                    {/* NÂNG CẤP TRÌNH PHÁT: Fake Buttons Overlay */}
+                                    <div className="custom-player-controls absolute bottom-0 left-0 right-0 p-4 md:p-6 z-40 flex flex-col justify-end pointer-events-none">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <div className="flex items-center gap-4 pointer-events-auto">
+                                                <button onClick={() => { triggerHaptic(); setToastMessage("Tua lùi 10s (Chỉ khả dụng ở Premium Server)"); setTimeout(()=>setToastMessage(null),2000); }} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/30 backdrop-blur-md flex items-center justify-center text-white transition-colors tooltip" title="Tua lại 10 giây">
+                                                    <i className="fas fa-undo-alt text-sm"></i>
+                                                </button>
+                                                <button onClick={() => { triggerHaptic(); setToastMessage("Tua tới 10s (Chỉ khả dụng ở Premium Server)"); setTimeout(()=>setToastMessage(null),2000); }} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/30 backdrop-blur-md flex items-center justify-center text-white transition-colors tooltip" title="Tua tới 10 giây">
+                                                    <i className="fas fa-redo-alt text-sm"></i>
+                                                </button>
+                                            </div>
+                                            <div className="flex items-center gap-3 pointer-events-auto">
+                                                {/* Nút Skip Intro giả lập */}
+                                                <button onClick={() => triggerHaptic()} className="px-4 py-2 bg-white/10 hover:bg-white/30 text-white text-xs font-bold uppercase tracking-wider rounded-lg backdrop-blur-md transition-colors">Bỏ qua Intro</button>
                                             </div>
                                         </div>
-                                        <div className="flex flex-wrap gap-3">
-                                            {[...Array(24)].map((_, i) => (
-                                                <button key={i} onClick={() => setEpisode(i + 1)} className={`w-14 h-14 rounded-2xl font-black text-base btn-press ${episode === i + 1 ? 'btn-primary' : 'bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10'}`}>{i + 1}</button>
+                                    </div>
+
+                                    <iframe src={isTV ? `https://vidsrc.${server}/embed/tv/${activeId}/${season}/${episode}` : `https://vidsrc.${server}/embed/movie/${activeId}`} className="w-full h-full relative z-30" allowFullScreen></iframe>
+                                </div>
+                                
+                                <div className={`flex gap-3 justify-center flex-wrap ${isCinemaMode ? 'absolute -bottom-20 left-1/2 -translate-x-1/2 w-max' : ''}`}>
+                                    {[{id:'to', name:'Server TO'}, {id:'me', name:'Server ME'}].map((srv) => (
+                                        <button key={srv.id} onClick={() => { triggerHaptic(); setServer(srv.id); }} className={`px-6 py-3 text-sm font-bold btn-press tracking-wide ${server === srv.id ? 'btn-primary' : 'bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10'}`} style={{borderRadius: '999px'}}><i className="fas fa-server mr-2 text-[10px]"></i>{srv.name}</button>
+                                    ))}
+                                    
+                                    {/* Nút Cinema Mode */}
+                                    <button onClick={() => { triggerHaptic(); setIsCinemaMode(!isCinemaMode); }} className={`px-6 py-3 text-sm font-bold btn-press tracking-wide flex items-center gap-2 transition-colors ${isCinemaMode ? 'bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)] border-transparent' : 'bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10'}`} style={{borderRadius: '999px'}}>
+                                        <i className={`fas fa-lightbulb ${isCinemaMode ? 'text-yellow-300' : ''}`}></i> Cinema Mode
+                                    </button>
+
+                                    {/* NÂNG CẤP TRÌNH PHÁT: Nút Next Episode */}
+                                    {isTV && episode < episodeCount && !isCinemaMode && (
+                                        <button onClick={() => { triggerHaptic(); setEpisode(ep => ep + 1); }} className="px-6 py-3 text-sm font-bold btn-press tracking-wide bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-[0_0_15px_rgba(168,85,247,0.5)] border-transparent flex items-center" style={{borderRadius: '999px'}}>
+                                            Tập tiếp theo <i className="fas fa-step-forward ml-2 text-xs"></i>
+                                        </button>
+                                    )}
+                                </div>
+                                
+                                {!isCinemaMode && isTV && (
+                                    <div className="iphone-glass p-8 w-full max-w-4xl mx-auto shadow-[0_20px_40px_rgba(0,0,0,0.4)] slide-fade-stagger">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h3 className="font-black text-xl text-white tracking-tight">Chọn tập phim</h3>
+                                            <div className="flex items-center gap-3 bg-black/30 px-4 py-2 border border-white/10" style={{borderRadius: 'var(--ios-radius-sm)'}}>
+                                                <span className="text-sm text-white/60 font-bold uppercase tracking-wider">Mùa</span>
+                                                {availableSeasons.length > 0 ? (
+                                                    <select value={season} onChange={(e) => { triggerHaptic(); setSeason(parseInt(e.target.value)); setEpisode(1); }} className="bg-transparent text-white text-lg font-black outline-none text-center cursor-pointer" style={{boxShadow: 'none'}}>
+                                                        {availableSeasons.map(s => <option key={s.season_number} value={s.season_number} className="bg-slate-900 text-sm">{s.season_number}</option>)}
+                                                    </select>
+                                                ) : (
+                                                    <input type="number" min="1" value={season} onChange={(e) => { triggerHaptic(); setSeason(parseInt(e.target.value) || 1); setEpisode(1); }} className="w-12 bg-transparent text-white text-lg font-black outline-none text-center" style={{boxShadow: 'none'}} />
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-wrap gap-3 max-h-[300px] overflow-y-auto scrollbar-hide pr-2">
+                                            {[...Array(episodeCount || 24)].map((_, i) => (
+                                                <button key={i} onClick={() => { triggerHaptic(); setEpisode(i + 1); }} className={`w-14 h-14 font-black text-base btn-press shrink-0 transition-colors ${episode === i + 1 ? 'btn-primary shadow-[0_0_15px_rgba(168,85,247,0.5)]' : 'bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10'}`} style={{borderRadius: '16px'}}>{i + 1}</button>
                                             ))}
                                         </div>
                                     </div>
                                 )}
-                                <MovieFeedback movieId={activeId} />
+                                {!isCinemaMode && <MovieFeedback movieId={activeId} />}
                             </div>
                         </div>
                     )}
@@ -1181,15 +1876,24 @@
                         <div className="modal-overlay fixed inset-0 flex items-center justify-center p-4 md:p-8 z-[200]">
                             <div className="modal-backdrop-blur" style={{backgroundImage: `url(${IMG_PATH + (selectedMovie.backdrop_path || selectedMovie.backdrop)})`}}></div>
                             
-                            <div className="w-full max-w-6xl bg-black/50 backdrop-blur-3xl rounded-[48px] overflow-hidden relative flex flex-col md:flex-row modal-spring border border-white/15 shadow-[0_50px_100px_rgba(0,0,0,0.9)] z-10">
-                                <button onClick={() => setSelectedMovie(null)} className="absolute top-6 right-6 w-12 h-12 rounded-full bg-black/40 backdrop-blur-xl text-white/80 z-50 flex items-center justify-center btn-press hover:bg-white/20 hover:text-white border border-white/20 transition-all shadow-lg"><i className="fas fa-times text-xl"></i></button>
+                            <div className="w-full max-w-6xl bg-black/50 backdrop-blur-3xl overflow-hidden relative flex flex-col md:flex-row modal-spring border border-white/15 shadow-[0_50px_100px_rgba(0,0,0,0.9)] z-10" style={{borderRadius: 'calc(var(--ios-radius) + 12px)'}}>
+                                <button onClick={() => { triggerHaptic(); setSelectedMovie(null) }} className="absolute top-6 right-6 w-12 h-12 rounded-full bg-black/40 backdrop-blur-xl text-white/80 z-50 flex items-center justify-center btn-press hover:bg-white/20 hover:text-white border border-white/20 transition-all shadow-lg"><i className="fas fa-times text-xl"></i></button>
                                 
-                                <div className="w-full h-72 md:h-auto md:w-[45%] relative shrink-0">
+                                <div className="w-full h-72 md:h-auto md:w-[35%] relative shrink-0">
                                     <img src={selectedMovie.poster_path ? (selectedMovie.poster_path.startsWith('http') ? selectedMovie.poster_path : IMG_PATH + selectedMovie.poster_path) : 'https://via.placeholder.com/600x900'} className="absolute inset-0 w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/50 to-transparent md:bg-gradient-to-r md:from-transparent md:via-[#020617]/40 md:to-black/80"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-[#000000]/50 to-transparent md:bg-gradient-to-r md:from-transparent md:via-[#000000]/60 md:to-black/90"></div>
                                 </div>
 
-                                <div className="w-full md:w-[55%] p-8 md:p-12 flex flex-col justify-center bg-transparent relative z-10 max-h-[85vh] overflow-y-auto scrollbar-hide">
+                                <div className="w-full md:w-[65%] p-8 md:p-12 flex flex-col bg-transparent relative z-10 max-h-[85vh] overflow-y-auto scrollbar-hide">
+                                    
+                                    {/* NÂNG CẤP CHI TIẾT: Nút xem Trailer */}
+                                    {movieExtData.trailer && showTrailer ? (
+                                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-8 border border-white/20 shadow-lg relative">
+                                            <button onClick={() => setShowTrailer(false)} className="absolute top-2 right-2 z-50 bg-black/50 hover:bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i className="fas fa-times"></i></button>
+                                            <iframe src={`https://www.youtube.com/embed/${movieExtData.trailer}?autoplay=1`} className="w-full h-full" allowFullScreen allow="autoplay"></iframe>
+                                        </div>
+                                    ) : null}
+
                                     <h2 className="text-4xl md:text-6xl font-black mb-5 text-white leading-tight drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] tracking-tighter">{selectedMovie.title || selectedMovie.name}</h2>
                                     
                                     {selectedMovie.genre_ids && (
@@ -1202,20 +1906,70 @@
                                         <span className="flex items-center gap-2 text-yellow-400 bg-yellow-400/10 px-3 py-1.5 rounded-xl border border-yellow-400/20 shadow-[0_0_15px_rgba(250,204,21,0.2)]"><i className="fas fa-star drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]"></i> {selectedMovie.vote_average?.toFixed(1) || "N/A"}</span>
                                         <span className="w-1.5 h-1.5 rounded-full bg-white/30"></span>
                                         <span className="bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">{selectedMovie.release_date?.split('-')[0] || selectedMovie.first_air_date?.split('-')[0] || "2026"}</span>
+                                        
+                                        {movieExtData.trailer && !showTrailer && (
+                                            <>
+                                                <span className="w-1.5 h-1.5 rounded-full bg-white/30"></span>
+                                                <button onClick={() => setShowTrailer(true)} className="flex items-center gap-2 text-pink-400 hover:text-pink-300 transition-colors btn-press"><i className="fab fa-youtube"></i> Xem Trailer</button>
+                                            </>
+                                        )}
                                     </div>
                                     
-                                    <p className="text-base text-white/80 mb-10 leading-relaxed font-medium line-clamp-5 md:line-clamp-none">{selectedMovie.overview || "Đang cập nhật nội dung chi tiết cho bộ phim này. Hãy quay lại sau nhé!"}</p>
+                                    <p className="text-base text-white/80 mb-8 leading-relaxed font-medium">{selectedMovie.overview || "Đang cập nhật nội dung chi tiết cho bộ phim này. Hãy quay lại sau nhé!"}</p>
                                     
-                                    <div className="flex gap-4 mt-auto">
-                                        <button onClick={() => handleSelectMedia(selectedMovie, !!selectedMovie.first_air_date || selectedMovie.isTV)} className="flex-1 md:flex-none px-10 py-5 btn-primary rounded-2xl font-black tracking-widest uppercase text-white btn-press flex items-center justify-center gap-3"><i className="fas fa-play text-xl"></i> Xem ngay</button>
+                                    {/* NÂNG CẤP CHI TIẾT: Cast & Crew */}
+                                    {movieExtData.cast.length > 0 && (
+                                        <div className="mb-10">
+                                            <h4 className="text-white/60 text-xs font-black uppercase tracking-widest mb-4">Diễn viên chính</h4>
+                                            <div className="flex gap-4 overflow-x-auto cast-scroll pb-2">
+                                                {movieExtData.cast.map(actor => (
+                                                    <div key={actor.id} className="flex flex-col items-center shrink-0 w-[72px]">
+                                                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/10 mb-2">
+                                                            <img src={actor.profile_path ? `https://image.tmdb.org/t/p/w185${actor.profile_path}` : 'https://via.placeholder.com/150'} loading="lazy" className="w-full h-full object-cover" />
+                                                        </div>
+                                                        <span className="text-white text-[10px] font-bold text-center leading-tight truncate w-full">{actor.name}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* NÂNG CẤP CHI TIẾT: Phim tương tự */}
+                                    {movieExtData.similar.length > 0 && (
+                                        <div className="mb-10">
+                                            <h4 className="text-white/60 text-xs font-black uppercase tracking-widest mb-4">Phim tương tự</h4>
+                                            <div className="flex gap-4 overflow-x-auto cast-scroll pb-4">
+                                                {movieExtData.similar.map((sim, idx) => (
+                                                    <div key={sim.id} onClick={() => handleOpenModal(sim)} className="shrink-0 w-[120px] cursor-pointer group btn-press">
+                                                        <img src={sim.poster_path ? `https://image.tmdb.org/t/p/w300${sim.poster_path}` : 'https://via.placeholder.com/200x300'} loading="lazy" className="w-full aspect-[2/3] object-cover rounded-xl border border-white/10 group-hover:border-indigo-400 transition-colors shadow-lg" />
+                                                        <p className="text-white/80 group-hover:text-white text-[11px] font-bold mt-2 truncate">{sim.title || sim.name}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div className="flex gap-4 mt-auto border-t border-white/10 pt-8">
+                                        <button onClick={() => handleSelectMedia(selectedMovie, !!selectedMovie.first_air_date || selectedMovie.isTV)} className="flex-1 md:flex-none px-10 py-5 btn-primary font-black tracking-widest uppercase text-white btn-press flex items-center justify-center gap-3"><i className="fas fa-play text-xl"></i> Xem ngay</button>
+                                        
+                                        <button onClick={() => { 
+                                            triggerHaptic(); 
+                                            navigator.clipboard.writeText(window.location.href);
+                                            setToastMessage("Đã sao chép liên kết phim!");
+                                            setTimeout(() => setToastMessage(null), 3000);
+                                        }} className="w-[64px] h-[64px] bg-white/10 border border-white/20 flex items-center justify-center btn-press hover:bg-white/20 transition-colors shadow-lg" style={{borderRadius: 'var(--ios-radius-sm)'}}>
+                                            <i className="fas fa-share-alt text-xl text-white"></i>
+                                        </button>
+
                                         <button onClick={(e) => {
+                                                triggerHaptic();
                                                 const btn = e.currentTarget; const icon = btn.querySelector('i');
                                                 globalStore.set({ isSyncing: true }); const currentFavs = globalStore.get().favorites;
                                                 let newFavs = currentFavs.some(f => f.id === selectedMovie.id) ? currentFavs.filter(f => f.id !== selectedMovie.id) : [selectedMovie, ...currentFavs];
                                                 icon.className = currentFavs.some(f => f.id === selectedMovie.id) ? "far fa-heart text-2xl transition-all text-white" : "fas fa-heart text-2xl heart-active";
                                                 globalStore.set({ favorites: newFavs }); localStorage.setItem('lavender_favorites', JSON.stringify(newFavs));
                                                 setTimeout(() => globalStore.set({ isSyncing: false }), 400);
-                                            }} className="w-[64px] h-[64px] bg-white/10 rounded-2xl border border-white/20 flex items-center justify-center btn-press hover:bg-white/20 transition-colors shadow-lg">
+                                            }} className="w-[64px] h-[64px] bg-white/10 border border-white/20 flex items-center justify-center btn-press hover:bg-white/20 transition-colors shadow-lg" style={{borderRadius: 'var(--ios-radius-sm)'}}>
                                             <i className={`fa-heart text-2xl transition-all ${favorites.some(f => f.id === selectedMovie.id) ? 'fas heart-active' : 'far text-white'}`}></i>
                                         </button>
                                     </div>
